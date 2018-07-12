@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentReportBookDAL", "StudentReportBookDAL\StudentReportBookDAL.csproj", "{D1A939C6-7DF1-4D89-91E3-CC480ADC8AF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentReportBookDAL", "StudentReportBookDAL\StudentReportBookDAL.csproj", "{D1A939C6-7DF1-4D89-91E3-CC480ADC8AF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentReportBook", "StudentReportBook\StudentReportBook.csproj", "{54B4C6D7-DD24-4872-8B05-6A37EA588745}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentReportBook", "StudentReportBook\StudentReportBook.csproj", "{54B4C6D7-DD24-4872-8B05-6A37EA588745}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentReportBookBLL", "StudentReportBookBLL\StudentReportBookBLL.csproj", "{2BC0C8C7-33C6-442D-AAEF-E66B87178C7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{54B4C6D7-DD24-4872-8B05-6A37EA588745}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54B4C6D7-DD24-4872-8B05-6A37EA588745}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54B4C6D7-DD24-4872-8B05-6A37EA588745}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BC0C8C7-33C6-442D-AAEF-E66B87178C7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BC0C8C7-33C6-442D-AAEF-E66B87178C7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BC0C8C7-33C6-442D-AAEF-E66B87178C7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BC0C8C7-33C6-442D-AAEF-E66B87178C7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
