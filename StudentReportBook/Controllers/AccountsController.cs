@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StudentReportBook.Data;
+using StudentReportBook.Helpers;
 using StudentReportBook.Models.Entities;
 using StudentReportBook.ViewModel;
 
@@ -45,13 +46,8 @@ namespace StudentReportBook.Controllers
 
             var result = await _userManager.CreateAsync(userIdentity, model.Password);
 
-            //TODO!!
             
-            if (!result.Succeeded)
-            {
-                ModelState.AddModelError(String.Empty, result.Errors.ToString());
-                return new BadRequestObjectResult(ModelState);//.AddErrorsToModelState(result, ModelState));
-            }
+            if (!result.Succeeded)  return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
             await _appDbContext.Customers.AddAsync(new Customer { IdentityId = userIdentity.Id, Location = model.Location });
             await _appDbContext.SaveChangesAsync();
 
