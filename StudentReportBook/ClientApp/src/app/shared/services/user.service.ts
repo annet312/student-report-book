@@ -33,7 +33,7 @@ export class UserService extends BaseService {
   }
 
   register(email: string, password: string, firstName: string, lastName: string): Observable<UserRegistration> {
-    let body = JSON.stringify({ email, password, firstName, lastName, location });
+    let body = JSON.stringify({ email, password, firstName, lastName });
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
@@ -70,20 +70,21 @@ export class UserService extends BaseService {
   isLoggedIn() {
     return this.loggedIn;
   }
-  facebookLogin(accessToken: string) {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    let body = JSON.stringify({ accessToken });
-    return this.http
-      .post(
-        this.baseUrl + '/externalauth/facebook', body, { headers })
-      .map(res => res.json())
-      .map(res => {
-        localStorage.setItem('auth_token', res.auth_token);
-        this.loggedIn = true;
-        this.authNavStatusSource.next(true);
-        return true;
-      })
-      .catch(this.handleError);
-  }
+
+  //facebookLogin(accessToken: string) {
+  //  let headers = new Headers();
+  //  headers.append('Content-Type', 'application/json');
+  //  let body = JSON.stringify({ accessToken });
+  //  return this.http
+  //    .post(
+  //      this.baseUrl + '/externalauth/facebook', body, { headers })
+  //    .map(res => res.json())
+  //    .map(res => {
+  //      localStorage.setItem('auth_token', res.auth_token);
+  //      this.loggedIn = true;
+  //      this.authNavStatusSource.next(true);
+  //      return true;
+  //    })
+  //    .catch(this.handleError);
+  //}
 }

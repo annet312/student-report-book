@@ -3,14 +3,20 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { HttpModule, XHRBackend } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { LoginFormComponent } from './login-form/login-form.component';
+import { LoginFormComponent } from './account/login-form/login-form.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { routing } from './app.routing';
+ 
+import { AccountModule } from './account/account.module';
+//import { StudentModule } from '';
+import { ConfigService } from './shared/utils/config.service';
 
 @NgModule({
   declarations: [
@@ -25,12 +31,9 @@ import { SpinnerComponent } from './spinner/spinner.component';
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
+    HttpModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-    ])
+    routing
   ],
   providers: [],
   bootstrap: [AppComponent]

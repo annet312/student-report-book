@@ -18,13 +18,15 @@ using System.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using StudentReportBook.Helpers;
 using StudentReportBook.Auth;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Http;
 
 namespace StudentReportBook
 {
     public class Startup
     {
         private const string SecretKey = "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"; // todo: get this from somewhere secure
-        private readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
+        private readonly SymmetricSecurityKey signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
 
         public Startup(IConfiguration configuration)
         {
@@ -44,7 +46,7 @@ namespace StudentReportBook
             //// Register the ConfigurationBuilder instance of FacebookAuthSettings
             //services.Configure<FacebookAuthSettings>(Configuration.GetSection(nameof(FacebookAuthSettings)));
 
-            //services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
             //// jwt wire up
             //// Get options from app settings
@@ -55,7 +57,7 @@ namespace StudentReportBook
             {
                 options.Issuer = jwtAppSettingOptions[nameof(JWTIssuerOptions.Issuer)];
                 options.Audience = jwtAppSettingOptions[nameof(JWTIssuerOptions.Audience)];
-                options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
+                options.SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
             });
 
             var tokenValidationParameters = new TokenValidationParameters
@@ -67,7 +69,7 @@ namespace StudentReportBook
                 ValidAudience = jwtAppSettingOptions[nameof(JWTIssuerOptions.Audience)],
 
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = _signingKey,
+                IssuerSigningKey = signingKey,
 
                 RequireExpirationTime = false,
                 ValidateLifetime = true,
@@ -89,8 +91,9 @@ namespace StudentReportBook
             //// api user claim policy
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
+                options.AddPolicy("Student", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
             });
+
 
             // add identity
             var builder = services.AddIdentityCore<AppUser>(o =>
