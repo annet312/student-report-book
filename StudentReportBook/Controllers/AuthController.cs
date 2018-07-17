@@ -22,14 +22,16 @@ namespace StudentReportBook.Controllers
         private readonly UserManager<AppUser> userManager;
         private readonly IJwtFactory jwtFactory;
         private readonly JWTIssuerOptions jwtOptions;
+        private readonly IHttpContextAccessor httpContextAccessor;
         
 
 
-        public AuthController(UserManager<AppUser> userManager, IJwtFactory jwtFactory, IOptions<JWTIssuerOptions> jwtOptions)
+        public AuthController(UserManager<AppUser> userManager, IJwtFactory jwtFactory, IOptions<JWTIssuerOptions> jwtOptions, IHttpContextAccessor httpContextAccessor)
         {
             this.userManager = userManager;
             this.jwtFactory = jwtFactory;
             this.jwtOptions = jwtOptions.Value;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         // POST api/auth/login
@@ -49,6 +51,16 @@ namespace StudentReportBook.Controllers
 
             var jwt = await Tokens.GenerateJwt(identity, jwtFactory, credentials.UserName, jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
             return new OkObjectResult(jwt);
+        }
+
+        //GET api/auth/getCurrentUser
+        [HttpGet("getCurrentUser")]
+        public async Task<IActionResult> Get()
+        {
+            string currentUser = null;
+            if(httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+                currentUser = httpContextAccessor.HttpContext.User.Identity.Name;
+            return new OkObjectResult(currentUser);
         }
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)

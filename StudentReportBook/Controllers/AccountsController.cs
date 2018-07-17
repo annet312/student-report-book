@@ -25,11 +25,7 @@ namespace StudentReportBook.Controllers
             this.appDbContext = appDbContext;
         }
 
-        [HttpGet]
-        public async Task<ActionResult> Get()
-        {
-            return new OkObjectResult("work");
-        }
+      
         // POST api/accounts
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]RegistrationViewModel model)

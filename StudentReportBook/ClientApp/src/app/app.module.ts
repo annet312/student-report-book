@@ -18,6 +18,7 @@ import { routing } from './app.routing';
 import { AccountModule } from './account/account.module';
 //import { StudentModule } from '';
 import { ConfigService } from './shared/utils/config.service';
+import { TeachersComponent } from './teachers/teachers.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ConfigService } from './shared/utils/config.service';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
+    TeachersComponent,
     //LoginFormComponent,
     //SpinnerComponent
   ],

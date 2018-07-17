@@ -48,8 +48,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
           .subscribe(
             result => {
               if (result) {
-                //TODO!!!!!!
-                this.router.navigate(['/student/home']);
+                //TODO!!!!!!               
+                this.router.navigate(['counter']);
               }
             },
             error => this.errors = error);

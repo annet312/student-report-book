@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 
 import { UserRegistration } from '../models/user.registration.interface';
 import { ConfigService } from '../utils/config.service';
 
 import { BaseService } from "./base.service";
+import { Inject } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/Rx';
+
+//import { UserResponse } from '../models/UserResponse';
 
 // Add the RxJS Observable operators we need in this app.
 import '../../rxjs-operators';
@@ -16,7 +20,7 @@ import '../../rxjs-operators';
 
 export class UserService extends BaseService {
 
-  baseUrl: string = '';
+  baseUrls: string = '';
 
   //Observable navItem source
   private authNavStatusSource = new BehaviorSubject<boolean>(false);
@@ -25,11 +29,12 @@ export class UserService extends BaseService {
 
   private loggedIn = false;
   
-  constructor(private http: Http, private configService: ConfigService) {
+  constructor(private http: Http, private configService: ConfigService, @Inject('BASE_URL') baseUrl: string) {
     super();
     this.loggedIn = !!localStorage.getItem('auth_token');
     this.authNavStatusSource.next(this.loggedIn);
-    this.baseUrl = configService.getApiURI();
+    this.baseUrls = baseUrl;
+    //this.baseUrl = configService.getApiURI();
   }
 
   register(email: string, password: string, firstName: string, lastName: string): Observable<UserRegistration> {
@@ -37,18 +42,18 @@ export class UserService extends BaseService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(this.baseUrl + "/accounts", body, options)
+    return this.http.post(this.baseUrls + "api/accounts", body, options)
       .map(res => true)
       .catch(this.handleError);
   }  
 
-  login(userName, password) {
+  login(userName: string, password : string) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
     return this.http
       .post(
-        this.baseUrl + '/auth/login',
+        this.baseUrls + 'api/auth/login',
         JSON.stringify({ userName, password }), { headers }
       )
       .map(res => res.json())
@@ -59,6 +64,10 @@ export class UserService extends BaseService {
         return true;
       })
       .catch(this.handleError);
+  }
+
+  currentUser() {
+    return this.http.get(this.baseUrls + "api/auth/getCurrentUser").map(res => res.json());
   }
 
   logout() {
