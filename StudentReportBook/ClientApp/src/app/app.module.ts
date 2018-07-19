@@ -18,6 +18,7 @@ import { routing } from './app.routing';
 import { AccountModule } from './account/account.module';
 //import { StudentModule } from '';
 import { ConfigService } from './shared/utils/config.service';
+import { DecodeService } from './shared/services/decode.service';
 import { TeachersComponent } from './teachers/teachers.component';
 
 @NgModule({
@@ -42,7 +43,8 @@ import { TeachersComponent } from './teachers/teachers.component';
   providers: [ConfigService, {
     provide: XHRBackend,
     useClass: AuthenticateXHRBackend
-  }],
+  },
+  DecodeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

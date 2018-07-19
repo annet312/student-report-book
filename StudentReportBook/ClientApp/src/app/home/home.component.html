@@ -2,10 +2,18 @@
   <!-- Main jumbotron for a primary marketing message or call to action -->
   <div class="jumbotron">
     <div class="container">
-      <h1 class="display-3">JWT Auth Demo</h1>
-      <p>This demo shows local user registration and login flow using Angular v5.2.1, ASP.NET Core 2.0 WebApi</p>
-      <p><a class="btn btn-primary btn-lg" href="#" role="button" routerLink="/register">Signup with email</a>
-      <a class="btn btn-primary btn-lg" href="#" role="button" routerLink="/login">Login with email</a>
-    </div>
+      <h1 class="display-3">Authorization</h1>    
+        <div *ngIf="!IsLoggedIn; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+          <p>For continue you need to authorize</p>
+          <a class="btn btn-primary btn-lg" href="#" role="button" routerLink="/register">Signup with email</a>
+          <a class="btn btn-primary btn-lg" href="#" role="button" routerLink="/login">Login with email</a>
+        </ng-template>
+        <ng-template #elseBlock>
+          <p>Hello {{name}}</p>
+          <a class="btn btn-primary btn-lg" href="#" role="button" (click)='submitlogout()'>Logout with email</a>
+        </ng-template>
+        
+  </div>
   </div>
 </main>

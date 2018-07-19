@@ -20,9 +20,12 @@ using StudentReportBook.Helpers;
 using StudentReportBook.Auth;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace StudentReportBook
 {
+
+
     public class Startup
     {
         private const string SecretKey = "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"; // todo: get this from somewhere secure
@@ -46,7 +49,7 @@ namespace StudentReportBook
             //// Register the ConfigurationBuilder instance of FacebookAuthSettings
             //services.Configure<FacebookAuthSettings>(Configuration.GetSection(nameof(FacebookAuthSettings)));
 
-            services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //// jwt wire up
             //// Get options from app settings
@@ -59,7 +62,7 @@ namespace StudentReportBook
                 options.Audience = jwtAppSettingOptions[nameof(JWTIssuerOptions.Audience)];
                 options.SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
             });
-
+            services.AddOptions();
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,
@@ -75,17 +78,29 @@ namespace StudentReportBook
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };
+            services.AddIdentity<IdentityUser, IdentityRole>()
+              .AddEntityFrameworkStores<ApplicationDbContext>()
+              .AddDefaultTokenProviders();
+            services.AddHttpContextAccessor();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)//(options =>
+          //  {
+                //options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                //options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+               
+                //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                //options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                //options.AuthenticationScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                //options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                //options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
 
-            services.AddAuthentication(options =>
+         //   }).
+            .AddJwtBearer(configureOptions =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
-            }).AddJwtBearer(configureOptions =>
-            {
+                configureOptions.RequireHttpsMetadata = false;
                 configureOptions.ClaimsIssuer = jwtAppSettingOptions[nameof(JWTIssuerOptions.Issuer)];
                 configureOptions.TokenValidationParameters = tokenValidationParameters;
                 configureOptions.SaveToken = true;
+
             });
 
             //// api user claim policy
@@ -93,7 +108,6 @@ namespace StudentReportBook
             {
                 options.AddPolicy("Student", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
             });
-
 
             // add identity
             var builder = services.AddIdentityCore<AppUser>(o =>
@@ -112,6 +126,7 @@ namespace StudentReportBook
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+           
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -135,6 +150,10 @@ namespace StudentReportBook
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+            app.UseAuthentication();
+            app.UseDefaultFiles();
+            
+            //app.UseCookieAuthentication();
 
             app.UseMvc(routes =>
             {

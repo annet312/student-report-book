@@ -1,6 +1,10 @@
 ﻿
+using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +15,9 @@ using StudentReportBook.Helpers;
 using StudentReportBook.Models;
 using StudentReportBook.Models.Entities;
 using StudentReportBook.ViewModel;
+using StudentReportBook.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace StudentReportBook.Controllers
 {
@@ -19,21 +26,31 @@ namespace StudentReportBook.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        //private readonly int currentUser;//ClaimsPrincipal caller;
         private readonly UserManager<AppUser> userManager;
         private readonly IJwtFactory jwtFactory;
         private readonly JWTIssuerOptions jwtOptions;
-        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly ApplicationDbContext appDbContext;
         
+        //private readonly IHttpContextAccessor httpContextAccessor;
+        
+        private string currentUser;
 
-
-        public AuthController(UserManager<AppUser> userManager, IJwtFactory jwtFactory, IOptions<JWTIssuerOptions> jwtOptions, IHttpContextAccessor httpContextAccessor)
+        public AuthController(UserManager<AppUser> userManager, 
+                    IJwtFactory jwtFactory, 
+                    IOptions<JWTIssuerOptions> jwtOptions, 
+                    IHttpContextAccessor httpContextAccessor,
+                    ApplicationDbContext appDbContext)
         {
             this.userManager = userManager;
             this.jwtFactory = jwtFactory;
             this.jwtOptions = jwtOptions.Value;
-            this.httpContextAccessor = httpContextAccessor;
+            //this.httpContextAccessor = httpContextAccessor;
+           // currentUser = httpContextAccessor.CurrentUser();
+            this.appDbContext = appDbContext;
+            
         }
-
+        
         // POST api/auth/login
         [HttpPost("login")]
         public async Task<IActionResult> Post([FromBody]CredentialsViewModel credentials)
@@ -44,24 +61,28 @@ namespace StudentReportBook.Controllers
             }
 
             var identity = await GetClaimsIdentity(credentials.UserName, credentials.Password);
+
             if (identity == null)
             {
                 return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
             }
-
+            currentUser = identity.Name;
             var jwt = await Tokens.GenerateJwt(identity, jwtFactory, credentials.UserName, jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
             return new OkObjectResult(jwt);
         }
 
         //GET api/auth/getCurrentUser
         [HttpGet("getCurrentUser")]
-        public async Task<IActionResult> Get()
-        {
-            string currentUser = null;
-            if(httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
-                currentUser = httpContextAccessor.HttpContext.User.Identity.Name;
-            return new OkObjectResult(currentUser);
-        }
+        //public async Task<IActionResult> Get()
+        //{
+        //    //var email = User.FindFirst("sub")?.Value;
+        //    //var userId = httpContextAccessor?.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+           
+        //    //var customer = HttpContext.User.Identity.Name;
+        //    // var stringId = httpContextAccessor?.HttpContext?.User?.FindFirst(JwtR)
+        //    return  new OkObjectResult(currentUser);
+        //}
+        //private Task<AppUser> GetCurrentUserAsync() => userManager.GetUserAsync(HttpContext.User);
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
         {

@@ -23,20 +23,22 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var core_2 = require("@angular/core");
 var http_1 = require("@angular/http");
 var config_service_1 = require("../utils/config.service");
+var decode_service_1 = require("./decode.service");
 var base_service_1 = require("./base.service");
-var core_2 = require("@angular/core");
 var Rx_1 = require("rxjs/Rx");
 //import { UserResponse } from '../models/UserResponse';
 // Add the RxJS Observable operators we need in this app.
 require("../../rxjs-operators");
 var UserService = /** @class */ (function (_super) {
     __extends(UserService, _super);
-    function UserService(http, configService, baseUrl) {
+    function UserService(http, configService, baseUrl, decodeService) {
         var _this = _super.call(this) || this;
         _this.http = http;
         _this.configService = configService;
+        _this.decodeService = decodeService;
         _this.baseUrls = '';
         //Observable navItem source
         _this.authNavStatusSource = new Rx_1.BehaviorSubject(false);
@@ -72,8 +74,13 @@ var UserService = /** @class */ (function (_super) {
         })
             .catch(this.handleError);
     };
-    UserService.prototype.currentUser = function () {
-        return this.http.get(this.baseUrls + "api/auth/getCurrentUser").map(function (res) { return res.json(); });
+    UserService.prototype.getCurrentUser = function () {
+        var userName = null;
+        if (this.loggedIn) {
+            var token = localStorage.getItem('auth_token');
+            userName = this.decodeService.getDecodedAccessToken(token).sub;
+        }
+        return userName;
     };
     UserService.prototype.logout = function () {
         localStorage.removeItem('auth_token');
@@ -86,7 +93,7 @@ var UserService = /** @class */ (function (_super) {
     UserService = __decorate([
         core_1.Injectable(),
         __param(2, core_2.Inject('BASE_URL')),
-        __metadata("design:paramtypes", [http_1.Http, config_service_1.ConfigService, String])
+        __metadata("design:paramtypes", [http_1.Http, config_service_1.ConfigService, String, decode_service_1.DecodeService])
     ], UserService);
     return UserService;
 }(base_service_1.BaseService));

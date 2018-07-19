@@ -43,7 +43,6 @@ var LoginFormComponent = /** @class */ (function () {
                 .finally(function () { return _this.isRequesting = false; })
                 .subscribe(function (result) {
                 if (result) {
-                    //TODO!!!!!!               
                     _this.router.navigate(['counter']);
                 }
             }, function (error) { return _this.errors = error; });

@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
+import { Inject } from '@angular/core';
+
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
 
 import { UserRegistration } from '../models/user.registration.interface';
 import { ConfigService } from '../utils/config.service';
-
+import { UserResponse } from '../models/UserResponse';
+import { DecodeService } from './decode.service';
 import { BaseService } from "./base.service";
-import { Inject } from '@angular/core';
+
+
 
 import { Observable } from 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/Rx';
@@ -28,8 +32,8 @@ export class UserService extends BaseService {
   authNavStatus$ = this.authNavStatusSource.asObservable();
 
   private loggedIn = false;
-  
-  constructor(private http: Http, private configService: ConfigService, @Inject('BASE_URL') baseUrl: string) {
+
+  constructor(private http: Http, private configService: ConfigService, @Inject('BASE_URL') baseUrl: string, private decodeService: DecodeService) {
     super();
     this.loggedIn = !!localStorage.getItem('auth_token');
     this.authNavStatusSource.next(this.loggedIn);
@@ -66,8 +70,13 @@ export class UserService extends BaseService {
       .catch(this.handleError);
   }
 
-  currentUser() {
-    return this.http.get(this.baseUrls + "api/auth/getCurrentUser").map(res => res.json());
+  getCurrentUser() {
+    let userName: string = null;
+    if (this.loggedIn) {
+      let token = localStorage.getItem('auth_token');
+      userName = this.decodeService.getDecodedAccessToken(token).sub;
+    }
+    return userName;
   }
 
   logout() {

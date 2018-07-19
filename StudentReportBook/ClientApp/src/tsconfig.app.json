@@ -4,8 +4,8 @@
     "outDir": "../out-tsc/app",
     //"experimentalDecorators": true,
     "baseUrl": "./",
-    "module": "es6",
-    "types": []
+   // "module": "es6",
+    //"types": []
   },
   "exclude": [
     "test.ts",
