@@ -13,5 +13,6 @@ namespace StudentReportBook.Models.Entities
         public string Location { get; set; }
         public string Locale { get; set; }
         public string Gender { get; set; }
+        public string Role { get; set; }   //add role
     }
 }
