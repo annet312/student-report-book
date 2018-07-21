@@ -27,7 +27,7 @@ namespace StudentReportBookDAL.Context
             modelBuilder.ApplyConfiguration(new PersonConfiguration());
             modelBuilder.ApplyConfiguration(new SubjectConfiguration());
             modelBuilder.ApplyConfiguration(new StudentConfiguration());
-            modelBuilder.ApplyConfiguration(new PersonSubjectConfiguration());
+            //modelBuilder.ApplyConfiguration(new PersonSubjectConfiguration());
             modelBuilder.ApplyConfiguration(new TeacherConfiguration());
             modelBuilder.ApplyConfiguration(new GroupConfiguration());
             modelBuilder.ApplyConfiguration(new FacultyConfiguration());
@@ -66,23 +66,23 @@ namespace StudentReportBookDAL.Context
 
             }
         }
-        public class PersonSubjectConfiguration : IEntityTypeConfiguration<PersonSubject>
-        {
-            public void Configure(EntityTypeBuilder<PersonSubject> builder)
-            {
-                builder.ToTable("PersonSubjects").HasKey(t => new { t.PersonId, t.SubjectId });
+        //public class PersonSubjectConfiguration : IEntityTypeConfiguration<PersonSubject>
+        //{
+        //    public void Configure(EntityTypeBuilder<PersonSubject> builder)
+        //    {
+        //        builder.ToTable("PersonSubjects").HasKey(t => new { t.PersonId, t.SubjectId });
 
-                builder//.ToTable("PersonSubjects")
-                     .HasOne(ps => ps.Person)
-                     .WithMany(p => p.PersonSubjects)
-                     .HasForeignKey(ps => ps.PersonId);
+        //        builder//.ToTable("PersonSubjects")
+        //             .HasOne(ps => ps.Person)
+        //             .WithMany(p => p.PersonSubjects)
+        //             .HasForeignKey(ps => ps.PersonId);
 
-                builder//.ToTable("PersonSubjects")
-                    .HasOne(ps => ps.Subject)
-                    .WithMany(s => s.PersonSubjects)
-                    .HasForeignKey(ps => ps.SubjectId);
-            }
-        }
+        //        builder//.ToTable("PersonSubjects")
+        //            .HasOne(ps => ps.Subject)
+        //            .WithMany(s => s.PersonSubjects)
+        //            .HasForeignKey(ps => ps.SubjectId);
+        //    }
+        //}
         public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
         {
             public void Configure(EntityTypeBuilder<Teacher> builder)

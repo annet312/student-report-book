@@ -7,6 +7,6 @@ namespace StudentReportBookDAL.Interfaces
     {
         void Create(Person person, string groupName);
 
-        void Create(Person person);
+        void Create(Person person, Position pos);
     }
 }

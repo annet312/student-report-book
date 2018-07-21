@@ -2,6 +2,7 @@
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using StudentReportBookDAL.Interfaces;
+using StudentReportBookDAL.Repositories;
 //using Microsoft.IdentityModel.Protocols;
 using System;
 using System.Collections.Generic;
@@ -13,22 +14,21 @@ namespace StudentReportBookBLL.Infrastructure
     {
         protected override void Load(ContainerBuilder builder)
         {
-            var builderconfig = new ConfigurationBuilder();
-            // установка пути к текущему каталогу
-            builderconfig.SetBasePath(Directory.GetCurrentDirectory());
-            // получаем конфигурацию из файла appsettings.json
-            builderconfig.AddJsonFile("appsettings.json");
-            // создаем конфигурацию
-            var config = builderconfig.Build();
-            string connectionString = config.GetConnectionString("DefaultConnection");
+            //var builderconfig = new ConfigurationBuilder();
+            //// установка пути к текущему каталогу
+            //builderconfig.SetBasePath(Directory.GetCurrentDirectory());
+            //// получаем конфигурацию из файла appsettings.json
+            //builderconfig.AddJsonFile("appsettings.json");
+            //// создаем конфигурацию
+            //var config = builderconfig.Build();
+            ////string connectionString = config.GetConnectionString("DefaultConnection");
 
-            //builder.RegisterType<IdentityUnitOfWork>().As<IIdentityUnitOfWork>().WithParameter("connectionString", connectionString);
-            //builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().WithParameter("connectionString", connectionString);
+
+            builder.RegisterType<IdentityUnitOfWork>().As<IIdentityUnitOfWork>();//.WithParameter("connectionString", connectionString);
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();//.WithParameter("connectionString", connectionString);
             builder.RegisterAssemblyTypes(typeof(ServiceModule).Assembly)
                 .Where(t => t.Name.EndsWith("Service"))
                  .AsImplementedInterfaces();
-
-
 
             builder.RegisterAssemblyTypes().AssignableTo(typeof(Profile)).As<Profile>();
 

@@ -15,17 +15,10 @@ namespace StudentReportBookDAL.Entities
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
-
-        public int SubjectId { get; set; }
-
-        public List<PersonSubject> PersonSubjects { get; set; }
+  
 
         public AppUser Identity;
 
-        public Person()
-        {
-            PersonSubjects = new List<PersonSubject>();
-        }
 
     }
 
@@ -40,8 +33,13 @@ namespace StudentReportBookDAL.Entities
 
     public class Teacher : Person
     {
+        //public List<PersonSubject> PersonSubjects { get; set; }
+
         public int TeachersWorkloadId { get; set; }
         public List<TeachersWorkload> TeachersWorkloads { get; set; }
         public string Department { get; set; }
+
+       
     }
+
 }
