@@ -4,7 +4,7 @@ using System.Text;
 
 namespace StudentReportBookDAL.Entities
 {
-    public class Marks
+    public class Mark
     {
         public int Id { get; set; }
         public int StudentId { get; set; }

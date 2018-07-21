@@ -7,6 +7,8 @@ using StudentReportBook.Data;
 using StudentReportBook.Helpers;
 using StudentReportBook.Models.Entities;
 using StudentReportBook.ViewModel;
+using StudentReportBookBLL.Identity.Interface;
+using StudentReportBookBLL.Identity.Model;
 
 namespace StudentReportBook.Controllers
 {
@@ -17,12 +19,14 @@ namespace StudentReportBook.Controllers
         private readonly ApplicationDbContext appDbContext;
         private readonly UserManager<AppUser> userManager;
         private readonly IMapper mapper;
+        private readonly IUserService userService;
 
-        public AccountsController(UserManager<AppUser> userManager, IMapper mapper, ApplicationDbContext appDbContext)
+        public AccountsController(UserManager<AppUser> userManager, IMapper mapper, ApplicationDbContext appDbContext, IUserService userService)
         {
             this.userManager = userManager;
             this.mapper = mapper;
             this.appDbContext = appDbContext;
+            this.userService = userService;
         }
 
       
@@ -37,12 +41,16 @@ namespace StudentReportBook.Controllers
 
             var userIdentity = mapper.Map<AppUser>(model);
 
-            var result = await userManager.CreateAsync(userIdentity, model.Password);
+            // IdentityResult result = await userManager.CreateAsync(userIdentity, model.Password);
+            IdentityResult result = await userService.Create(mapper.Map<AppUser, AppUserBll>(userIdentity), model.Password);
 
-            
-            if (!result.Succeeded)  return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-            await appDbContext.Customers.AddAsync(new Customer { IdentityId = userIdentity.Id, Location = model.Location });
-            await appDbContext.SaveChangesAsync();
+            if (!result.Succeeded)
+            {
+                return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+            }
+
+            //await appDbContext.Customers.AddAsync(new Customer { IdentityId = userIdentity.Id, Location = model.Location });
+            //await appDbContext.SaveChangesAsync();
 
             return new OkObjectResult("Account created");
         }

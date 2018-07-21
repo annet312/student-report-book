@@ -15,7 +15,27 @@ namespace StudentReportBookDAL.Entities
         public int FacultyID { get; set; }
 
         public Faculty Faculty { get; set; }
-        public int CurrentTerm { get; set; }
+        public int CurrentTerm {
+            get
+            {
+                return CurrentTerm;
+            }
+            set
+            {
+                if (value < 1)
+                {
+                    CurrentTerm = 1;
+                }
+                else if (value > 12)
+                {
+                    CurrentTerm = 12;
+                }
+                else
+                {
+                    CurrentTerm = value;
+                }
+            }
+        }
 
         public int TeacherWorkloadId { get; set; }
         public List<TeachersWorkload> TeachersWorkloads { get; set; }
