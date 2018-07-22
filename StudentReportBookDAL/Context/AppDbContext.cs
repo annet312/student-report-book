@@ -97,9 +97,9 @@ namespace StudentReportBookDAL.Context
             public void Configure(EntityTypeBuilder<TeachersWorkload> builder)
             {
                 builder.ToTable("TeachersWorkloads").HasKey(p => p.Id);
-                builder.HasOne(tw => tw.Group).WithMany(g => g.TeachersWorkloads);
+                //builder.HasOne(tw => tw.Group);
                 builder.HasOne(tw => tw.Subject).WithMany(s => s.TeachersWorkloads);
-                builder.HasOne(tw => tw.Teacher).WithMany(t => t.TeachersWorkloads);
+                //builder.HasOne(tw => tw.Teacher);
                 builder.Property(tw => tw.Term).IsRequired();
 
             }
@@ -126,9 +126,8 @@ namespace StudentReportBookDAL.Context
             public void Configure(EntityTypeBuilder<Mark> builder)
             {
                 builder.ToTable("Marks").HasKey(m => m.Id);
-                //builder.Property(m => m.StudentId).IsRequired();
-                //builder.Property(m => m.TeascherWorkloadId).IsRequired();
-
+                builder.Property(m => m.StudentId).IsRequired();
+                builder.Property(m => m.TeachersWorkloadId).IsRequired();
             }
         }
     }

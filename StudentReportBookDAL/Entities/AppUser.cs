@@ -13,5 +13,8 @@ namespace StudentReportBookDAL.Entities
         public string PictureUrl { get; set; }
 
         public string Role { get; set; } 
+
+        public string PersonId { get; set; }
+        public Person Person { get; set; }
     }
 }

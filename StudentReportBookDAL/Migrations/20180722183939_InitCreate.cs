@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StudentReportBookDAL.Migrations
 {
-    public partial class Init : Migration
+    public partial class InitCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,17 +46,11 @@ namespace StudentReportBookDAL.Migrations
                     FacebookId = table.Column<long>(nullable: true),
                     PictureUrl = table.Column<string>(nullable: true),
                     Role = table.Column<string>(nullable: true),
-                    PersonId = table.Column<int>(nullable: true)
+                    PersonId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Persons_IdentityId",
-                        column: x => x.Id,
-                        principalTable: "TeacherWorkloads",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -84,12 +78,6 @@ namespace StudentReportBookDAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Subjects", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Subjects_TeacherWorkloads_TeacherWorkloadId",
-                        column: x => x.TeachersWorkloadId,
-                        principalTable: "TeacherWorkloads",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -206,8 +194,7 @@ namespace StudentReportBookDAL.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 30, nullable: false),
                     FacultyID = table.Column<int>(nullable: false),
-                    CurrentTerm = table.Column<int>(nullable: false),
-                    TeacherWorkloadId = table.Column<int>(nullable: false)
+                    CurrentTerm = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -233,7 +220,6 @@ namespace StudentReportBookDAL.Migrations
                     Position = table.Column<int>(nullable: false),
                     StudentCard = table.Column<string>(nullable: true),
                     GroupId = table.Column<int>(nullable: true),
-                    TeachersWorkloadId = table.Column<int>(nullable: true),
                     Department = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -279,12 +265,6 @@ namespace StudentReportBookDAL.Migrations
                         principalTable: "Subjects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TeachersWorkloads_People_TeacherId",
-                        column: x => x.TeacherId,
-                        principalTable: "People",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -294,8 +274,7 @@ namespace StudentReportBookDAL.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     StudentId = table.Column<int>(nullable: false),
-                    TeascherWorkloadId = table.Column<int>(nullable: false),
-                    TeachersWorkloadId = table.Column<int>(nullable: true)
+                    TeachersWorkloadId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -311,7 +290,7 @@ namespace StudentReportBookDAL.Migrations
                         column: x => x.TeachersWorkloadId,
                         principalTable: "TeachersWorkloads",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -371,7 +350,8 @@ namespace StudentReportBookDAL.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_People_IdentityId",
                 table: "People",
-                column: "IdentityId");
+                column: "IdentityId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_People_GroupId",
@@ -387,11 +367,6 @@ namespace StudentReportBookDAL.Migrations
                 name: "IX_TeachersWorkloads_SubjectId",
                 table: "TeachersWorkloads",
                 column: "SubjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TeachersWorkloads_TeacherId",
-                table: "TeachersWorkloads",
-                column: "TeacherId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -418,19 +393,19 @@ namespace StudentReportBookDAL.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "TeachersWorkloads");
-
-            migrationBuilder.DropTable(
-                name: "Subjects");
-
-            migrationBuilder.DropTable(
                 name: "People");
+
+            migrationBuilder.DropTable(
+                name: "TeachersWorkloads");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Groups");
+
+            migrationBuilder.DropTable(
+                name: "Subjects");
 
             migrationBuilder.DropTable(
                 name: "Faculties");

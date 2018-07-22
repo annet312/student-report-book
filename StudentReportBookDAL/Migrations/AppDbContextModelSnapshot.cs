@@ -162,6 +162,8 @@ namespace StudentReportBookDAL.Migrations
 
                     b.Property<string>("PasswordHash");
 
+                    b.Property<string>("PersonId");
+
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
@@ -219,8 +221,6 @@ namespace StudentReportBookDAL.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
-                    b.Property<int>("TeacherWorkloadId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("FacultyID");
@@ -236,9 +236,7 @@ namespace StudentReportBookDAL.Migrations
 
                     b.Property<int>("StudentId");
 
-                    b.Property<int?>("TeachersWorkloadId");
-
-                    b.Property<int>("TeascherWorkloadId");
+                    b.Property<int>("TeachersWorkloadId");
 
                     b.HasKey("Id");
 
@@ -274,7 +272,8 @@ namespace StudentReportBookDAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdentityId");
+                    b.HasIndex("IdentityId")
+                        .IsUnique();
 
                     b.ToTable("People");
 
@@ -318,8 +317,6 @@ namespace StudentReportBookDAL.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.HasIndex("TeacherId");
-
                     b.ToTable("TeachersWorkloads");
                 });
 
@@ -343,8 +340,6 @@ namespace StudentReportBookDAL.Migrations
                     b.HasBaseType("StudentReportBookDAL.Entities.Person");
 
                     b.Property<string>("Department");
-
-                    b.Property<int?>("TeachersWorkloadId");
 
                     b.ToTable("Teacher");
 
@@ -412,33 +407,29 @@ namespace StudentReportBookDAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("StudentReportBookDAL.Entities.TeachersWorkload", "TeachersWorkload")
-                        .WithMany()
-                        .HasForeignKey("TeachersWorkloadId");
+                        .WithMany("Marks")
+                        .HasForeignKey("TeachersWorkloadId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("StudentReportBookDAL.Entities.Person", b =>
                 {
                     b.HasOne("StudentReportBookDAL.Entities.AppUser", "Identity")
-                        .WithMany()
-                        .HasForeignKey("IdentityId")
+                        .WithOne("Person")
+                        .HasForeignKey("StudentReportBookDAL.Entities.Person", "IdentityId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("StudentReportBookDAL.Entities.TeachersWorkload", b =>
                 {
                     b.HasOne("StudentReportBookDAL.Entities.Group", "Group")
-                        .WithMany("TeachersWorkloads")
+                        .WithMany()
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("StudentReportBookDAL.Entities.Subject", "Subject")
                         .WithMany("TeachersWorkloads")
                         .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("StudentReportBookDAL.Entities.Teacher", "Teacher")
-                        .WithMany("TeachersWorkloads")
-                        .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

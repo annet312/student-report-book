@@ -37,8 +37,8 @@ namespace StudentReportBookDAL.Entities
             }
         }
 
-        public int TeacherWorkloadId { get; set; }
-        public List<TeachersWorkload> TeachersWorkloads { get; set; }
+        //public int TeacherWorkloadId { get; set; }
+        //public List<TeachersWorkload> TeachersWorkloads { get; set; }
     }
 
     public class Faculty
