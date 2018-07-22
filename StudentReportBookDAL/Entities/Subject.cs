@@ -15,7 +15,7 @@ namespace StudentReportBookDAL.Entities
         //    PersonSubjects = new List<PersonSubject>();
         //}
 
-        public int TeachersWorkloadId { get; set; }
+        public int? TeachersWorkloadId { get; set; }
 
         public List<TeachersWorkload> TeachersWorkloads { get; set; }
 

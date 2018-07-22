@@ -27,13 +27,20 @@ var RegistrationFormComponent = /** @class */ (function () {
         this.isRequesting = true;
         this.errors = '';
         if (valid) {
-            this.userService.register(value.email, value.password, value.firstName, value.lastName)
-                .finally(function () { return _this.isRequesting = false; })
+            this.userService.register(value.email, value.password, value.firstName, value.lastName, value.role)
+                .finally(function () {
+                _this.isRequesting = false;
+                console.log("register");
+            })
                 .subscribe(function (result) {
+                console.log(result);
                 if (result) {
                     _this.router.navigate(['/login'], { queryParams: { brandNew: true, email: value.email } });
                 }
-            }, function (errors) { return _this.errors = errors; });
+            }, function (errors) {
+                _this.errors = errors;
+                console.log(_this.errors);
+            });
         }
     };
     RegistrationFormComponent = __decorate([

@@ -51,10 +51,11 @@ var UserService = /** @class */ (function (_super) {
         return _this;
         //this.baseUrl = configService.getApiURI();
     }
-    UserService.prototype.register = function (email, password, firstName, lastName) {
-        var body = JSON.stringify({ email: email, password: password, firstName: firstName, lastName: lastName });
+    UserService.prototype.register = function (email, password, firstName, lastName, role) {
+        var body = JSON.stringify({ email: email, password: password, firstName: firstName, lastName: lastName, role: role });
         var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         var options = new http_1.RequestOptions({ headers: headers });
+        console.log("here");
         return this.http.post(this.baseUrls + "api/accounts", body, options)
             .map(function (res) { return true; })
             .catch(this.handleError);

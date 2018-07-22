@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using StudentReportBook.Data;
+using StudentReportBookDAL.Context;
 
-namespace StudentReportBook.Migrations
+namespace StudentReportBookDAL.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(AppDbContext))]
+    [Migration("20180722153900_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,7 +131,7 @@ namespace StudentReportBook.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("StudentReportBook.Models.Entities.AppUser", b =>
+            modelBuilder.Entity("StudentReportBookDAL.Entities.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -168,6 +170,8 @@ namespace StudentReportBook.Migrations
 
                     b.Property<string>("PictureUrl");
 
+                    b.Property<string>("Role");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -188,27 +192,165 @@ namespace StudentReportBook.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("StudentReportBook.Models.Entities.Customer", b =>
+            modelBuilder.Entity("StudentReportBookDAL.Entities.Faculty", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Gender");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30);
 
-                    b.Property<string>("IdentityId");
+                    b.HasKey("Id");
 
-                    b.Property<string>("Locale");
+                    b.ToTable("Faculties");
+                });
 
-                    b.Property<string>("Location");
+            modelBuilder.Entity("StudentReportBookDAL.Entities.Group", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Role");
+                    b.Property<int>("CurrentTerm");
+
+                    b.Property<int>("FacultyID");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30);
+
+                    b.Property<int>("TeacherWorkloadId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FacultyID");
+
+                    b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("StudentReportBookDAL.Entities.Mark", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("StudentId");
+
+                    b.Property<int?>("TeachersWorkloadId");
+
+                    b.Property<int>("TeascherWorkloadId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("TeachersWorkloadId");
+
+                    b.ToTable("Marks");
+                });
+
+            modelBuilder.Entity("StudentReportBookDAL.Entities.Person", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(30);
+
+                    b.Property<string>("IdentityId")
+                        .IsRequired();
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Name")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasComputedColumnSql("[FirstName] + ' ' + [LastName]");
+
+                    b.Property<int>("Position");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IdentityId");
 
-                    b.ToTable("Customers");
+                    b.ToTable("People");
+
+                    b.HasDiscriminator<int>("Position").HasValue(3);
+                });
+
+            modelBuilder.Entity("StudentReportBookDAL.Entities.Subject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<int?>("TeachersWorkloadId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("StudentReportBookDAL.Entities.TeachersWorkload", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("GroupId");
+
+                    b.Property<int>("SubjectId");
+
+                    b.Property<int>("TeacherId");
+
+                    b.Property<int>("Term");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("TeachersWorkloads");
+                });
+
+            modelBuilder.Entity("StudentReportBookDAL.Entities.Student", b =>
+                {
+                    b.HasBaseType("StudentReportBookDAL.Entities.Person");
+
+                    b.Property<int?>("GroupId");
+
+                    b.Property<string>("StudentCard");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("Student");
+
+                    b.HasDiscriminator().HasValue(1);
+                });
+
+            modelBuilder.Entity("StudentReportBookDAL.Entities.Teacher", b =>
+                {
+                    b.HasBaseType("StudentReportBookDAL.Entities.Person");
+
+                    b.Property<string>("Department");
+
+                    b.Property<int?>("TeachersWorkloadId");
+
+                    b.ToTable("Teacher");
+
+                    b.HasDiscriminator().HasValue(2);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -221,7 +363,7 @@ namespace StudentReportBook.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("StudentReportBook.Models.Entities.AppUser")
+                    b.HasOne("StudentReportBookDAL.Entities.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -229,7 +371,7 @@ namespace StudentReportBook.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("StudentReportBook.Models.Entities.AppUser")
+                    b.HasOne("StudentReportBookDAL.Entities.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -242,7 +384,7 @@ namespace StudentReportBook.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("StudentReportBook.Models.Entities.AppUser")
+                    b.HasOne("StudentReportBookDAL.Entities.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -250,17 +392,63 @@ namespace StudentReportBook.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("StudentReportBook.Models.Entities.AppUser")
+                    b.HasOne("StudentReportBookDAL.Entities.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("StudentReportBook.Models.Entities.Customer", b =>
+            modelBuilder.Entity("StudentReportBookDAL.Entities.Group", b =>
                 {
-                    b.HasOne("StudentReportBook.Models.Entities.AppUser", "Identity")
+                    b.HasOne("StudentReportBookDAL.Entities.Faculty", "Faculty")
+                        .WithMany("Groups")
+                        .HasForeignKey("FacultyID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("StudentReportBookDAL.Entities.Mark", b =>
+                {
+                    b.HasOne("StudentReportBookDAL.Entities.Student", "Student")
                         .WithMany()
-                        .HasForeignKey("IdentityId");
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("StudentReportBookDAL.Entities.TeachersWorkload", "TeachersWorkload")
+                        .WithMany()
+                        .HasForeignKey("TeachersWorkloadId");
+                });
+
+            modelBuilder.Entity("StudentReportBookDAL.Entities.Person", b =>
+                {
+                    b.HasOne("StudentReportBookDAL.Entities.AppUser", "Identity")
+                        .WithMany()
+                        .HasForeignKey("IdentityId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("StudentReportBookDAL.Entities.TeachersWorkload", b =>
+                {
+                    b.HasOne("StudentReportBookDAL.Entities.Group", "Group")
+                        .WithMany("TeachersWorkloads")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("StudentReportBookDAL.Entities.Subject", "Subject")
+                        .WithMany("TeachersWorkloads")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("StudentReportBookDAL.Entities.Teacher", "Teacher")
+                        .WithMany("TeachersWorkloads")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("StudentReportBookDAL.Entities.Student", b =>
+                {
+                    b.HasOne("StudentReportBookDAL.Entities.Group", "Group")
+                        .WithMany("Students")
+                        .HasForeignKey("GroupId");
                 });
 #pragma warning restore 612, 618
         }

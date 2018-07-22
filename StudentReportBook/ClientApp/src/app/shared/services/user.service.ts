@@ -41,11 +41,11 @@ export class UserService extends BaseService {
     //this.baseUrl = configService.getApiURI();
   }
 
-  register(email: string, password: string, firstName: string, lastName: string): Observable<UserRegistration> {
-    let body = JSON.stringify({ email, password, firstName, lastName });
+  register(email: string, password: string, firstName: string, lastName: string, role: string): Observable<UserRegistration> {
+    let body = JSON.stringify({ email, password, firstName, lastName, role });
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-
+    console.log("here");
     return this.http.post(this.baseUrls + "api/accounts", body, options)
       .map(res => true)
       .catch(this.handleError);

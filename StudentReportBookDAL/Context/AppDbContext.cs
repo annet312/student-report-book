@@ -25,10 +25,10 @@ namespace StudentReportBookDAL.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new PersonConfiguration());
             modelBuilder.ApplyConfiguration(new SubjectConfiguration());
             modelBuilder.ApplyConfiguration(new StudentConfiguration());
-            //modelBuilder.ApplyConfiguration(new PersonSubjectConfiguration());
             modelBuilder.ApplyConfiguration(new TeacherConfiguration());
             modelBuilder.ApplyConfiguration(new GroupConfiguration());
             modelBuilder.ApplyConfiguration(new FacultyConfiguration());
@@ -40,14 +40,15 @@ namespace StudentReportBookDAL.Context
             {
                 builder.ToTable("People").HasKey(p => p.Id);
 
-                builder.ToTable("People").HasDiscriminator<int>("Position")
+                builder.HasDiscriminator<int>("Position")
                     .HasValue<Student>(1)
-                    .HasValue<Teacher>(2);
+                    .HasValue<Teacher>(2)
+                    .HasValue<Person>(3);
                     
                 builder.Property(p => p.FirstName).IsRequired().HasMaxLength(30);
                 builder.Property(p => p.LastName).IsRequired().HasMaxLength(30);
                 builder.Property(p => p.Name).HasComputedColumnSql("[FirstName] + ' ' + [LastName]");
-                builder.Property(p => p.Identity).IsRequired();
+                builder.Property(p => p.IdentityId).IsRequired();
             }
         }
 
@@ -100,6 +101,7 @@ namespace StudentReportBookDAL.Context
                 builder.HasOne(tw => tw.Subject).WithMany(s => s.TeachersWorkloads);
                 builder.HasOne(tw => tw.Teacher).WithMany(t => t.TeachersWorkloads);
                 builder.Property(tw => tw.Term).IsRequired();
+
             }
         }
         public class GroupConfiguration : IEntityTypeConfiguration<Group>
@@ -124,8 +126,9 @@ namespace StudentReportBookDAL.Context
             public void Configure(EntityTypeBuilder<Mark> builder)
             {
                 builder.ToTable("Marks").HasKey(m => m.Id);
-                builder.Property(m => m.Student).IsRequired();
-                builder.Property(m => m.TeachersWorkload).IsRequired();
+                //builder.Property(m => m.StudentId).IsRequired();
+                //builder.Property(m => m.TeascherWorkloadId).IsRequired();
+
             }
         }
     }

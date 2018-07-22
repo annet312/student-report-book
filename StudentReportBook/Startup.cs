@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using StudentReportBook.Data;
+using StudentReportBookDAL.Context;
 using StudentReportBook.Models.Entities;
 using AutoMapper;
 using StudentReportBook.Models;
@@ -18,7 +18,6 @@ using System.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using StudentReportBook.Helpers;
 using StudentReportBook.Auth;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Autofac;
@@ -34,6 +33,8 @@ namespace StudentReportBook
         private readonly SymmetricSecurityKey signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
         public IConfiguration Configuration { get;private set; }
 
+       
+
         public Startup(IHostingEnvironment env)//(IConfiguration configuration)
         {
             var builder = new ConfigurationBuilder()
@@ -44,20 +45,21 @@ namespace StudentReportBook
 
             this.Configuration = builder.Build();
 
-            // Configuration = configuration;
         }
 
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
                b => b.MigrationsAssembly("StudentReportBook")));
 
-             services.AddSingleton<IJwtFactory, JwtFactory>();
+            services.AddSingleton<IJwtFactory, JwtFactory>();
 
             //// Register the ConfigurationBuilder instance of FacebookAuthSettings
             //services.Configure<FacebookAuthSettings>(Configuration.GetSection(nameof(FacebookAuthSettings)));
+
+
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -89,7 +91,7 @@ namespace StudentReportBook
                 ClockSkew = TimeSpan.Zero
             };
             services.AddIdentity<IdentityUser, IdentityRole>()
-              .AddEntityFrameworkStores<ApplicationDbContext>()
+              .AddEntityFrameworkStores<AppDbContext>()
               .AddDefaultTokenProviders();
             services.AddHttpContextAccessor();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)//(options =>
@@ -113,13 +115,14 @@ namespace StudentReportBook
 
             });
 
+
             //// api user claim policy
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Student", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
             });
 
-            // add identity
+
             var builder = services.AddIdentityCore<AppUser>(o =>
             {
                 // configure identity options
@@ -130,8 +133,8 @@ namespace StudentReportBook
                 o.Password.RequiredLength = 6;
             });
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
-            builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-            
+            builder.AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
             services.AddAutoMapper(typeof(Startup));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

@@ -25,15 +25,22 @@ export class RegistrationFormComponent implements OnInit {
     this.isRequesting = true;
     this.errors = '';
     if (valid) {
-      this.userService.register(value.email, value.password, value.firstName, value.lastName)
-        .finally(() => this.isRequesting = false)
+      this.userService.register(value.email, value.password, value.firstName, value.lastName, value.role)
+        .finally(() => {
+          this.isRequesting = false;
+          console.log("register");
+        })
         .subscribe(
-          result => {
+        result => {
+          console.log(result);
             if (result) {
               this.router.navigate(['/login'], { queryParams: { brandNew: true, email: value.email } });
             }
           },
-          errors => this.errors = errors);
+        errors => {
+          this.errors = errors;
+          console.log(this.errors);
+        });
     }
   }
 }
