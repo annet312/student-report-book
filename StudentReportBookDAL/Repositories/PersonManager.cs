@@ -16,31 +16,27 @@ namespace StudentReportBookDAL.Repositories
         {
             this.db = context;
         }
-        public void Create(Student student, string groupName)
-        {
-            Group group = db.Groups.Where(g => g.Name == groupName).SingleOrDefault();
-            if(group == null)
-            {
-                throw new ArgumentException("This group doesn't exists", "groupName");
-            }
-            Student NewStudent = new Student {Group = group,
-                                               FirstName = student.FirstName,
-                                                LastName = student.LastName,
-                                                StudentCard = student.StudentCard,
-                                                Identity = student.Identity
-                                                };
-            db.Students.Add(NewStudent);
-            db.SaveChanges();
-        }
+        //public void Create(Student student)
+        //{
+        //    Group group = db.Groups.Where(g => g.Id == student.GroupId).SingleOrDefault();
+        //    if(group == null)
+        //    {
+        //        throw new ArgumentException("This group doesn't exists", "groupName");
+        //    }
+
+        //    db.Students.Add(student);
+        //    db.SaveChanges();
+        //}
 
         public void Dispose()
         {
             db.Dispose();
         }
        
-        public void Create(Teacher teacher)
+        public void Create(Person person)
         {
-            db.Teachers.Add(teacher);
+            
+            db.People.Add(person);
             db.SaveChanges();
         }
 

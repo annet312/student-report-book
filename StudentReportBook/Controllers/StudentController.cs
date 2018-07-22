@@ -19,12 +19,12 @@ namespace StudentReportBook.Controllers
     public class StudentController : ControllerBase
     {
         private readonly ClaimsPrincipal caller;
-        private readonly ApplicationDbContext appDbContext;
+        //private readonly ApplicationDbContext appDbContext;
 
-        public StudentController(UserManager<AppUser> userManager, ApplicationDbContext appDbContext, IHttpContextAccessor httpContextAccessor)
+        public StudentController(UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
             this.caller = httpContextAccessor.HttpContext.User;
-            this.appDbContext = appDbContext;
+           // this.appDbContext = appDbContext;
         }
 
         //GET api/student/home
@@ -33,20 +33,21 @@ namespace StudentReportBook.Controllers
         {
             //retrive the user info
             //HttpContext.User
-            var userId = caller.Claims.Single(c => c.Type == "id");
-            var customer = await appDbContext.Customers.Include(c => c.Identity).SingleAsync(c => c.Identity.Id == userId.Value);
+            // var userId = caller.Claims.Single(c => c.Type == "id");
+            // var customer = await appDbContext.Customers.Include(c => c.Identity).SingleAsync(c => c.Identity.Id == userId.Value);
 
-            return new OkObjectResult(new
-                    {
-                        Message = "This is secure data!",
-                        customer.Identity.FirstName,
-                        customer.Identity.LastName,
-                        customer.Identity.PictureUrl,
-                        customer.Identity.FacebookId,
-                        customer.Location,
-                        customer.Locale,
-                        customer.Gender
-            });
+            //return new OkObjectResult(new
+            //        {
+            //            Message = "This is secure data!",
+            //            customer.Identity.FirstName,
+            //            customer.Identity.LastName,
+            //            customer.Identity.PictureUrl,
+            //            customer.Identity.FacebookId,
+            //            customer.Location,
+            //            customer.Locale,
+            //            customer.Gender
+            //});
+            return new OkObjectResult(null);
         }
     }
 }

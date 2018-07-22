@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace StudentReportBook.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<AppUser>
-    {
-        public ApplicationDbContext(DbContextOptions options)
-                : base(options)
-        {
-        }
+    //public class ApplicationDbContext : IdentityDbContext<AppUser>
+    //{
+    //    public ApplicationDbContext(DbContextOptions options)
+    //            : base(options)
+    //    {
+    //    }
 
-        public DbSet<Customer> Customers { get; set; }
+       // public DbSet<Customer> Customers { get; set; }
     }
 }

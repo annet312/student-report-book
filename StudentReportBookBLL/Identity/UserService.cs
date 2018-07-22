@@ -5,9 +5,7 @@ using StudentReportBookBLL.Identity.Model;
 using StudentReportBookDAL.Entities;
 using StudentReportBookDAL.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace StudentReportBookBLL.Identity
@@ -33,10 +31,26 @@ namespace StudentReportBookBLL.Identity
             IdentityResult result = await db.UserManager.CreateAsync(mapper.Map<AppUserBll, AppUser>(userBll), password);
             if(result.Succeeded)
             {
-                //!!!!!!!!!!!!!!!!!TODO
-                //await db.PersonManager
-                //await appDbContext.Customers.AddAsync(new Customer { IdentityId = userIdentity.Id, Location = model.Location });
-                //await appDbContext.SaveChangesAsync();
+                Person person;
+                if (userBll.Role == "Teacher")
+                {
+                    person = new Teacher()
+                    {
+                        FirstName = userBll.FirstName,
+                        LastName = userBll.LastName,
+                        IdentityId = userBll.Id,
+                    };
+                }
+                else
+                {
+                    person = new Student()
+                    {
+                        FirstName = userBll.FirstName,
+                        LastName = userBll.LastName,
+                        IdentityId = userBll.Id,
+                    };
+                }
+                db.RersonManager.Create(person);
             }
             return result;
         }

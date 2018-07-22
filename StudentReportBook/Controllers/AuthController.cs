@@ -30,7 +30,7 @@ namespace StudentReportBook.Controllers
         private readonly UserManager<AppUser> userManager;
         private readonly IJwtFactory jwtFactory;
         private readonly JWTIssuerOptions jwtOptions;
-        private readonly ApplicationDbContext appDbContext;
+        //private readonly ApplicationDbContext appDbContext;
         
         //private readonly IHttpContextAccessor httpContextAccessor;
         
@@ -39,15 +39,13 @@ namespace StudentReportBook.Controllers
         public AuthController(UserManager<AppUser> userManager, 
                     IJwtFactory jwtFactory, 
                     IOptions<JWTIssuerOptions> jwtOptions, 
-                    IHttpContextAccessor httpContextAccessor,
-                    ApplicationDbContext appDbContext)
+                    IHttpContextAccessor httpContextAccessor)
         {
             this.userManager = userManager;
             this.jwtFactory = jwtFactory;
             this.jwtOptions = jwtOptions.Value;
             //this.httpContextAccessor = httpContextAccessor;
            // currentUser = httpContextAccessor.CurrentUser();
-            this.appDbContext = appDbContext;
             
         }
         

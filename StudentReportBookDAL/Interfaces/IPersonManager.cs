@@ -5,8 +5,8 @@ namespace StudentReportBookDAL.Interfaces
 {
     public interface IPersonManager : IDisposable
     {
-        void Create(Person person, string groupName);
+        //void Create(Student student);
 
-        void Create(Person person, Position pos);
+        void Create(Person person);
     }
 }

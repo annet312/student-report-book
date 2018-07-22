@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace StudentReportBookDAL.Repositories
 {
-    public class IdentityUnitOfWork
+    public class IdentityUnitOfWork : IIdentityUnitOfWork
     {
         private AppDbContext db;
 

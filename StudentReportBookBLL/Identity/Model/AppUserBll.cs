@@ -11,6 +11,8 @@ namespace StudentReportBookBLL.Identity.Model
 
         public string LastName { get; set; }
 
+        public string Role { get; set; }
+
         public long? FacebookId { get; set; }
 
         public string PictureUrl { get; set; }

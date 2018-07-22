@@ -8,6 +8,7 @@ namespace StudentReportBookDAL.Context
 {
     public class AppDbContext : IdentityDbContext<AppUser>
     {
+        public DbSet<Person> People { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Group> Groups { get; set; }

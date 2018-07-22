@@ -16,16 +16,14 @@ namespace StudentReportBook.Controllers
     [ApiController]
     public class AccountsController : ControllerBase
     {
-        private readonly ApplicationDbContext appDbContext;
         private readonly UserManager<AppUser> userManager;
         private readonly IMapper mapper;
         private readonly IUserService userService;
 
-        public AccountsController(UserManager<AppUser> userManager, IMapper mapper, ApplicationDbContext appDbContext, IUserService userService)
+        public AccountsController(UserManager<AppUser> userManager, IMapper mapper/*, ApplicationDbContext appDbContext*/, IUserService userService)
         {
             this.userManager = userManager;
             this.mapper = mapper;
-            this.appDbContext = appDbContext;
             this.userService = userService;
         }
 

@@ -4,9 +4,12 @@ using Microsoft.Extensions.Configuration;
 using StudentReportBookDAL.Interfaces;
 using StudentReportBookDAL.Repositories;
 //using Microsoft.IdentityModel.Protocols;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using StudentReportBookDAL.Context;
+using Autofac.Core;
 
 namespace StudentReportBookBLL.Infrastructure
 {
@@ -14,15 +17,25 @@ namespace StudentReportBookBLL.Infrastructure
     {
         protected override void Load(ContainerBuilder builder)
         {
-            //var builderconfig = new ConfigurationBuilder();
-            //// установка пути к текущему каталогу
-            //builderconfig.SetBasePath(Directory.GetCurrentDirectory());
-            //// получаем конфигурацию из файла appsettings.json
-            //builderconfig.AddJsonFile("appsettings.json");
-            //// создаем конфигурацию
-            //var config = builderconfig.Build();
-            ////string connectionString = config.GetConnectionString("DefaultConnection");
+            base.Load(builder);
 
+            var builderconfig = new ConfigurationBuilder();
+            // установка пути к текущему каталогу
+            builderconfig.SetBasePath(Directory.GetCurrentDirectory());
+            // получаем конфигурацию из файла appsettings.json
+            builderconfig.AddJsonFile("appsettings.json");
+            // создаем конфигурацию
+            var config = builderconfig.Build();
+            string connectionString = config.GetConnectionString("DefaultConnection");
+
+            builder.Register(c =>
+            {
+                var conf = c.Resolve<IConfiguration>();
+                var opt = new DbContextOptionsBuilder<AppDbContext>();
+                opt.UseSqlServer(connectionString, b => b.MigrationsAssembly("StudentReportBook"));
+
+                return new AppDbContext(opt.Options);
+            }).AsImplementedInterfaces(); 
 
             builder.RegisterType<IdentityUnitOfWork>().As<IIdentityUnitOfWork>();//.WithParameter("connectionString", connectionString);
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();//.WithParameter("connectionString", connectionString);
