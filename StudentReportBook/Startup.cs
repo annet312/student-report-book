@@ -19,13 +19,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using StudentReportBook.Helpers;
 using StudentReportBook.Auth;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Autofac;
 using StudentReportBookBLL.Infrastructure;
-using Microsoft.Extensions.Options;
-using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
-using StudentReportBookDAL.Repositories;
+//using StudentReportBookDAL.Repositories;
 
 namespace StudentReportBook
 {
@@ -64,7 +60,6 @@ namespace StudentReportBook
             //services.Configure<FacebookAuthSettings>(Configuration.GetSection(nameof(FacebookAuthSettings)));
 
 
-
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //// jwt wire up
@@ -94,22 +89,11 @@ namespace StudentReportBook
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };
-            services.AddIdentity<IdentityUser, IdentityRole>().AddUserManager<ApplicationUserManager>()
+            services.AddIdentity<IdentityUser, IdentityRole>().AddUserManager<UserManager<IdentityUser>>()
               .AddEntityFrameworkStores<AppDbContext>()
               .AddDefaultTokenProviders();
             services.AddHttpContextAccessor();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)//(options =>
-          //  {
-                //options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                //options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-               
-                //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                //options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                //options.AuthenticationScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                //options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                //options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
-
-         //   }).
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(configureOptions =>
             {
                 configureOptions.RequireHttpsMetadata = false;
@@ -124,6 +108,8 @@ namespace StudentReportBook
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Student", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
+                options.AddPolicy("Moderator", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
+                options.AddPolicy("Teacher", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
             });
 
 
@@ -136,10 +122,8 @@ namespace StudentReportBook
                 o.Password.RequireNonAlphanumeric = false;
                 o.Password.RequiredLength = 6;
             });
-            //IdentityBuilder.AddUserManager<T>()
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
 
-            //builder.AddUserManager<ApplicationUserManager>();
             builder.AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
             services.AddAutoMapper(typeof(Startup));

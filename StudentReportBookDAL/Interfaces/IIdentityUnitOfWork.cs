@@ -10,7 +10,7 @@ namespace StudentReportBookDAL.Interfaces
 {
     public interface IIdentityUnitOfWork : IDisposable
     {
-        ApplicationUserManager UserManager { get; }
+        UserManager<IdentityUser> UserManager { get; }
 
         IPersonManager RersonManager { get; }
 

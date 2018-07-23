@@ -19,9 +19,8 @@ namespace StudentReportBook.Controllers
         private readonly IMapper mapper;
         private readonly IUserService userService;
 
-        public AccountsController(/*UserManager<AppUser> userManager,*/ IMapper mapper/*, ApplicationDbContext appDbContext*/, IUserService userService)
+        public AccountsController( IMapper mapper, IUserService userService)
         {
-            //this.userManager = userManager;
             this.mapper = mapper;
             this.userService = userService;
         }
@@ -35,21 +34,16 @@ namespace StudentReportBook.Controllers
             {
                 return BadRequest(ModelState);
             }
-            return new OkObjectResult("In Account");
-            //var userIdentity = mapper.Map<AppUser>(model);
+            AppUserBll userIdentity = mapper.Map<RegistrationViewModel, AppUserBll>(model);
 
-            //// IdentityResult result = await userManager.CreateAsync(userIdentity, model.Password);
-            //IdentityResult result = await userService.Create(mapper.Map<AppUser, AppUserBll>(userIdentity), model.Password);
+            IdentityResult result = await userService.Create(userIdentity, model.Password);//Manager.CreateAsync(userIdentity, model.Password);
 
-            //if (!result.Succeeded)
-            //{
-            //    return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-            //}
+            if (!result.Succeeded)
+            {
+                return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+            }
 
-            ////await appDbContext.Customers.AddAsync(new Customer { IdentityId = userIdentity.Id, Location = model.Location });
-            ////await appDbContext.SaveChangesAsync();
-
-            //return new OkObjectResult("Account created");
+            return new OkObjectResult("Account created");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StudentReportBookDAL.Entities;
@@ -6,7 +7,7 @@ using StudentReportBookDAL.Entities;
 
 namespace StudentReportBookDAL.Context
 {
-    public class AppDbContext : IdentityDbContext<AppUser>
+    public class AppDbContext : IdentityDbContext<IdentityUser>
     {
         public DbSet<Person> People { get; set; }
         public DbSet<Student> Students { get; set; }
@@ -16,6 +17,7 @@ namespace StudentReportBookDAL.Context
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<TeachersWorkload> TeachersWorkloads { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
+
 
         public AppDbContext(DbContextOptions options)
             : base(options)
@@ -33,6 +35,9 @@ namespace StudentReportBookDAL.Context
             modelBuilder.ApplyConfiguration(new GroupConfiguration());
             modelBuilder.ApplyConfiguration(new FacultyConfiguration());
             modelBuilder.ApplyConfiguration(new MarkConfiguration());
+            modelBuilder.Entity<Person>()
+                .Ignore(p => p.Name);
+            
         }
         public class PersonConfiguration : IEntityTypeConfiguration<Person>
         {

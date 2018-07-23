@@ -28,7 +28,16 @@ namespace StudentReportBookBLL.Identity
 
         public async Task<IdentityResult> Create(AppUserBll userBll, string password)
         {
-            IdentityResult result = await db.UserManager.CreateAsync(mapper.Map<AppUserBll, AppUser>(userBll), password);
+            IdentityUser user = mapper.Map<AppUserBll, AppUser>(userBll);
+            IdentityResult result = null;
+            try
+            {
+                result = await db.UserManager.CreateAsync(user, password);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
             if(result.Succeeded)
             {
                 Person person;
