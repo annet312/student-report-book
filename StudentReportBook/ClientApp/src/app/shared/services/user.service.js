@@ -75,6 +75,7 @@ var UserService = /** @class */ (function (_super) {
             .map(function (res) { return res.json(); })
             .map(function (res) {
             localStorage.setItem('auth_token', res.auth_token);
+            console.log(res.auth_token);
             _this.loggedIn = true;
             _this.authNavStatusSource.next(true);
             return true;

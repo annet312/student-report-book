@@ -10,11 +10,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using StudentReportBook.Auth;
-using StudentReportBook.Helpers;
-using StudentReportBook.Models;
-using StudentReportBook.Models.Entities;
 using StudentReportBook.ViewModel;
+using AutoMapper;
+using StudentReportBookBLL.Identity.Interface;
+using StudentReportBook.Helpers;
 
 namespace StudentReportBook.Controllers
 {
@@ -24,23 +23,24 @@ namespace StudentReportBook.Controllers
     public class AuthController : ControllerBase
     {
         //private readonly int currentUser;//ClaimsPrincipal caller;
-        private readonly UserManager<AppUser> userManager;
-        private readonly IJwtFactory jwtFactory;
-        private readonly JWTIssuerOptions jwtOptions;
-
+        //private readonly UserManager<AppUser> userManager;
+        //private readonly IJwtFactory jwtFactory;
+        //private readonly JWTIssuerOptions jwtOptions;
+        private readonly IMapper mapper;
+        private readonly IUserService userService;
         
-        private string currentUser;
+        //private string currentUser;
 
-        public AuthController(UserManager<AppUser> userManager, 
-                    IJwtFactory jwtFactory, 
-                    IOptions<JWTIssuerOptions> jwtOptions)//, 
+        public AuthController(IMapper mapper, IUserService userService)//UserManager<AppUser> userManager, 
+                    //IJwtFactory jwtFactory, 
+                    //IOptions<JWTIssuerOptions> jwtOptions)//, 
                     //IHttpContextAccessor httpContextAccessor)
         {
-            this.userManager = userManager;
-            this.jwtFactory = jwtFactory;
-            this.jwtOptions = jwtOptions.Value;
-            //this.httpContextAccessor = httpContextAccessor;
-           // currentUser = httpContextAccessor.CurrentUser();
+            // this.userManager = userManager;
+            //this.jwtFactory = jwtFactory;
+            //this.jwtOptions = jwtOptions.Value;
+            this.mapper = mapper;
+            this.userService = userService;
             
         }
         
@@ -53,36 +53,17 @@ namespace StudentReportBook.Controllers
                 return BadRequest(ModelState);
             }
 
-            var identity = await GetClaimsIdentity(credentials.UserName, credentials.Password);
-
-            if (identity == null)
+            //  var identity = await GetClaimsIdentity(credentials.UserName, credentials.Password);
+            var jwt = await userService.Authenticate(credentials.UserName, credentials.Password);
+            if (jwt == null)
             {
                 return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
             }
-            currentUser = identity.Name;
-            var jwt = await Tokens.GenerateJwt(identity, jwtFactory, credentials.UserName, jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
+            
             return new OkObjectResult(jwt);
         }
 
 
-        private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
-        {
-            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
-                return await Task.FromResult<ClaimsIdentity>(null);
-
-            // get the user to verifty
-            var userToVerify = await userManager.FindByNameAsync(userName);
-
-            if (userToVerify == null) return await Task.FromResult<ClaimsIdentity>(null);
-
-            // check the credentials
-            if (await userManager.CheckPasswordAsync(userToVerify, password))
-            {
-                return await Task.FromResult(jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id));
-            }
-
-            // Credentials are invalid, or account doesn't exist
-            return await Task.FromResult<ClaimsIdentity>(null);
-        }
+        
     }
 }

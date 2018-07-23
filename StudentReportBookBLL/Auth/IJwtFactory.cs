@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace StudentReportBook.Auth
+namespace StudentReportBookBLL.Auth
 {
     public interface IJwtFactory
     {

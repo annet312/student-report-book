@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using StudentReportBookBLL.Identity.Model;
 using StudentReportBookBLL.Models;
 using StudentReportBookDAL.Entities;
 using System;

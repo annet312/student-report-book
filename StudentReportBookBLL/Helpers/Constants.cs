@@ -1,5 +1,5 @@
 ﻿
-namespace StudentReportBook.Helpers
+namespace StudentReportBookBLL.Helpers
 {
     public class Constants
     {

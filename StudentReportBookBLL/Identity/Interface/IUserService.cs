@@ -17,6 +17,6 @@ namespace StudentReportBookBLL.Identity.Interface
         ///<summary>
         ///Authentication of user
         /// </summary>
-        Task<ClaimsIdentity> Authenticate(AppUserBll userBll);
+        Task<string> Authenticate(string userName, string password);
     }
 }

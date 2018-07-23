@@ -1,13 +1,11 @@
 ﻿using Newtonsoft.Json;
-using StudentReportBook.Auth;
-using StudentReportBook.Models;
-using System;
-using System.Collections.Generic;
+using StudentReportBookBLL.Auth;
+using StudentReportBookBLL.Models;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace StudentReportBook.Helpers
+namespace StudentReportBookBLL.Helpers
 {
     public class Tokens
     {

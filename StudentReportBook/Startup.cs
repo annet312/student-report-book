@@ -17,10 +17,12 @@ using System;
 using System.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using StudentReportBook.Helpers;
-using StudentReportBook.Auth;
 using Microsoft.AspNetCore.Http;
 using Autofac;
 using StudentReportBookBLL.Infrastructure;
+using StudentReportBookBLL.Models;
+using StudentReportBookBLL.Helpers;
+using StudentReportBookBLL.Auth;
 //using StudentReportBookDAL.Repositories;
 
 namespace StudentReportBook
@@ -55,12 +57,13 @@ namespace StudentReportBook
                b => b.MigrationsAssembly("StudentReportBook")));
 
             services.AddSingleton<IJwtFactory, JwtFactory>();
+            
 
             //// Register the ConfigurationBuilder instance of FacebookAuthSettings
             //services.Configure<FacebookAuthSettings>(Configuration.GetSection(nameof(FacebookAuthSettings)));
 
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //// jwt wire up
             //// Get options from app settings
@@ -73,7 +76,9 @@ namespace StudentReportBook
                 options.Audience = jwtAppSettingOptions[nameof(JWTIssuerOptions.Audience)];
                 options.SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
             });
+
             services.AddOptions();
+
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,
