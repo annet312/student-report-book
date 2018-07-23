@@ -15,9 +15,6 @@ using StudentReportBook.Helpers;
 using StudentReportBook.Models;
 using StudentReportBook.Models.Entities;
 using StudentReportBook.ViewModel;
-using StudentReportBook.Data;
-using Microsoft.EntityFrameworkCore;
-using System.Threading;
 
 namespace StudentReportBook.Controllers
 {
@@ -30,16 +27,14 @@ namespace StudentReportBook.Controllers
         private readonly UserManager<AppUser> userManager;
         private readonly IJwtFactory jwtFactory;
         private readonly JWTIssuerOptions jwtOptions;
-        //private readonly ApplicationDbContext appDbContext;
-        
-        //private readonly IHttpContextAccessor httpContextAccessor;
+
         
         private string currentUser;
 
         public AuthController(UserManager<AppUser> userManager, 
                     IJwtFactory jwtFactory, 
-                    IOptions<JWTIssuerOptions> jwtOptions, 
-                    IHttpContextAccessor httpContextAccessor)
+                    IOptions<JWTIssuerOptions> jwtOptions)//, 
+                    //IHttpContextAccessor httpContextAccessor)
         {
             this.userManager = userManager;
             this.jwtFactory = jwtFactory;
@@ -69,18 +64,6 @@ namespace StudentReportBook.Controllers
             return new OkObjectResult(jwt);
         }
 
-        //GET api/auth/getCurrentUser
-        [HttpGet("getCurrentUser")]
-        //public async Task<IActionResult> Get()
-        //{
-        //    //var email = User.FindFirst("sub")?.Value;
-        //    //var userId = httpContextAccessor?.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-           
-        //    //var customer = HttpContext.User.Identity.Name;
-        //    // var stringId = httpContextAccessor?.HttpContext?.User?.FindFirst(JwtR)
-        //    return  new OkObjectResult(currentUser);
-        //}
-        //private Task<AppUser> GetCurrentUserAsync() => userManager.GetUserAsync(HttpContext.User);
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
         {

@@ -22,6 +22,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Autofac;
 using StudentReportBookBLL.Infrastructure;
+using Microsoft.Extensions.Options;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
+using StudentReportBookDAL.Repositories;
 
 namespace StudentReportBook
 {
@@ -90,7 +94,7 @@ namespace StudentReportBook
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<IdentityUser, IdentityRole>().AddUserManager<ApplicationUserManager>()
               .AddEntityFrameworkStores<AppDbContext>()
               .AddDefaultTokenProviders();
             services.AddHttpContextAccessor();
@@ -132,7 +136,10 @@ namespace StudentReportBook
                 o.Password.RequireNonAlphanumeric = false;
                 o.Password.RequiredLength = 6;
             });
+            //IdentityBuilder.AddUserManager<T>()
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
+
+            //builder.AddUserManager<ApplicationUserManager>();
             builder.AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
             services.AddAutoMapper(typeof(Startup));
@@ -168,8 +175,9 @@ namespace StudentReportBook
             app.UseSpaStaticFiles();
             app.UseAuthentication();
             app.UseDefaultFiles();
-            
+
             //app.UseCookieAuthentication();
+
 
             app.UseMvc(routes =>
             {
@@ -192,4 +200,6 @@ namespace StudentReportBook
             });
         }
     }
+
+        
 }

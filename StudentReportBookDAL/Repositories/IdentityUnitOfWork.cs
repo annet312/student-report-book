@@ -13,7 +13,7 @@ namespace StudentReportBookDAL.Repositories
     {
         private AppDbContext db;
 
-        public IdentityUnitOfWork(AppDbContext dbContext, UserManager<AppUser> userManager, IPersonManager personManager)
+        public IdentityUnitOfWork(AppDbContext dbContext, ApplicationUserManager userManager, IPersonManager personManager)
         {
             this.db = dbContext;
             this.UserManager = userManager;
@@ -21,7 +21,7 @@ namespace StudentReportBookDAL.Repositories
             this.RersonManager = personManager;
         }
 
-        public UserManager<AppUser> UserManager { get; }
+        public ApplicationUserManager UserManager { get; }
 
         public IPersonManager RersonManager { get; }
 

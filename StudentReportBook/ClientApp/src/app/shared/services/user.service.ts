@@ -42,10 +42,16 @@ export class UserService extends BaseService {
   }
 
   register(email: string, password: string, firstName: string, lastName: string, role: string): Observable<UserRegistration> {
+    console.log("in registration");
+    console.log(email +''+ password);
     let body = JSON.stringify({ email, password, firstName, lastName, role });
+    console.log("body");
+    console.log(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
+    console.log(headers);
     let options = new RequestOptions({ headers: headers });
-    console.log("here");
+    console.log(options);
+    console.log(this.baseUrls);
     return this.http.post(this.baseUrls + "api/accounts", body, options)
       .map(res => true)
       .catch(this.handleError);

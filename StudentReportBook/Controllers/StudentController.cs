@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using StudentReportBook.Data;
 using StudentReportBook.Models.Entities;
 
 namespace StudentReportBook.Controllers
@@ -47,7 +46,7 @@ namespace StudentReportBook.Controllers
             //            customer.Locale,
             //            customer.Gender
             //});
-            return new OkObjectResult(null);
+            return new OkObjectResult("some");
         }
     }
 }

@@ -52,10 +52,16 @@ var UserService = /** @class */ (function (_super) {
         //this.baseUrl = configService.getApiURI();
     }
     UserService.prototype.register = function (email, password, firstName, lastName, role) {
+        console.log("in registration");
+        console.log(email + '' + password);
         var body = JSON.stringify({ email: email, password: password, firstName: firstName, lastName: lastName, role: role });
+        console.log("body");
+        console.log(body);
         var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+        console.log(headers);
         var options = new http_1.RequestOptions({ headers: headers });
-        console.log("here");
+        console.log(options);
+        console.log(this.baseUrls);
         return this.http.post(this.baseUrls + "api/accounts", body, options)
             .map(function (res) { return true; })
             .catch(this.handleError);

@@ -17,4 +17,6 @@ namespace StudentReportBookDAL.Entities
         public string PersonId { get; set; }
         public Person Person { get; set; }
     }
+    //public class AppRole :IdentityRole
+    //{ }
 }

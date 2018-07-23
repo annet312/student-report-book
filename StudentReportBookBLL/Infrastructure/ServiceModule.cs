@@ -12,6 +12,10 @@ using StudentReportBookDAL.Context;
 using Autofac.Core;
 using Microsoft.AspNetCore.Identity;
 using StudentReportBookBLL.Identity.Model;
+using StudentReportBookDAL.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace StudentReportBookBLL.Infrastructure
 {
@@ -37,9 +41,15 @@ namespace StudentReportBookBLL.Infrastructure
 
             //    return new AppDbContext(opt.Options);
             //}).AsImplementedInterfaces();
+            builder.RegisterType<UserStore<AppUser>>().As<IUserStore<AppUser>>();
+            //builder.RegisterType<RoleStore<IdentityRole>>().As<IRoleStore<IdentityRole, string>>();
+            //builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
 
+            //builder.Register(c => new UserStore<AppUser>(c.Resolve<MyApplicationContext>())).AsImplementedInterfaces().InstancePerRequest();
 
-          
+            builder.RegisterType<PersonManager>().As<IPersonManager>();
+            //builder.RegisterType<ApplicationRoleManager>();
+
             builder.RegisterType<IdentityUnitOfWork>().As<IIdentityUnitOfWork>();//.WithParameter(AppDbContext dbContext);
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();//.WithParameter("connectionString", connectionString);
             builder.RegisterAssemblyTypes(typeof(ServiceModule).Assembly)
@@ -58,4 +68,7 @@ namespace StudentReportBookBLL.Infrastructure
         }
 
     }
+
+   
 }
+

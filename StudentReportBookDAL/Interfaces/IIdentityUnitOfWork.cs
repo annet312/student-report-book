@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using StudentReportBookDAL.Entities;
+using StudentReportBookDAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,7 @@ namespace StudentReportBookDAL.Interfaces
 {
     public interface IIdentityUnitOfWork : IDisposable
     {
-        UserManager<AppUser> UserManager { get; }
+        ApplicationUserManager UserManager { get; }
 
         IPersonManager RersonManager { get; }
 

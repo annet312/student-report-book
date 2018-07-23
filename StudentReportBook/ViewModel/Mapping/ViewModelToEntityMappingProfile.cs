@@ -7,6 +7,7 @@ namespace StudentReportBook.ViewModel.Mapping
     {
         public ViewModelToEntityMappingProfile()
         {
+            //CreateMap<RegistrationViewModel, AppUser>();
             CreateMap<RegistrationViewModel, AppUser>().ForMember(au => au.UserName, map => map.MapFrom(vm => vm.Email));
         }
     }
