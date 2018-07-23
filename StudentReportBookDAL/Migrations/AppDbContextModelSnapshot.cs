@@ -257,6 +257,10 @@ namespace StudentReportBookDAL.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
+                    b.Property<string>("Name")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasComputedColumnSql("[FirstName] + ' ' + [LastName]");
+
                     b.Property<int>("Position");
 
                     b.HasKey("Id");

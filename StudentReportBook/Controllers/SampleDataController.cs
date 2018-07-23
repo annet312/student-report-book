@@ -2,28 +2,31 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using StudentReportBook.Models.Entities;
+using StudentReportBookBLL.Models;
+using StudentReportBookBLL.Services.Interfaces;
 
 namespace StudentReportBook.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        private static string[] Summaries = new[]
+        private readonly IMapper mapper;
+        private readonly ITeacherService teacherService;
+        public SampleDataController(IMapper mapper, ITeacherService teacherService)
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+            this.mapper = mapper;
+            this.teacherService = teacherService;
+        }
 
         [HttpGet("[action]")]
-        public IEnumerable<WeatherForecast> WeatherForecasts()
+        public IEnumerable<Teacher> WeatherForecasts()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                DateFormatted = DateTime.Now.AddDays(index).ToString("d"),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            });
+            IEnumerable<TeacherBll> teachersbll= teacherService.GetAllTeachers();
+            IEnumerable<Teacher> teachers = mapper.Map<IEnumerable<Teacher>>(teachersbll);
+            return teachers;
         }
 
         public class WeatherForecast

@@ -10,8 +10,8 @@ using StudentReportBookDAL.Context;
 namespace StudentReportBookDAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20180723134343_Create")]
-    partial class Create
+    [Migration("20180723194458_InitCreate")]
+    partial class InitCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -258,6 +258,10 @@ namespace StudentReportBookDAL.Migrations
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(30);
+
+                    b.Property<string>("Name")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasComputedColumnSql("[FirstName] + ' ' + [LastName]");
 
                     b.Property<int>("Position");
 

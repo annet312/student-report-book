@@ -73,6 +73,7 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\app\models\" />
+    <Folder Include="Models\NewFolder\" />
   </ItemGroup>
 
   <ItemGroup>

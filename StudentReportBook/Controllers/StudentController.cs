@@ -30,6 +30,7 @@ namespace StudentReportBook.Controllers
         [HttpGet]
         public async Task<IActionResult> Home()
         {
+
             //retrive the user info
             //HttpContext.User
             // var userId = caller.Claims.Single(c => c.Type == "id");

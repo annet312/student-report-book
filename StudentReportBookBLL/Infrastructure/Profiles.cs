@@ -22,4 +22,11 @@ namespace StudentReportBookBLL.Profiles
             CreateMap<AppUser, AppUserBll>();
         }
     }
+    public class TeacherProfile : Profile
+    {
+        public TeacherProfile()
+        {
+            CreateMap<TeacherBll, Teacher>();
+        }
+    }
 }

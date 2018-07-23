@@ -9,25 +9,98 @@ namespace StudentReportBookDAL.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-       // private StudentRepository studentRepository;
-        public AppDbContext dbContext { get; }
+        // private StudentRepository studentRepository;
+        private readonly AppDbContext dbContext;
+        IRepository<Teacher> teachers;
+        IRepository<Student> students; 
+        IRepository<Group> groups; 
+        IRepository<Mark> marks;
+        IRepository<TeachersWorkload> teachersWorkloads; 
+        IRepository<Subject> subjects; 
+        IRepository<Faculty> faculties; 
+
         public UnitOfWork(AppDbContext context)
         {
             this.dbContext = context;
         }
-        //public IRepository<Student> Students
-        //{
-        //    get
-        //    {
-        //        if (studentRepository == null)
-        //        {
-        //            studentRepository = new StudentRepository(dbContext);
-        //        }
-        //        return studentRepository;
-        //    }
-        //}
+        public IRepository<Student> Students
+        {
+            get
+            {
+                if (students == null)
+                {
+                    students = new Repository<Student>(dbContext);
+                }
+                return students;
+            }
+        }
 
-//        private readonly AppDbContext dbContext;
+        public IRepository<Teacher> Teachers
+        {
+            get
+            {
+                if (teachers == null)
+                {
+                    teachers = new Repository<Teacher>(dbContext);
+                }
+                return teachers;
+            }
+        }
+        public IRepository<Subject> Subjects
+        {
+            get
+            {
+                if (subjects == null)
+                {
+                    subjects = new Repository<Subject>(dbContext);
+                }
+                return subjects;
+            }
+        }
+        public IRepository<Group> Groups
+        {
+            get
+            {
+                if (groups == null)
+                {
+                    groups = new Repository<Group>(dbContext);
+                }
+                return groups;
+            }
+        }
+        public IRepository<Faculty> Faculties
+        {
+            get
+            {
+                if (faculties == null)
+                {
+                    faculties = new Repository<Faculty>(dbContext);
+                }
+                return faculties;
+            }
+        }
+        public IRepository<TeachersWorkload> TeachersWorkloads
+        {
+            get
+            {
+                if (teachersWorkloads == null)
+                {
+                    teachersWorkloads = new Repository<TeachersWorkload>(dbContext);
+                }
+                return teachersWorkloads;
+            }
+        }
+        public IRepository<Mark> Marks
+        {
+            get
+            {
+                if (marks == null)
+                {
+                    marks = new Repository<Mark>(dbContext);
+                }
+                return marks;
+            }
+        }
 
         public void Save()
         {

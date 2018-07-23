@@ -35,9 +35,6 @@ namespace StudentReportBookDAL.Context
             modelBuilder.ApplyConfiguration(new GroupConfiguration());
             modelBuilder.ApplyConfiguration(new FacultyConfiguration());
             modelBuilder.ApplyConfiguration(new MarkConfiguration());
-            modelBuilder.Entity<Person>()
-                .Ignore(p => p.Name);
-            
         }
         public class PersonConfiguration : IEntityTypeConfiguration<Person>
         {

@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using StudentReportBookBLL.Auth;
 using StudentReportBookBLL.Models;
+using StudentReportBookBLL.Services;
 
 namespace StudentReportBookBLL.Infrastructure
 {
@@ -37,7 +38,6 @@ namespace StudentReportBookBLL.Infrastructure
             builder.RegisterAssemblyTypes(typeof(ServiceModule).Assembly)
                 .Where(t => t.Name.EndsWith("Service"))
                  .AsImplementedInterfaces();
-
             builder.RegisterAssemblyTypes().AssignableTo(typeof(Profile)).As<Profile>();
 
             builder.Register(c => new MapperConfiguration(cfg =>

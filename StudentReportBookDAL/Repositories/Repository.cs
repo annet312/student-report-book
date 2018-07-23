@@ -9,37 +9,37 @@ namespace StudentReportBookDAL.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly IUnitOfWork unitOfWork;
-        public Repository(IUnitOfWork unitOfWork)
+        private readonly AppDbContext dbContext;
+        public Repository(AppDbContext db)
         {
-            this.unitOfWork = unitOfWork;
+            this.dbContext = db;
         }
         public void Add(T entity)
         {
-            unitOfWork.dbContext.Set<T>().Add(entity);
+            dbContext.Set<T>().Add(entity);
         }
 
         public void Delete(T entity)
         {
-            T existing = unitOfWork.dbContext.Set<T>().Find(entity);
-            if (existing != null) unitOfWork.dbContext.Set<T>().Remove(existing);
+            T existing = dbContext.Set<T>().Find(entity);
+            if (existing != null) dbContext.Set<T>().Remove(existing);
         }
 
         public IEnumerable<T> GetAll()
         {
-            return unitOfWork.dbContext.Set<T>().AsEnumerable<T>();
+            return dbContext.Set<T>().AsEnumerable<T>();
         }
 
 
         public IEnumerable<T> Get(System.Linq.Expressions.Expression<Func<T, bool>> predicate)
         {
-            return unitOfWork.dbContext.Set<T>().Where(predicate).AsEnumerable<T>();
+            return dbContext.Set<T>().Where(predicate).AsEnumerable<T>();
         }
 
         public void Update(T entity)
         {
-            unitOfWork.dbContext.Entry(entity).State = EntityState.Modified;
-            unitOfWork.dbContext.Set<T>().Attach(entity);
+            dbContext.Entry(entity).State = EntityState.Modified;
+            dbContext.Set<T>().Attach(entity);
         }
     }
 }
