@@ -8,13 +8,6 @@ namespace StudentReportBookDAL.Entities
 
         public string Name { get; set; }
 
-        //public List<PersonSubject> PersonSubjects { get; set; }
-
-        //public Subject()
-        //{
-        //    PersonSubjects = new List<PersonSubject>();
-        //}
-
         public int? TeachersWorkloadId { get; set; }
 
         public List<TeachersWorkload> TeachersWorkloads { get; set; }

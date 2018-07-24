@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StudentReportBookDAL.Migrations
 {
-    public partial class InitCreate : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -275,6 +275,7 @@ namespace StudentReportBookDAL.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     StudentId = table.Column<int>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
                     TeachersWorkloadId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

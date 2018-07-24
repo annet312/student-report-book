@@ -56,7 +56,7 @@ namespace StudentReportBook
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
                b => b.MigrationsAssembly("StudentReportBook")));
 
-            services.AddSingleton<IJwtFactory, JwtFactory>();
+            //services.AddSingleton<IJwtFactory, JwtFactory>();
             
 
             //// Register the ConfigurationBuilder instance of FacebookAuthSettings

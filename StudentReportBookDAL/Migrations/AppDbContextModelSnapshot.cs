@@ -227,6 +227,8 @@ namespace StudentReportBookDAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("Date");
+
                     b.Property<int>("StudentId");
 
                     b.Property<int>("TeachersWorkloadId");

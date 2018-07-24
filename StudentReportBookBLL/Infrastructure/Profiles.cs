@@ -2,9 +2,6 @@
 using StudentReportBookBLL.Identity.Model;
 using StudentReportBookBLL.Models;
 using StudentReportBookDAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StudentReportBookBLL.Profiles
 {
@@ -27,6 +24,48 @@ namespace StudentReportBookBLL.Profiles
         public TeacherProfile()
         {
             CreateMap<TeacherBll, Teacher>();
+        }
+    }
+    public class TeachersWorkloadProfile : Profile
+    {
+        public TeachersWorkloadProfile()
+        {
+            CreateMap<TeachersWorkloadBll, TeachersWorkload>().ForMember(tw => tw.TeacherId, map => map.MapFrom(tws => tws.Teacher.Id));
+        }
+    }
+    public class StudentProfile : Profile
+    {
+        public StudentProfile()
+        {
+            CreateMap<StudentBll, Student>();
+        }
+    }
+    public class SubjectProfile : Profile
+    {
+        public SubjectProfile()
+        {
+            CreateMap<SubjectBll, Subject>();
+        }
+    }
+    public class MarkProfile : Profile
+    {
+        public MarkProfile()
+        {
+            CreateMap<MarkBll, Mark>();
+        }
+    }
+    public class GroupProfile : Profile
+    {
+        public GroupProfile()
+        {
+            CreateMap<GroupBll, Group>();
+        }
+    }
+    public class FacultyProfile : Profile
+    {
+        public FacultyProfile()
+        {
+            CreateMap<FacultyBll, Faculty>();
         }
     }
 }
