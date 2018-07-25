@@ -14,12 +14,12 @@ namespace StudentReportBookBLL.Services
     {
         private readonly IMapper mapper;
         private readonly IUnitOfWork db;
-        private readonly IStudentService studentService;
-        public TeacherService(IMapper mapper, IUnitOfWork db,IStudentService studentservice)
+        //private readonly IStudentService studentService;
+        public TeacherService(IMapper mapper, IUnitOfWork db/*, IStudentService studentservice*/)
         {
             this.mapper = mapper;
             this.db = db;
-            this.studentService = studentService;
+            //this.studentService = studentService;
         }
         public IEnumerable<TeacherBll> GetAllTeachers()
         {
@@ -35,16 +35,24 @@ namespace StudentReportBookBLL.Services
         public IEnumerable<FacultyBll> GetFaculties(string userId, int subjectId)
         {
             TeacherBll teacher = GetTeacher(userId);
-            IEnumerable<TeachersWorkload> techersWorkload = db.TeachersWorkloads.Get(tw => tw.TeacherId == teacher.Id);
-            if (techersWorkload == null) return null;
-
-            IEnumerable<Group> groups = tea
-            throw new Exception();
+            IEnumerable<Faculty> faculties = db.TeachersWorkloads.Get(
+                                                      tw => (tw.TeacherId == teacher.Id) 
+                                                            && (tw.SubjectId == subjectId))
+                                                      .Select(tw => tw.Group.Faculty);
+            IEnumerable<FacultyBll> facultyBlls = mapper.Map<IEnumerable<FacultyBll>>(faculties);
+            return facultyBlls;
         }
 
         public IEnumerable<GroupBll> GetGroups(int facultyId, string userId, int subjectId)
         {
-            throw new NotImplementedException();
+            TeacherBll teacher = GetTeacher(userId);
+            IEnumerable<Group> groups = db.TeachersWorkloads.Get(tw => 
+                                                    (tw.TeacherId == teacher.Id)
+                                                    && (tw.SubjectId == subjectId)
+                                                    && (tw.Group.Faculty.Id == facultyId))
+                                                .Select(tw => tw.Group);
+            IEnumerable<GroupBll> groupsBll = mapper.Map<IEnumerable<GroupBll>>(groups);
+            return groupsBll;
         }
 
         public IEnumerable<SubjectBll> GetSubjects(string userId)
@@ -65,10 +73,10 @@ namespace StudentReportBookBLL.Services
             return subjects;
         }
 
-        public IEnumerable<int> GetTerm(int GroupId, int SubjectId, string userid)
-        {
-            throw new NotImplementedException();
-        }
+        //public IEnumerable<int> GetTerm(int GroupId, int SubjectId, string userid)
+        //{
+            
+        //}
 
         private IEnumerable<TeachersWorkloadBll> GetTeachersWorkloads(int teacherId)
         {
@@ -78,12 +86,22 @@ namespace StudentReportBookBLL.Services
             return teachersWorkloadBlls;
 
         }
-        private TeacherBll GetTeacher(string userId)
+        public TeacherBll GetTeacher(string userId)
         {
             if (userId == null) throw new ArgumentNullException("userId", "UserId is null or empty");
             Teacher teacher = db.Teachers.Get(t => t.IdentityId == userId).SingleOrDefault();
             TeacherBll teacherBll = mapper.Map<TeacherBll>(teacher);
             return teacherBll;
+        }
+
+        public TeachersWorkloadBll GetTeachersWorkload(int teacherId, GroupBll group, int subjectId)
+        {
+            TeachersWorkload tsw = db.TeachersWorkloads.Get(tw => (tw.GroupId == group.Id)
+                                        && (tw.SubjectId == subjectId)
+                                        && (tw.TeacherId == teacherId)
+                                        && (tw.Term == group.CurrentTerm)).SingleOrDefault();
+            TeachersWorkloadBll res = mapper.Map<TeachersWorkloadBll>(tsw);
+            return res;
         }
     }
 }

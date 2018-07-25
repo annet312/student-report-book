@@ -10,7 +10,7 @@ using StudentReportBookDAL.Context;
 namespace StudentReportBookDAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20180725101647_Init")]
+    [Migration("20180725121919_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -230,6 +230,9 @@ namespace StudentReportBookDAL.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("Date");
+
+                    b.Property<int>("Grade")
+                        .HasAnnotation("[Range(1, 100)]", "MarkGrade");
 
                     b.Property<int>("StudentId");
 

@@ -274,6 +274,7 @@ namespace StudentReportBookDAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Grade = table.Column<int>(nullable: false),
                     StudentId = table.Column<int>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     TeachersWorkloadId = table.Column<int>(nullable: false)

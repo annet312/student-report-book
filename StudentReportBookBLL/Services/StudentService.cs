@@ -26,27 +26,27 @@ namespace StudentReportBookBLL.Services
             return facultiesBll;
         }
 
-        public IEnumerable<FacultyBll> GetFaculties(int teacherWorkloadsId)
-        {
-            IEnumerable<GroupBll> groups = GetGroups(teacherWorkloadsId);
+        //public IEnumerable<FacultyBll> GetFaculties(int teacherWorkloadsId)
+        //{
+        //    IEnumerable<GroupBll> groups = GetGroups(teacherWorkloadsId);
 
-            IEnumerable<FacultyBll> faculties = groups.Select(g => g.Faculty);
+        //    IEnumerable<FacultyBll> faculties = groups.Select(g => g.Faculty);
 
-            return faculties;
+        //    return faculties;
 
-        }
+        //}
 
-        private IEnumerable<GroupBll> GetGroups(int teachersWorkloadId)
-        {
-            IEnumerable<TeachersWorkload> teachersWorkloads = db.TeachersWorkloads.Get(tw => tw.Id == teachersWorkloadId);
+        //private IEnumerable<GroupBll> GetGroups(int teachersWorkloadId)
+        //{
+        //    IEnumerable<TeachersWorkload> teachersWorkloads = db.TeachersWorkloads.Get(tw => tw.Id == teachersWorkloadId);
 
-            if (!teachersWorkloads.Any()) return null;
+        //    if (!teachersWorkloads.Any()) return null;
 
-            IEnumerable<Group> groups = teachersWorkloads.Select(tw => tw.Group);
-            IEnumerable<GroupBll> groupsBll = mapper.Map<IEnumerable<GroupBll>>(groups);
+        //    IEnumerable<Group> groups = teachersWorkloads.Select(tw => tw.Group);
+        //    IEnumerable<GroupBll> groupsBll = mapper.Map<IEnumerable<GroupBll>>(groups);
 
-            return groupsBll;
-        }
+        //    return groupsBll;
+        //}
 
          IEnumerable<GroupBll> IStudentService.GetGroups(int facultyId)
         {
@@ -55,12 +55,12 @@ namespace StudentReportBookBLL.Services
             return groupsBll;
         }
 
-        public  IEnumerable<GroupBll> GetGroups(int facultyId, int teachersWorkloadId)
-        {
-            IEnumerable<GroupBll> groups = this.GetGroups(teachersWorkloadId).Where(g => g.Faculty.Id == facultyId);
+        //public  IEnumerable<GroupBll> GetGroups(int facultyId, int teachersWorkloadId)
+        //{
+        //    IEnumerable<GroupBll> groups = this.GetGroups(teachersWorkloadId).Where(g => g.Faculty.Id == facultyId);
 
-            return groups;
-        }
+        //    return groups;
+        //}
 
         public IEnumerable<StudentBll> GetStudents(int groupId)
         {

@@ -9,6 +9,8 @@ namespace StudentReportBook.Models.Entities
     {
         public int Id { get; set; }
 
+        public int Grade { get; set; }
+
         public Student Student { get; set; }
 
         public DateTime Date { get; set; }

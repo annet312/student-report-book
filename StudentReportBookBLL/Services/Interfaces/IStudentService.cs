@@ -20,7 +20,7 @@ namespace StudentReportBookBLL.Services.Interfaces
         /// </summary>
         /// <param name="teachersWorkloadId">teachers workload</param>
         /// <returns>Faculties</returns>
-        IEnumerable<FacultyBll> GetFaculties(int teachersWorkloadId);
+       // IEnumerable<FacultyBll> GetFaculties(int teachersWorkloadId);
         /// <summary>
         /// Get groups of faculty
         /// </summary>
@@ -33,7 +33,7 @@ namespace StudentReportBookBLL.Services.Interfaces
         /// <param name="faculty">needed faculty</param>
         /// <param name="teacherWorkloadId">teachers workload</param>
         /// <returns>groups</returns>
-        IEnumerable<GroupBll> GetGroups(int facultyId, int teachersWorkloadId);
+        //IEnumerable<GroupBll> GetGroups(int facultyId, int teachersWorkloadId);
         IEnumerable<StudentBll> GetStudents(int groupId);
 
     }

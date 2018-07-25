@@ -7,6 +7,8 @@ namespace StudentReportBookBLL.Models
     {
         public int Id { get; set; }
 
+        public int Grade { get; set; }
+
         public StudentBll Student { get; set; }
 
         public DateTime Date { get; set; }

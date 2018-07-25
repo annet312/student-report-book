@@ -130,6 +130,8 @@ namespace StudentReportBookDAL.Context
                 builder.ToTable("Marks").HasKey(m => m.Id);
                 builder.Property(m => m.StudentId).IsRequired();
                 builder.Property(m => m.TeachersWorkloadId).IsRequired();
+                builder.Property(m => m.Grade).IsRequired();
+                builder.Property(m => m.Grade).HasAnnotation("[Range(1, 100)]", "MarkGrade");
             }
         }
     }

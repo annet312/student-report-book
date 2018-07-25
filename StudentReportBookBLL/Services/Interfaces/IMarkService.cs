@@ -9,11 +9,16 @@ namespace StudentReportBookBLL.Services.Interfaces
     {
         IEnumerable<MarkBll> GetAllMarks(StudentBll student);
 
-        IEnumerable<MarkBll> GetAllMarksOfGroup(TeacherBll teacher, GroupBll group);
+        IEnumerable<MarkBll> GetAllMarksOfGroup(string teacherUserid, int groupId);
 
-        IEnumerable<MarkBll> GetAllMarksOfGroup(SubjectBll subject, GroupBll group);
+        IEnumerable<MarkBll> GetAllMarksOfGroup(int subjectId, int groupId);
 
-        IEnumerable<MarkBll> GetAllMarksOfGroup(TeacherBll teacher, SubjectBll subject, GroupBll group);
+        IEnumerable<MarkBll> GetAllMarksOfGroup(string teacherUserId, int subjectId, int groupId);
 
+        void AddMark(int grade, int studentId, string teacherUserId, int subjectId);
+
+        void AddMark(Dictionary<int, int> studentGrades, string teacherUserId, int subjectId);
+
+        Boolean EditMark(int grade, int studentId, int teacherUserId);
     }
 }

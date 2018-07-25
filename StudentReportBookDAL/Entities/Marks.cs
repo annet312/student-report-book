@@ -6,6 +6,18 @@ namespace StudentReportBookDAL.Entities
     {
         public int Id { get; set; }
 
+        public int Grade
+        {
+            get
+            {
+                return Grade;
+            }
+            set
+            {
+                if((value < 6) && (value > 0))
+                    Grade = value;
+            }
+        }        
         public int StudentId { get; set; }
 
         public Student Student { get; set; }

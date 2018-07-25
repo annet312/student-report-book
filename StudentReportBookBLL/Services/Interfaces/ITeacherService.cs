@@ -7,6 +7,7 @@ namespace StudentReportBookBLL.Services.Interfaces
 {
     public interface ITeacherService
     {
+        TeacherBll GetTeacher(string teacherUserId);
         IEnumerable<TeacherBll> GetAllTeachers();
 
         IEnumerable<SubjectBll> GetSubjects(string userId);
@@ -14,12 +15,11 @@ namespace StudentReportBookBLL.Services.Interfaces
 
         //IEnumerable<TeachersWorkloadBll> GetTeachersWorkloads(string userId);
         //IEnumerable<TeachersWorkloadBll> GetTeachersWorkloads(int teacherId);
-        //IEnumerable<TeachersWorkloadBll> GetTeachersWorkloads(int teacherid, int groupId);
-
+        TeachersWorkloadBll GetTeachersWorkload(int teacherId, GroupBll group, int subjectId);
+        
         IEnumerable<FacultyBll> GetFaculties(string userId, int subjectId);
-
         IEnumerable<GroupBll> GetGroups(int facultyId, string userId, int subjectId);
-        IEnumerable<int> GetTerm(int GroupId, int SubjectId, string userid);
+        //IEnumerable<int> GetTerm(int GroupId, int SubjectId, string userid);
 
 
     }
