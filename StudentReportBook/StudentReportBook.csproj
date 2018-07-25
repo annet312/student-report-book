@@ -12,6 +12,7 @@
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
 	<TypeScriptExperimentalDecorators>true</TypeScriptExperimentalDecorators>
 	<TypeScriptEmitDecoratorMetadata>True</TypeScriptEmitDecoratorMetadata>
+	
   </PropertyGroup>
 
   <ItemGroup>

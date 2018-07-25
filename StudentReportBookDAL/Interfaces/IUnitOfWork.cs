@@ -1,25 +1,22 @@
-﻿using StudentReportBookDAL.Context;
-using StudentReportBookDAL.Entities;
+﻿using StudentReportBookDAL.Entities;
 using StudentReportBookDAL.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StudentReportBookDAL.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IRepository<Teacher> Teachers { get; }
+        TeacherRepository Teachers { get; }
 
-        IRepository<Student> Students { get; }
+        StudentRepository Students { get; }
 
-        IRepository<Group> Groups { get; }
+        GroupRepository Groups { get; }
 
-        IRepository<Mark> Marks { get; }
+        MarkRepository Marks { get; }
 
-        IRepository<TeachersWorkload> TeachersWorkloads { get; }
+        TeachersWorkloadRepository TeachersWorkloads { get; }
 
-        IRepository<Subject> Subjects { get; }
+        SubjectRepository Subjects { get; }
 
         IRepository<Faculty> Faculties { get; }
 

@@ -16,7 +16,6 @@ namespace StudentReportBookDAL.Entities
 
         public string LastName { get; set; }
   
-
         public AppUser Identity { get; set; }
 
 

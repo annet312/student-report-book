@@ -11,59 +11,59 @@ namespace StudentReportBookDAL.Repositories
     {
         // private StudentRepository studentRepository;
         private readonly AppDbContext dbContext;
-        IRepository<Teacher> teachers;
-        IRepository<Student> students; 
-        IRepository<Group> groups; 
-        IRepository<Mark> marks;
-        IRepository<TeachersWorkload> teachersWorkloads; 
-        IRepository<Subject> subjects; 
+        TeacherRepository teachers;
+        StudentRepository students; 
+        GroupRepository groups; 
+        MarkRepository marks;
+        TeachersWorkloadRepository teachersWorkloads; 
+        SubjectRepository subjects; 
         IRepository<Faculty> faculties; 
 
         public UnitOfWork(AppDbContext context)
         {
             this.dbContext = context;
         }
-        public IRepository<Student> Students
+        public StudentRepository Students
         {
             get
             {
                 if (students == null)
                 {
-                    students = new Repository<Student>(dbContext);
+                    students = new StudentRepository(dbContext);
                 }
                 return students;
             }
         }
 
-        public IRepository<Teacher> Teachers
+        public TeacherRepository Teachers
         {
             get
             {
                 if (teachers == null)
                 {
-                    teachers = new Repository<Teacher>(dbContext);
+                    teachers = new TeacherRepository(dbContext);
                 }
                 return teachers;
             }
         }
-        public IRepository<Subject> Subjects
+        public SubjectRepository Subjects
         {
             get
             {
                 if (subjects == null)
                 {
-                    subjects = new Repository<Subject>(dbContext);
+                    subjects = new SubjectRepository(dbContext);
                 }
                 return subjects;
             }
         }
-        public IRepository<Group> Groups
+        public GroupRepository Groups
         {
             get
             {
                 if (groups == null)
                 {
-                    groups = new Repository<Group>(dbContext);
+                    groups = new GroupRepository(dbContext);
                 }
                 return groups;
             }
@@ -79,24 +79,24 @@ namespace StudentReportBookDAL.Repositories
                 return faculties;
             }
         }
-        public IRepository<TeachersWorkload> TeachersWorkloads
+        public TeachersWorkloadRepository TeachersWorkloads
         {
             get
             {
                 if (teachersWorkloads == null)
                 {
-                    teachersWorkloads = new Repository<TeachersWorkload>(dbContext);
+                    teachersWorkloads = new TeachersWorkloadRepository(dbContext);
                 }
                 return teachersWorkloads;
             }
         }
-        public IRepository<Mark> Marks
+        public MarkRepository Marks
         {
             get
             {
                 if (marks == null)
                 {
-                    marks = new Repository<Mark>(dbContext);
+                    marks = new MarkRepository(dbContext);
                 }
                 return marks;
             }

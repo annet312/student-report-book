@@ -46,7 +46,9 @@ namespace StudentReportBookBLL.Infrastructure
                 {
                     cfg.AddProfile(profile);
                 }
+                
             })).AsSelf().SingleInstance();
+            
         }
 
     }

@@ -131,7 +131,7 @@ namespace StudentReportBookDAL.Context
                 builder.Property(m => m.StudentId).IsRequired();
                 builder.Property(m => m.TeachersWorkloadId).IsRequired();
                 builder.Property(m => m.Grade).IsRequired();
-                builder.Property(m => m.Grade).HasAnnotation("[Range(1, 100)]", "MarkGrade");
+                builder.Property(m => m.Grade).HasAnnotation("[Range(1, 5)]", "MarkGrade");
             }
         }
     }

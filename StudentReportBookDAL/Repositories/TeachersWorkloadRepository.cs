@@ -1,0 +1,60 @@
+﻿using Microsoft.EntityFrameworkCore;
+using StudentReportBookDAL.Context;
+using StudentReportBookDAL.Entities;
+using StudentReportBookDAL.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+
+namespace StudentReportBookDAL.Repositories
+{
+    public class TeachersWorkloadRepository : IRepository<TeachersWorkload>
+    {
+        private readonly AppDbContext dbContext;
+
+        public TeachersWorkloadRepository(AppDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+        public IEnumerable<TeachersWorkload> GetAll()
+        {
+            IEnumerable<TeachersWorkload> teachersWorkloads = dbContext.TeachersWorkloads
+                                            .Include(tw => tw.Group)
+                                                    .ThenInclude(g => g.Faculty)
+                                            .Include(tw => tw.Subject)
+                                            .Include(tw => tw.Marks);
+
+            return teachersWorkloads;
+        }
+
+        public IEnumerable<TeachersWorkload> Get(Expression<Func<TeachersWorkload, bool>> predicate)
+        {
+            IEnumerable<TeachersWorkload> teachersWorkloads = dbContext.TeachersWorkloads
+                               .Where(predicate)
+                                .Include(tw => tw.Group)
+                                        .ThenInclude(g => g.Faculty)
+                                .Include(tw => tw.Subject)
+                                        .Include(tw => tw.Marks);
+
+            return teachersWorkloads;
+        }
+
+        public void Add(TeachersWorkload teachersWorkload)
+        {
+            dbContext.Set<TeachersWorkload>().Add(teachersWorkload);
+        }
+
+        public void Update(TeachersWorkload teachersWorkload)
+        {
+            dbContext.Entry(teachersWorkload).State = EntityState.Modified;
+            dbContext.Set<TeachersWorkload>().Attach(teachersWorkload);
+        }
+
+        public void Delete(TeachersWorkload teachersWorkload)
+        {
+            TeachersWorkload existing = dbContext.Set<TeachersWorkload>().Find(teachersWorkload);
+            if (existing != null) dbContext.Set<TeachersWorkload>().Remove(existing);
+        }
+    }
+}

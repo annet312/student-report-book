@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentReportBook.Models.Entities;
+using StudentReportBookBLL.Models;
 using StudentReportBookBLL.Services.Interfaces;
 
 namespace StudentReportBook.Controllers
@@ -24,23 +25,36 @@ namespace StudentReportBook.Controllers
         private readonly IMapper mapper;
         private readonly IMarkService markService;
         private readonly IGradeBookService gradeBookService;
+        private readonly ITeacherService teacherService;
 
-        public StudentController(IMapper mapper, IStudentService studentService, IMarkService markService, IGradeBookService gradeBookService)
+        public StudentController(IMapper mapper, IStudentService studentService, IMarkService markService, IGradeBookService gradeBookService, ITeacherService teacherService)
         {
             this.mapper = mapper;
             this.studentService = studentService;
             this.markService = markService;
             this.gradeBookService = gradeBookService;
+            this.teacherService = teacherService;
         }
 
         //GET api/student/getMygradeBook
         [HttpGet]
         public IActionResult GetMyGradeBook()
         {
-            var students = studentService.GetStudents(7);
-            markService.AddMark(3, 3, "6b4cc5ee-7535-4e6f-9723-51469714a96b", 1);
-            var mark = gradeBookService.GetMyMarks("2daff0cc-533e-45a0-b30e-0ad6f77c92f9");
-            return new OkObjectResult(mark);
+            IEnumerable<StudentBll> students = null;
+            try
+            {
+                students = studentService.GetStudents(7);
+
+            }
+            catch(Exception e)
+             {
+                Console.WriteLine(e.Message);
+            }
+            var stud = mapper.Map<IEnumerable<Student>>(students);
+            // var teacher = teacherService.GetTeacher("6b4cc5ee-7535-4e6f-9723-51469714a96b");
+            //var res = teacherService.GetGroups(1, "6b4cc5ee-7535-4e6f-9723-51469714a96b", 1);         //markService.AddMark(3, 3, "6b4cc5ee-7535-4e6f-9723-51469714a96b", 1);
+            //var mark = gradeBookService.GetMyMarks("2daff0cc-533e-45a0-b30e-0ad6f77c92f9");
+            return new OkObjectResult(stud);
         }
     }
 }

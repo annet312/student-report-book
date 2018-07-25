@@ -87,7 +87,7 @@ namespace StudentReportBookBLL.Identity
                 }
                 else
                 {
-                    person = new Student()
+                    person = new Teacher()
                     {
                         FirstName = userBll.FirstName,
                         LastName = userBll.LastName,
