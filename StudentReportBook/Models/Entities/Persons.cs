@@ -15,15 +15,14 @@ namespace StudentReportBook.Models.Entities
 
         public string LastName { get; set; }
 
-       // public AppUser Identity { get; set; }
     }
 
-    //public class Student : Person
-    //{
-    //    public string StudentCard { get; set; }
+    public class Student : Person
+    {
+        public string StudentCard { get; set; }
 
-    //    public Group Group { get; set; }
-    //}
+        public Group Group { get; set; }
+    }
 
     public class Teacher : Person
     {

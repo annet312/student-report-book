@@ -28,7 +28,7 @@ namespace StudentReportBook.Controllers
 
         //GET api/student/home
         [HttpGet]
-        public async Task<IActionResult> Home()
+        public IActionResult Home()
         {
 
             //retrive the user info

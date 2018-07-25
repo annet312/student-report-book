@@ -6,8 +6,16 @@ using System.Text;
 
 namespace StudentReportBookBLL.Services.Interfaces
 {
+    /// <summary>
+    /// Get grade book of current user - student 
+    /// </summary>
     public interface IGradeBookService
     {
-        IEnumerable<MarkBll> GetAllMarks(StudentBll student);
+        /// <summary>
+        /// Get marks and information about student 
+        /// </summary>
+        /// <param name="userId">Identity id</param>
+        /// <returns>grade book</returns>
+        GradeBook GetMyMarks(string userId);
     }
 }
