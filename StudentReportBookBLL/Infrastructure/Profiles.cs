@@ -10,6 +10,7 @@ namespace StudentReportBookBLL.Profiles
         public PersonProfile()
         {
             CreateMap<Person, PersonBll>();
+ 
         }
     }
     public class UserProfile : Profile
@@ -23,7 +24,7 @@ namespace StudentReportBookBLL.Profiles
     {
         public TeacherProfile()
         {
-            CreateMap<TeacherBll, Teacher>();
+            CreateMap<TeacherBll, Teacher>().IncludeBase<PersonBll, Person>();
         }
     }
     public class TeachersWorkloadProfile : Profile
@@ -37,7 +38,7 @@ namespace StudentReportBookBLL.Profiles
     {
         public StudentProfile()
         {
-            CreateMap<StudentBll, Student>();
+            CreateMap<StudentBll, Student>().IncludeBase<PersonBll, Person>();
         }
     }
     public class SubjectProfile : Profile

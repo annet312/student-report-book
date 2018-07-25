@@ -75,17 +75,18 @@ namespace StudentReportBookBLL.Services
             if (subject == null)
                 throw new ArgumentException("Subject was not found", "subjectId");
 
+            Student student = db.Students.Get(st => st.Id == studentGrades.First().Key).SingleOrDefault();
             TeachersWorkloadBll teachersWorkload = teacherService.GetTeachersWorkload(teacher.Id, mapper.Map<GroupBll>(student.Group), subjectId);
             TeachersWorkload tw = mapper.Map<TeachersWorkload>(teachersWorkload);
 
             foreach (KeyValuePair<int, int> studentGrade in studentGrades)
             {
-                Student student = db.Students.Get(st => st.Id == studentGrade.Key).SingleOrDefault();
+                Student studentKey = db.Students.Get(st => st.Id == studentGrade.Key).SingleOrDefault();
                 if (student == null)
                     throw new ArgumentException("Some of students was not found");
                 if ((studentGrade.Value > 6) || (studentGrade.Value < 0))
                     throw new ArgumentException("Some of grades was not valid");
-                AddMark(studentGrade.Value, student, tw, false);
+                AddMark(studentGrade.Value, studentKey, tw, false);
             }
             db.Save();
         }

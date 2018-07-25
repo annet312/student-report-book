@@ -90,7 +90,7 @@ namespace StudentReportBookBLL.Services
         {
             if (userId == null) throw new ArgumentNullException("userId", "UserId is null or empty");
             Teacher teacher = db.Teachers.Get(t => t.IdentityId == userId).SingleOrDefault();
-            TeacherBll teacherBll = mapper.Map<TeacherBll>(teacher);
+            TeacherBll teacherBll = mapper.Map<Teacher,TeacherBll>(teacher);
             return teacherBll;
         }
 

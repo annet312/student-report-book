@@ -3,51 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentReportBook.Models.Entities;
+using StudentReportBookBLL.Services.Interfaces;
 
 namespace StudentReportBook.Controllers
 {
-    [Authorize(Policy = "Student")]
+    //[Authorize(Policy = "Student")]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class StudentController : ControllerBase
     {
-        private readonly ClaimsPrincipal caller;
-        //private readonly ApplicationDbContext appDbContext;
 
-        public StudentController(UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor)
+        private readonly IStudentService studentService;
+        private readonly IMapper mapper;
+        private readonly IMarkService markService;
+        private readonly IGradeBookService gradeBookService;
+
+        public StudentController(IMapper mapper, IStudentService studentService, IMarkService markService, IGradeBookService gradeBookService)
         {
-            this.caller = httpContextAccessor.HttpContext.User;
-           // this.appDbContext = appDbContext;
+            this.mapper = mapper;
+            this.studentService = studentService;
+            this.markService = markService;
+            this.gradeBookService = gradeBookService;
         }
 
-        //GET api/student/home
+        //GET api/student/getMygradeBook
         [HttpGet]
-        public IActionResult Home()
+        public IActionResult GetMyGradeBook()
         {
-
-            //retrive the user info
-            //HttpContext.User
-            // var userId = caller.Claims.Single(c => c.Type == "id");
-            // var customer = await appDbContext.Customers.Include(c => c.Identity).SingleAsync(c => c.Identity.Id == userId.Value);
-
-            //return new OkObjectResult(new
-            //        {
-            //            Message = "This is secure data!",
-            //            customer.Identity.FirstName,
-            //            customer.Identity.LastName,
-            //            customer.Identity.PictureUrl,
-            //            customer.Identity.FacebookId,
-            //            customer.Location,
-            //            customer.Locale,
-            //            customer.Gender
-            //});
-            return new OkObjectResult("some");
+            var students = studentService.GetStudents(7);
+            markService.AddMark(3, 3, "6b4cc5ee-7535-4e6f-9723-51469714a96b", 1);
+            var mark = gradeBookService.GetMyMarks("2daff0cc-533e-45a0-b30e-0ad6f77c92f9");
+            return new OkObjectResult(mark);
         }
     }
 }
