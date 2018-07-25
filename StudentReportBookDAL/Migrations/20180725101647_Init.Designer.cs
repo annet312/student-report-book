@@ -10,7 +10,7 @@ using StudentReportBookDAL.Context;
 namespace StudentReportBookDAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20180724081842_Init")]
+    [Migration("20180725101647_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

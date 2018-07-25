@@ -38,6 +38,7 @@ namespace StudentReportBookDAL.Entities
         public Subject Subject { get; set; }
 
         public int TeacherId { get; set; }
+
         //public Teacher Teacher { get; set; }
 
         public List<Mark> Marks { get; set; }
