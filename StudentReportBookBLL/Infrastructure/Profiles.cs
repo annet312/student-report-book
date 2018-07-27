@@ -40,7 +40,7 @@ namespace StudentReportBookBLL.Profiles
     {
         public TeachersWorkloadProfile()
         {
-            CreateMap<TeachersWorkloadBll, TeachersWorkload>().ForMember(tw => tw.TeacherId, map => map.MapFrom(tws => tws.Teacher.Id)).ReverseMap();
+            CreateMap<TeachersWorkloadBll, TeachersWorkload>().ForMember(tw => tw.TeacherId, map => map.MapFrom(tws => tws.Teacher.Id));
         }
     }
     public class StudentProfile : Profile
@@ -54,7 +54,7 @@ namespace StudentReportBookBLL.Profiles
     {
         public SubjectProfile()
         {
-            CreateMap<SubjectBll, Subject>().ReverseMap();
+            CreateMap<SubjectBll, Subject>();
         }
     }
     public class MarkProfile : Profile
@@ -68,14 +68,14 @@ namespace StudentReportBookBLL.Profiles
     {
         public GroupProfile()
         {
-            CreateMap<GroupBll, Group>().ReverseMap();
+            CreateMap<GroupBll, Group>();
         }
     }
     public class FacultyProfile : Profile
     {
         public FacultyProfile()
         {
-            CreateMap<FacultyBll, Faculty>().ReverseMap();
+            CreateMap<FacultyBll, Faculty>();
         }
     }
 }

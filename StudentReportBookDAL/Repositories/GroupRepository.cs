@@ -31,7 +31,7 @@ namespace StudentReportBookDAL.Repositories
             IEnumerable<Group> groups = dbContext.Groups
                                .Where(predicate)
                                .Include(g => g.Students)
-                               .Include(g => g.Faculty);
+                               .Include(g => g.Faculty).AsEnumerable();
 
             return groups;
         }

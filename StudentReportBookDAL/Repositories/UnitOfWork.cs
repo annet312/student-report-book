@@ -9,15 +9,15 @@ namespace StudentReportBookDAL.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        // private StudentRepository studentRepository;
         private readonly AppDbContext dbContext;
-        TeacherRepository teachers;
-        StudentRepository students; 
-        GroupRepository groups; 
-        MarkRepository marks;
-        TeachersWorkloadRepository teachersWorkloads; 
-        SubjectRepository subjects; 
-        IRepository<Faculty> faculties; 
+
+        private TeacherRepository teachers;
+        private StudentRepository students;
+        private GroupRepository groups;
+        private MarkRepository marks;
+        private TeachersWorkloadRepository teachersWorkloads;
+        private SubjectRepository subjects;
+        private IRepository<Faculty> faculties; 
 
         public UnitOfWork(AppDbContext context)
         {

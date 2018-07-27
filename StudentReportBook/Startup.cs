@@ -23,6 +23,8 @@ using StudentReportBookBLL.Infrastructure;
 using StudentReportBookBLL.Models;
 using StudentReportBookBLL.Helpers;
 using StudentReportBookBLL.Auth;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 //using StudentReportBookDAL.Repositories;
 
 namespace StudentReportBook
@@ -47,6 +49,7 @@ namespace StudentReportBook
 
             this.Configuration = builder.Build();
 
+
         }
 
 
@@ -54,13 +57,8 @@ namespace StudentReportBook
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+
                b => b.MigrationsAssembly("StudentReportBook")));
-
-            //services.AddSingleton<IJwtFactory, JwtFactory>();
-            
-
-            //// Register the ConfigurationBuilder instance of FacebookAuthSettings
-            //services.Configure<FacebookAuthSettings>(Configuration.GetSection(nameof(FacebookAuthSettings)));
 
 
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -133,7 +131,24 @@ namespace StudentReportBook
 
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //    JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            //    {
+            //        ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            //};
+
+
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                Formatting = Formatting.Indented,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+             };
+
+            services.AddMvc() 
+                //.AddJsonOptions(options => {
+                //   options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                //})
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1); 
 
            
             // In production, the Angular files will be served from this directory

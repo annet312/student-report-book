@@ -22,6 +22,7 @@ namespace StudentReportBookDAL.Context
         public AppDbContext(DbContextOptions options)
             : base(options)
         {
+            
             Database.EnsureCreated();
         }
 
@@ -35,6 +36,8 @@ namespace StudentReportBookDAL.Context
             modelBuilder.ApplyConfiguration(new GroupConfiguration());
             modelBuilder.ApplyConfiguration(new FacultyConfiguration());
             modelBuilder.ApplyConfiguration(new MarkConfiguration());
+
+            
         }
         public class PersonConfiguration : IEntityTypeConfiguration<Person>
         {

@@ -26,7 +26,7 @@ namespace StudentReportBookDAL.Repositories
                                              .Include(st => st.TeachersWorkload)
                                                     .ThenInclude(tw => tw.Group)
                                               .Include(st => st.TeachersWorkload)
-                                                    .ThenInclude(tw => tw.Subject);
+                                                    .ThenInclude(tw => tw.Subject).AsEnumerable();
 
             return marks;
         }
@@ -39,9 +39,9 @@ namespace StudentReportBookDAL.Repositories
                                         .ThenInclude(st => st.Group)
                                         .ThenInclude(g => g.Faculty)
                                     .Include(st => st.TeachersWorkload)
-                                        .ThenInclude(tw => tw.Group)
+                                        //.ThenInclude(tw => tw.Group)
                                     .Include(st => st.TeachersWorkload)
-                                        .ThenInclude(tw => tw.Subject);
+                                        .ThenInclude(tw => tw.Subject).AsEnumerable();
 
             return marks;
         }

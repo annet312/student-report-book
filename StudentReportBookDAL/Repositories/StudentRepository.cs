@@ -6,7 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+//using Microsoft.Data.Extensions;
 using System.Text;
+using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
 namespace StudentReportBookDAL.Repositories
 {
@@ -28,20 +30,15 @@ namespace StudentReportBookDAL.Repositories
 
         public IEnumerable<Student> Get(Expression<Func<Student, bool>> predicate)
         {
-            IEnumerable<Student> students = null;
-            try
-            {
-                students = dbContext.Students
-                                  .Where(predicate)
-                                  .Include(st => st.Group);
-                                   //.ThenInclude(g => g.Faculty)
-                                  // .Include(st => st.Identity);
-            }
-            catch (Exception e) 
-            {
-                Console.WriteLine(e.Message);
-            }
-                               
+           
+            IEnumerable<Student> students = dbContext.Students
+                              .Where(predicate)
+                              .Select(x => x)
+                              .Include(stu => stu.Group)
+               .ThenInclude(g => g.Faculty).AsEnumerable();
+
+
+
             return students;
         }
 

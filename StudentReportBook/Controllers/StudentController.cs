@@ -41,16 +41,15 @@ namespace StudentReportBook.Controllers
         public IActionResult GetMyGradeBook()
         {
             IEnumerable<StudentBll> students = null;
-            try
-            {
-                students = studentService.GetStudents(7);
 
-            }
-            catch(Exception e)
-             {
-                Console.WriteLine(e.Message);
-            }
+            students = studentService.GetStudents(7);
+
+            
+
             var stud = mapper.Map<IEnumerable<Student>>(students);
+
+            GradeBook gradeBook = gradeBookService.GetMyMarks("2daff0cc-533e-45a0-b30e-0ad6f77c92f9");
+            ;
             // var teacher = teacherService.GetTeacher("6b4cc5ee-7535-4e6f-9723-51469714a96b");
             //var res = teacherService.GetGroups(1, "6b4cc5ee-7535-4e6f-9723-51469714a96b", 1);         //markService.AddMark(3, 3, "6b4cc5ee-7535-4e6f-9723-51469714a96b", 1);
             //var mark = gradeBookService.GetMyMarks("2daff0cc-533e-45a0-b30e-0ad6f77c92f9");
