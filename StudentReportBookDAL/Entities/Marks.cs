@@ -6,10 +6,8 @@ namespace StudentReportBookDAL.Entities
     {
         public int Id { get; set; }
 
-        public int Grade
-        {
-            get; set;
-        }        
+        public int Grade { get; set; }
+              
         public int StudentId { get; set; }
 
         public Student Student { get; set; }

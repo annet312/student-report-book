@@ -107,10 +107,42 @@ namespace StudentReportBookBLL.Services
 
         IEnumerable<MarkBll> IMarkService.GetAllMarks(StudentBll student)
         {
+            //How need to work(with teacherworkload):
             IEnumerable<Mark> marks = db.Marks.Get(m => m.StudentId == student.Id);
-
             IEnumerable<MarkBll> marksbll = mapper.Map<IEnumerable<MarkBll>>(marks);
 
+
+            marksbll.ElementAt(0).TeachersWorkload = new TeachersWorkloadBll() {
+                Id = 10,
+                Term = 1,
+                Group = new GroupBll() { Id = 1 },
+                Subject = new SubjectBll() { Id = 1, Name = "Mathematics"},
+                Teacher = new TeacherBll() { Id = 1 }
+            };
+            marksbll.ElementAt(1).TeachersWorkload = new TeachersWorkloadBll() {
+                Id = 11,
+                Term = 2,
+                Group = new GroupBll() { Id = 1 },
+                Subject = new SubjectBll() { Id = 1, Name = "Mathematics" },
+                Teacher = new TeacherBll() { Id = 1 }
+            };
+            marksbll.ElementAt(2).TeachersWorkload = new TeachersWorkloadBll()
+            {
+                Id = 12,
+                Term = 3,
+                Group = new GroupBll() { Id = 1 },
+                Subject = new SubjectBll() { Id = 5, Name = "Law" },
+                Teacher = new TeacherBll() { Id = 1 }
+            };
+            marksbll.ElementAt(3).TeachersWorkload = new TeachersWorkloadBll()
+            {
+                Id = 13,
+                Term = 4,
+                Group = new GroupBll() { Id = 1 },
+                Subject = new SubjectBll() { Id = 5, Name = "Law" },
+                Teacher = new TeacherBll() { Id = 1 }
+            };
+            
             return marksbll;
         }
 

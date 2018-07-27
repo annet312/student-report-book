@@ -40,7 +40,7 @@ namespace StudentReportBookBLL.Services
             StudentBll studentBll = mapper.Map<StudentBll>(student);
 
             IEnumerable<MarkBll> studentMarks = marks.GetAllMarks(studentBll);
-
+            
             GradeBook gradeBook = new GradeBook()
             {
                 Student = studentBll,

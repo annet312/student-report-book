@@ -14,10 +14,7 @@ namespace StudentReportBookBLL.Models
 
         public FacultyBll Faculty { get; set; }
 
-        public int CurrentTerm
-        {
-            get;set;
-        }
+        public int CurrentTerm{ get;set; }
     }
     public class FacultyBll
     {

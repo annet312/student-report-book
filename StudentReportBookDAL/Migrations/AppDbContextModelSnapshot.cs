@@ -229,8 +229,7 @@ namespace StudentReportBookDAL.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<int>("Grade")
-                        .HasAnnotation("[Range(1, 100)]", "MarkGrade");
+                    b.Property<int>("Grade");
 
                     b.Property<int>("StudentId");
 

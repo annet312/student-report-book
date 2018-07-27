@@ -33,15 +33,17 @@ namespace StudentReportBookDAL.Repositories
 
         public IEnumerable<Mark> Get(Expression<Func<Mark, bool>> predicate)
         {
+            //IEnumerable<TeachersWorkload> tw = dbContext.TeachersWorkloads.Where(predicate)..ToList();
             IEnumerable<Mark> marks = dbContext.Marks
-                               .Where(predicate)
-                                    .Include(st => st.Student)
-                                        .ThenInclude(st => st.Group)
-                                        .ThenInclude(g => g.Faculty)
-                                    .Include(st => st.TeachersWorkload)
-                                        //.ThenInclude(tw => tw.Group)
-                                    .Include(st => st.TeachersWorkload)
-                                        .ThenInclude(tw => tw.Subject).AsEnumerable();
+                               .Where(predicate).AsEnumerable();
+
+            //.Include(st => st.Student)
+            //    //.ThenInclude(st => st.Group)
+            //    //.ThenInclude(g => g.Faculty)
+            //.Include(st => st.TeachersWorkload)
+            //    //.ThenInclude(tw => tw.Group)
+            //  .Include(st => st.TeachersWorkload)
+            //     .ThenInclude(tw => tw.Subject).ToList();//.AsEnumerable<Mark>();
 
             return marks;
         }

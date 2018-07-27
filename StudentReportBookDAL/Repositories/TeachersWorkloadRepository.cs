@@ -23,7 +23,7 @@ namespace StudentReportBookDAL.Repositories
                                             .Include(tw => tw.Group)
                                                     .ThenInclude(g => g.Faculty)
                                             .Include(tw => tw.Subject)
-                                            .Include(tw => tw.Marks);
+                                            .Include(tw => tw.Marks).AsEnumerable();
 
             return teachersWorkloads;
         }
@@ -34,8 +34,7 @@ namespace StudentReportBookDAL.Repositories
                                .Where(predicate)
                                 .Include(tw => tw.Group)
                                         .ThenInclude(g => g.Faculty)
-                                .Include(tw => tw.Subject)
-                                        .Include(tw => tw.Marks);
+                                .Include(tw => tw.Subject).AsEnumerable();
 
             return teachersWorkloads;
         }

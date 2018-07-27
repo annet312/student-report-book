@@ -61,7 +61,13 @@ namespace StudentReportBookBLL.Profiles
     {
         public MarkProfile()
         {
-            CreateMap<MarkBll, Mark>().ReverseMap();
+            CreateMap<Mark, MarkBll>()
+                 .ForMember(m => m.Id, map => map.MapFrom(mbll => mbll.Id))
+                 .ForMember(m => m.Date, map => map.MapFrom(mbll => mbll.Date))
+                 .ForMember(m => m.Grade, map => map.MapFrom(mbll => mbll.Grade))
+                 .ForMember(m => m.Student, map => map.MapFrom(mbll => mbll.Student))
+                 .ForMember(m => m.TeachersWorkload, map => map.MapFrom(mbll => mbll.TeachersWorkload));
+
         }
     }
     public class GroupProfile : Profile
