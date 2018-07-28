@@ -6,6 +6,10 @@ import { RouterModule } from '@angular/router';
 import { HttpModule, XHRBackend } from '@angular/http';
 import { AuthenticateXHRBackend } from './authenticate-xhr.backend';
 
+//import { AgGridModule } from 'ag-grid-angular';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { DataTablesModule } from 'angular-datatables';
+
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
@@ -16,7 +20,6 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { routing } from './app.routing';
  
 import { AccountModule } from './account/account.module';
-//import { StudentModule } from '';
 import { ConfigService } from './shared/utils/config.service';
 import { DecodeService } from './shared/services/decode.service';
 import { TeachersComponent } from './teachers/teachers.component';
@@ -38,6 +41,9 @@ import { TeachersComponent } from './teachers/teachers.component';
     AccountModule,
     HttpModule,
     FormsModule,
+    NgxDatatableModule,
+    //AgGridModule.withComponents([]),
+    DataTablesModule,
     routing
   ],
   providers: [ConfigService, {

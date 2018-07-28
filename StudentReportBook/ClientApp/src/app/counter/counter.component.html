@@ -1,1 +1,50 @@
 
+<h2>Student</h2>
+<ngx-datatable #studenrinfo class="material"
+               style="top: 52px"
+               [columnMode]="'force'"
+               [headerHeight]="50"
+               [footerHeight]="0"
+               [rowHeight]="50"
+               [rows]="row">
+  <ngx-datatable-column name="Name"></ngx-datatable-column>
+  <ngx-datatable-column name="StudentCard"></ngx-datatable-column>
+  <ngx-datatable-column name="Group"></ngx-datatable-column>
+  <ngx-datatable-column name="Faculty"></ngx-datatable-column>
+  <ngx-datatable-column name="CurrentTerm"></ngx-datatable-column>
+</ngx-datatable>
+
+<h2>Grade book</h2>
+
+<ngx-datatable #markTable
+               class='material expandable'
+               [rows]="rowmarks"
+               [groupRowsBy]="'term'"
+               [columnMode]="'force'"
+               [scrollbarH]="false"
+               [headerHeight]="50"
+               [footerHeight]="50"
+               [rowHeight]="40"
+               [limit]="4"
+               [groupExpansionDefault]="true">
+
+  <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
+    <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+      <div style="padding-left:5px;">
+        <a href="#"
+           [class.datatable-icon-right]="!expanded"
+           [class.datatable-icon-down]="expanded"
+           title="Expand/Collapse Group"
+           (click)="toggleExpandGroup(group)">
+          <b>Term: {{group.value[0].term}}</b>
+        </a>
+      </div>
+    </ng-template>
+  </ngx-datatable-group-header>
+
+  <ngx-datatable-column name="Term" prop="term" editable="false"></ngx-datatable-column>
+  <ngx-datatable-column name="Subject" prop="subject" editable="false"></ngx-datatable-column>
+  <ngx-datatable-column name="Teacher" prop="teacher" editable="false"></ngx-datatable-column>
+  <ngx-datatable-column name="Grade" prop="grade"></ngx-datatable-column>
+</ngx-datatable>
+

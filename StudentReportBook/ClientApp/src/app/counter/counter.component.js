@@ -14,17 +14,38 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/common/http");
+//import { DataSource } from '@angular/cdk/table';
 var CounterComponent = /** @class */ (function () {
     function CounterComponent(http, baseUrl) {
         var _this = this;
-        this.currentCount = 0;
+        this.row = [];
+        this.rowmarks = [];
         http.get(baseUrl + 'api/student/getMygradeBook').subscribe(function (result) {
             _this.gradebook = result;
             console.log(result);
+            _this.row = [{
+                    name: _this.gradebook.student.name,
+                    studentCard: _this.gradebook.student.studentCard,
+                    currentTerm: _this.gradebook.student.currentTerm,
+                    group: _this.gradebook.student.group,
+                    faculty: _this.gradebook.student.faculty
+                }];
+            _this.rowmarks = _this.gradebook.marks;
         }, function (error) { return console.error(error); });
     }
     CounterComponent.prototype.ngOnInit = function () {
     };
+    CounterComponent.prototype.ToggleExpandGroup = function (group) {
+        console.log('onToggleExpandGroup', group);
+        this.markTable.groupHeader.toggleExpandGroup(group);
+    };
+    CounterComponent.prototype.onDetailToggle = function (event) {
+        console.log('onDetailToggle', event);
+    };
+    __decorate([
+        core_1.ViewChild('markTable'),
+        __metadata("design:type", Object)
+    ], CounterComponent.prototype, "markTable", void 0);
     CounterComponent = __decorate([
         core_1.Component({
             selector: 'app-counter-component',

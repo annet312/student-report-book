@@ -25,7 +25,7 @@ namespace StudentReportBook.ViewModel.Mapping
     {
         public StudentToStudentViewProfile()
         {
-            CreateMap<Student, StudentViewModel>()
+            CreateMap<StudentBll, StudentViewModel>()
                 .ForMember(svm => svm.Name, map => map.MapFrom(s => s.Name))
                 .ForMember(svm => svm.Group, map => map.MapFrom(s => s.Group.Name))
                 .ForMember(svm => svm.Faculty, map => map.MapFrom(s => s.Group.Faculty.Name))

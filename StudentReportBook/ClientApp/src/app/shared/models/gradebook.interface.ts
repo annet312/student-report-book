@@ -14,7 +14,7 @@ export interface Mark {
 export interface Student {
   name: string;
   faculty: string;
-  studentcard: string;
-  currentterm: number;
+  studentCard: string;
+  currentTerm: number;
   group: string;
 }

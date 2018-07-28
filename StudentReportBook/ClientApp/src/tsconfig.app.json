@@ -2,10 +2,9 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "../out-tsc/app",
-    //"experimentalDecorators": true,
-    "baseUrl": "./",
-   // "module": "es6",
-    //"types": []
+
+    "baseUrl": "./"
+
   },
   "exclude": [
     "test.ts",
