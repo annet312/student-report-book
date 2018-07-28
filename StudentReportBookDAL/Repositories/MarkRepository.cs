@@ -35,15 +35,10 @@ namespace StudentReportBookDAL.Repositories
         {
             //IEnumerable<TeachersWorkload> tw = dbContext.TeachersWorkloads.Where(predicate)..ToList();
             IEnumerable<Mark> marks = dbContext.Marks
-                               .Where(predicate).AsEnumerable();
-
-            //.Include(st => st.Student)
-            //    //.ThenInclude(st => st.Group)
-            //    //.ThenInclude(g => g.Faculty)
-            //.Include(st => st.TeachersWorkload)
-            //    //.ThenInclude(tw => tw.Group)
-            //  .Include(st => st.TeachersWorkload)
-            //     .ThenInclude(tw => tw.Subject).ToList();//.AsEnumerable<Mark>();
+                               .Where(predicate)
+              //.Include(st => st.TeachersWorkload)
+              //   .ThenInclude(tw => tw.Subject)
+            .AsEnumerable<Mark>();
 
             return marks;
         }

@@ -15,4 +15,5 @@ namespace StudentReportBook.ViewModel.Mapping
             CreateMap<TeacherBll, Teacher>();
         }
     }
+
 }

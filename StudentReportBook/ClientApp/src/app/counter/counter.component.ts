@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { GradeBook } from '../shared/models/gradebook.interface';
 
 
 
@@ -9,11 +10,11 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CounterComponent {
   public currentCount = 0;
-  public students: Student[];
+  public gradebook: GradeBook;
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<Student[]>(baseUrl + 'api/student/getMygradeBook').subscribe(result => {
-      this.students = result;
+    http.get<GradeBook>(baseUrl + 'api/student/getMygradeBook').subscribe(result => {
+      this.gradebook = result;
       console.log(result);
     }, error => console.error(error));
   }
@@ -21,16 +22,6 @@ export class CounterComponent {
 
   }
 
-  //public incrementCounter() {
-  //  this.currentCount++;
-  //}
   
 }
 
-interface Student {
-  id: number;
-  name: string;
-  firstName: string;
-  lastName: string;
-  group: string;
-}

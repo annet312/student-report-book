@@ -13,20 +13,17 @@ namespace StudentReportBookBLL.Services
     {
         private readonly IMapper mapper;
         private readonly IUnitOfWork db;
-        private readonly IMarkService marks;
+        private readonly IMarkService markService;
+        private readonly ITeacherService teacherService;
 
-        public GradeBookService(IUnitOfWork db, IMapper mapper, IMarkService marks)
+        public GradeBookService(IUnitOfWork db, IMapper mapper, IMarkService markService, ITeacherService teacherService)
         {
             this.mapper = mapper;
             this.db = db;
-            this.marks = marks;
+            this.markService = markService;
+            this.teacherService = teacherService;
         }
 
-        public class Someclass
-        {
-            public int MyProperty { get; set; }
-            public int MyProperty2 { get; set; }
-        }
         GradeBook IGradeBookService.GetMyMarks(string userId)
         {
             if (string.IsNullOrEmpty(userId)) throw new ArgumentNullException("userId is empty", userId);
@@ -39,8 +36,10 @@ namespace StudentReportBookBLL.Services
 
             StudentBll studentBll = mapper.Map<StudentBll>(student);
 
-            IEnumerable<MarkBll> studentMarks = marks.GetAllMarks(studentBll);
-            
+            IEnumerable<MarkBll> studentMarks = markService.GetAllMarks(studentBll);
+
+            var marks = new List<MarkBll>(studentMarks);
+          
             GradeBook gradeBook = new GradeBook()
             {
                 Student = studentBll,

@@ -111,20 +111,20 @@ namespace StudentReportBookBLL.Services
             IEnumerable<Mark> marks = db.Marks.Get(m => m.StudentId == student.Id);
             IEnumerable<MarkBll> marksbll = mapper.Map<IEnumerable<MarkBll>>(marks);
 
-
+            //For  modelling!!
             marksbll.ElementAt(0).TeachersWorkload = new TeachersWorkloadBll() {
                 Id = 10,
                 Term = 1,
                 Group = new GroupBll() { Id = 1 },
                 Subject = new SubjectBll() { Id = 1, Name = "Mathematics"},
-                Teacher = new TeacherBll() { Id = 1 }
+                Teacher = new TeacherBll() { Id = 1 , FirstName = "Anna" }
             };
             marksbll.ElementAt(1).TeachersWorkload = new TeachersWorkloadBll() {
                 Id = 11,
                 Term = 2,
                 Group = new GroupBll() { Id = 1 },
                 Subject = new SubjectBll() { Id = 1, Name = "Mathematics" },
-                Teacher = new TeacherBll() { Id = 1 }
+                Teacher = new TeacherBll() { Id = 1, FirstName = "Anna" }
             };
             marksbll.ElementAt(2).TeachersWorkload = new TeachersWorkloadBll()
             {
@@ -132,7 +132,7 @@ namespace StudentReportBookBLL.Services
                 Term = 3,
                 Group = new GroupBll() { Id = 1 },
                 Subject = new SubjectBll() { Id = 5, Name = "Law" },
-                Teacher = new TeacherBll() { Id = 1 }
+                Teacher = new TeacherBll() { Id = 1, FirstName = "Anna" }
             };
             marksbll.ElementAt(3).TeachersWorkload = new TeachersWorkloadBll()
             {
@@ -140,7 +140,7 @@ namespace StudentReportBookBLL.Services
                 Term = 4,
                 Group = new GroupBll() { Id = 1 },
                 Subject = new SubjectBll() { Id = 5, Name = "Law" },
-                Teacher = new TeacherBll() { Id = 1 }
+                Teacher = new TeacherBll() { Id = 1, FirstName = "Anna" }
             };
             
             return marksbll;

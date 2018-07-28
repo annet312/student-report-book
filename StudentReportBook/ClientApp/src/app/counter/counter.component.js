@@ -19,7 +19,7 @@ var CounterComponent = /** @class */ (function () {
         var _this = this;
         this.currentCount = 0;
         http.get(baseUrl + 'api/student/getMygradeBook').subscribe(function (result) {
-            _this.students = result;
+            _this.gradebook = result;
             console.log(result);
         }, function (error) { return console.error(error); });
     }

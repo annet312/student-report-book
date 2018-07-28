@@ -18,8 +18,8 @@ namespace StudentReportBookBLL.Identity.Model
 
         public string PictureUrl { get; set; }
 
-        //public int? PersonId { get; set; }
+        public int? PersonId { get; set; }
 
-       // public PersonBll Person { get; set; }
+        public PersonBll Person { get; set; }
     }
 }

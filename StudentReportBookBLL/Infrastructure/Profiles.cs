@@ -7,17 +7,17 @@ namespace StudentReportBookBLL.Profiles
 {
     public class PersonProfile : Profile
     {
-        //public PersonProfile()
-        //{
-        //    CreateMap<Person, PersonBll>().ReverseMap();//.ForMember(dest => dest.Identity, opt => opt.MapFrom(src => src.Identity));
- 
-        //}
+        public PersonProfile()
+        {
+            CreateMap<Person, PersonBll>().ReverseMap();//.ForMember(dest => dest.Identity, opt => opt.MapFrom(src => src.Identity));
+
+        }
     }
     public class UserProfile : Profile
     {
         public UserProfile()
         {
-            CreateMap<AppUser, AppUserBll>();
+            CreateMap<AppUser, AppUserBll>().ReverseMap();
         }
     }
     public class TeacherProfile : Profile

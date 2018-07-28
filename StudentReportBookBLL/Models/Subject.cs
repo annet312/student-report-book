@@ -8,6 +8,5 @@ namespace StudentReportBookBLL.Models
 
         public string Name { get; set; }
 
-       // public List<TeachersWorkloadBll> TeachersWorkloads { get; set; }
     }
 }

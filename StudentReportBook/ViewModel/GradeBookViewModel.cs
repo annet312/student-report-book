@@ -8,8 +8,8 @@ namespace StudentReportBook.ViewModel
 {
     public class GradeBookViewModel
     {
-        public Student Student { get; set; }
+        public StudentViewModel Student { get; set; }
 
-        public IEnumerable<Mark> Marks { get; set; }
+        public IEnumerable<MarkViewModel> Marks { get; set; }
     }
 }

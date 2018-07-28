@@ -26,24 +26,23 @@ namespace StudentReportBookBLL.Infrastructure
     {
         protected override void Load(ContainerBuilder builder)
         {
-           // builder.RegisterType<AppDbContext>().InstancePerRequest();
             builder.RegisterType<UserStore<AppUser>>().As<IUserStore<AppUser>>();
             builder.RegisterType<PersonManager>().As<IPersonManager>();
             builder.RegisterType<JwtFactory>().As<IJwtFactory>().SingleInstance();
             builder.RegisterType<JWTIssuerOptions>().AsSelf();
 
 
-            //string connectionString = "Server=(localdb)\\mssqllocaldb;Database=ReportBook;Trusted_Connection=True;";
+            string connectionString = "Server=(localdb)\\mssqllocaldb;Database=ReportBook;Trusted_Connection=True;";
 
-            //builder.Register(c =>
-            //{
-            //    var config = c.Resolve<IConfiguration>();
+            builder.Register(c =>
+            {
+                var config = c.Resolve<IConfiguration>();
 
-            //    var opt = new DbContextOptionsBuilder<AppDbContext>();
-            //    opt.UseSqlServer(connectionString, b => b.MigrationsAssembly("StudentReportBook"));
+                var opt = new DbContextOptionsBuilder<AppDbContext>();
+                opt.UseSqlServer(connectionString, b => b.MigrationsAssembly("StudentReportBook"));
 
-            //    return new AppDbContext(opt.Options);//.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-            //}).AsSelf().InstancePerLifetimeScope();
+                return new AppDbContext(opt.Options);//.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            }).AsSelf().InstancePerLifetimeScope();
 
 
             builder.RegisterType<IdentityUnitOfWork>().As<IIdentityUnitOfWork>();//.WithParameter(AppDbContext dbContext);
