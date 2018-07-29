@@ -12,15 +12,15 @@
       ]
     },
     "lib": [
-      //"es7",
+      "es7",
       "es6",
       "dom"
     ],
     "moduleResolution": "node",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
-    "target": "es6",
-    "typeRoots": [ "node_modules/@types" ]
+    "target": "es6" //,
+    //"typeRoots": [ "node_modules/@types" ]//,
     //"types": [
     //  "jasmine",
     //  "node",
@@ -28,9 +28,13 @@
     //  "core-js"
     //]
   },
-    "exclude": [
-      "node_modules",
-      "jspm_packages"
-    ]
-  
+  "include": [
+    "./src", /**/
+    "*"
+  ],
+  "exclude": [
+    "node_modules",
+    "jspm_packages"
+  ]
+
 }

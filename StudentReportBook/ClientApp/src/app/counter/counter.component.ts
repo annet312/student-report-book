@@ -1,11 +1,8 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewEncapsulation, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GradeBook, Student, Mark } from '../shared/models/gradebook.interface';
+import { NgStyle } from '@angular/common';
 
-import { MatTableDataSource } from '@angular/material';
-import {DataSource} from '@angular/cdk/collections';
-import { MatTable } from '@angular/material';
-//import { DataSource } from '@angular/cdk/table';
 
 
 
@@ -20,6 +17,7 @@ export class CounterComponent {
 
   row = [];
   rowmarks = [];
+  groups = [];
 
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
@@ -40,6 +38,17 @@ export class CounterComponent {
   }
   ngOnInit() {
 
+  }
+
+  getGroupRowHeight(group, rowHeight) {
+    let style = {};
+
+    style = {
+      height: (group.length * 40) + 'px',
+      width: '100%'
+    };
+
+    return style;
   }
 
   public ToggleExpandGroup(group) {

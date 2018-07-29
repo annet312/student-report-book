@@ -11,8 +11,8 @@ import { DecodeService } from './decode.service';
 import { BaseService } from "./base.service";
 
 
-
-import { Observable } from 'rxjs/Rx';
+import { Observable, of as observableOf } from 'rxjs';
+//import { Observable } from 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/Rx';
 
 //import { UserResponse } from '../models/UserResponse';
@@ -41,7 +41,7 @@ export class UserService extends BaseService {
     //this.baseUrl = configService.getApiURI();
   }
 
-  register(email: string, password: string, firstName: string, lastName: string, role: string): Observable<UserRegistration> {
+  register(email: string, password: string, firstName: string, lastName: string, role: string): Observable<boolean> {
     console.log("in registration");
     console.log(email +''+ password);
     let body = JSON.stringify({ email, password, firstName, lastName, role });

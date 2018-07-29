@@ -27,7 +27,7 @@
                [rowHeight]="40"
                [limit]="4"
                [groupExpansionDefault]="true">
-
+  <!--group header template-->
   <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
     <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
       <div style="padding-left:5px;">
@@ -42,7 +42,9 @@
     </ng-template>
   </ngx-datatable-group-header>
 
+  <!--Row column template-->>
   <ngx-datatable-column name="Term" prop="term" editable="false"></ngx-datatable-column>
+
   <ngx-datatable-column name="Subject" prop="subject" editable="false"></ngx-datatable-column>
   <ngx-datatable-column name="Teacher" prop="teacher" editable="false"></ngx-datatable-column>
   <ngx-datatable-column name="Grade" prop="grade"></ngx-datatable-column>

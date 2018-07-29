@@ -14,12 +14,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/common/http");
-//import { DataSource } from '@angular/cdk/table';
 var CounterComponent = /** @class */ (function () {
     function CounterComponent(http, baseUrl) {
         var _this = this;
         this.row = [];
         this.rowmarks = [];
+        this.groups = [];
         http.get(baseUrl + 'api/student/getMygradeBook').subscribe(function (result) {
             _this.gradebook = result;
             console.log(result);
@@ -34,6 +34,14 @@ var CounterComponent = /** @class */ (function () {
         }, function (error) { return console.error(error); });
     }
     CounterComponent.prototype.ngOnInit = function () {
+    };
+    CounterComponent.prototype.getGroupRowHeight = function (group, rowHeight) {
+        var style = {};
+        style = {
+            height: (group.length * 40) + 'px',
+            width: '100%'
+        };
+        return style;
     };
     CounterComponent.prototype.ToggleExpandGroup = function (group) {
         console.log('onToggleExpandGroup', group);
