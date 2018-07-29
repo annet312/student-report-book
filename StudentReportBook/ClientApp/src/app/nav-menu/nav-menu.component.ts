@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { UserResponse } from '../shared/models/UserResponse';
 import { Subscription } from 'rxjs';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-nav-menu',
@@ -8,17 +9,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./nav-menu.component.css'],
 })
 export class NavMenuComponent {
+  public isCollapsed = false;
 
-  isExpanded = false;
-
-  collapse() {
-    this.isExpanded = false;
-  }
-
-  toggle() {
-    this.isExpanded = !this.isExpanded;
-  }
-  constructor() { };
 
   ngOnInit() {
   }

@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var common_1 = require("@angular/common");
 var focus_directive_1 = require("../../directives/focus.directive");
 var spinner_component_1 = require("../../spinner/spinner.component");
@@ -15,7 +16,7 @@ var SharedModule = /** @class */ (function () {
     }
     SharedModule = __decorate([
         core_1.NgModule({
-            imports: [common_1.CommonModule],
+            imports: [common_1.CommonModule, ng_bootstrap_1.NgbCollapseModule.forRoot()],
             declarations: [focus_directive_1.myFocus, spinner_component_1.SpinnerComponent],
             exports: [focus_directive_1.myFocus, spinner_component_1.SpinnerComponent],
             providers: []

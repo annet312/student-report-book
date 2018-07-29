@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { CommonModule }       from '@angular/common';
  
@@ -8,7 +9,7 @@ import {SpinnerComponent} from '../../spinner/spinner.component';
 
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, NgbCollapseModule.forRoot()],
   declarations: [myFocus,SpinnerComponent],
   exports:      [myFocus,SpinnerComponent],
   providers:    []

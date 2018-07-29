@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { HttpModule, XHRBackend } from '@angular/http';
 import { AuthenticateXHRBackend } from './authenticate-xhr.backend';
 
+
 //import { AgGridModule } from 'ag-grid-angular';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { DataTablesModule } from 'angular-datatables';
@@ -21,6 +22,7 @@ import { AccountModule } from './account/account.module';
 import { ConfigService } from './shared/utils/config.service';
 import { DecodeService } from './shared/services/decode.service';
 import { TeachersComponent } from './teachers/teachers.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { TeachersComponent } from './teachers/teachers.component';
     //SpinnerComponent
   ],
   imports: [
+    NgbModule.forRoot(),
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     AccountModule,
