@@ -31,30 +31,38 @@ namespace StudentReportBookBLL.Identity
 
         public async Task<string> Authenticate(string userName, string password)
         {
-            var identity = await GetClaimsIdentity(userName, password);
+            IdentityUser user = await db.UserManager.FindByNameAsync(userName);
+            var identity = await GetClaimsIdentity(user, password);
+
             if (identity == null)
             {
                 return null;
             }
-            var jwt = await Tokens.GenerateJwt(identity, jwtFactory, userName, jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
+            var jwt = await Tokens.GenerateJwt(
+                identity, 
+                jwtFactory,
+                user, 
+                jwtOptions, 
+                new JsonSerializerSettings { Formatting = Formatting.Indented }
+                );
 
             return jwt;
         }
 
-        private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
+        private async Task<ClaimsIdentity> GetClaimsIdentity(IdentityUser user, string password)
         {
-            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
+            if ((user == null) || string.IsNullOrEmpty(password))
                 return await Task.FromResult<ClaimsIdentity>(null);
 
             // get the user to verifty
-            var userToVerify = await db.UserManager.FindByNameAsync(userName);
+            var userToVerify = await db.UserManager.FindByNameAsync(user.UserName);
 
             if (userToVerify == null) return await Task.FromResult<ClaimsIdentity>(null);
 
             // check the credentials
             if (await db.UserManager.CheckPasswordAsync(userToVerify, password))
             {
-                return await Task.FromResult(jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id));
+                return await Task.FromResult(jwtFactory.GenerateClaimsIdentity(user.UserName, userToVerify.Id));
             }
 
             //Credentials are invalid, or account doesn't exist
@@ -65,18 +73,43 @@ namespace StudentReportBookBLL.Identity
         {
             IdentityUser user = mapper.Map<AppUserBll, AppUser>(userBll);
             IdentityResult result = null;
+            IdentityResult res = null;
+
+            if (await db.RoleManager.FindByNameAsync("Teacher") == null)
+            {
+                await db.RoleManager.CreateAsync(new IdentityRole("Teacher"));
+            }
+            if (await db.RoleManager.FindByNameAsync("Student") == null)
+            {
+                await db.RoleManager.CreateAsync(new IdentityRole("Student"));
+            }
+            if (await db.RoleManager.FindByNameAsync("Moderator") == null)
+            {
+                await db.RoleManager.CreateAsync(new IdentityRole("Moderator"));
+            }
+
             try
             {
                 result = await db.UserManager.CreateAsync(user, password);
             }
             catch(Exception e)
             {
-                Console.WriteLine(e.Message);
+                throw e;
             }
+
             if(result.Succeeded)
             {
+
+                try
+                {
+                    res = await db.UserManager.AddToRoleAsync(user, userBll.Role);
+                }
+                catch(Exception e)
+                {
+                    throw e;
+                }
                 Person person;
-                if (userBll.Role == "Teacher")
+                if ((userBll.Role == "Teacher") || userBll.Role == "Moderator")
                 {
                     person = new Teacher()
                     {
@@ -87,7 +120,7 @@ namespace StudentReportBookBLL.Identity
                 }
                 else
                 {
-                    person = new Teacher()
+                    person = new Student()
                     {
                         FirstName = userBll.FirstName,
                         LastName = userBll.LastName,

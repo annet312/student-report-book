@@ -28,6 +28,7 @@ var http_1 = require("@angular/http");
 var config_service_1 = require("../utils/config.service");
 var decode_service_1 = require("./decode.service");
 var base_service_1 = require("./base.service");
+//import { Observable } from 'rxjs/Rx';
 var Rx_1 = require("rxjs/Rx");
 //import { UserResponse } from '../models/UserResponse';
 // Add the RxJS Observable operators we need in this app.

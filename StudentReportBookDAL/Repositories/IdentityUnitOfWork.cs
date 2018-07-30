@@ -13,25 +13,19 @@ namespace StudentReportBookDAL.Repositories
     {
         private AppDbContext db;
 
-        public IdentityUnitOfWork(AppDbContext dbContext, UserManager<IdentityUser> userManager, IPersonManager personManager)
+        public IdentityUnitOfWork(AppDbContext dbContext, UserManager<IdentityUser> userManager, IPersonManager personManager, RoleManager<IdentityRole> roleManager)
         {
             this.db = dbContext;
             this.UserManager = userManager;
-            //roleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(db));
+            this.RoleManager = roleManager;
             this.RersonManager = personManager;
         }
 
         public UserManager<IdentityUser> UserManager { get; }
+        public RoleManager<IdentityRole> RoleManager { get; }
 
         public IPersonManager RersonManager { get; }
 
-        //public ApplicationRoleManager RoleManager
-        //{
-        //    get
-        //    {
-        //        return roleManager;
-        //    }
-        //}
 
         public async Task SaveAsync()
         {

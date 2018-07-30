@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 import { HttpModule, XHRBackend } from '@angular/http';
 import { AuthenticateXHRBackend } from './authenticate-xhr.backend';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './auth/token.interceptor';
 
 //import { AgGridModule } from 'ag-grid-angular';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -21,6 +23,7 @@ import { routing } from './app.routing';
 import { AccountModule } from './account/account.module';
 import { ConfigService } from './shared/utils/config.service';
 import { DecodeService } from './shared/services/decode.service';
+import { AuthService } from '../app/auth/auth.service';
 import { TeachersComponent } from './teachers/teachers.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -32,8 +35,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CounterComponent,
     FetchDataComponent,
     TeachersComponent,
-    //LoginFormComponent,
-    //SpinnerComponent
+
   ],
   imports: [
     NgbModule.forRoot(),
@@ -43,15 +45,22 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HttpModule,
     FormsModule,
     NgxDatatableModule,
-    //AgGridModule.withComponents([]),
     DataTablesModule,
     routing
   ],
-  providers: [ConfigService, {
+  providers: [ConfigService,
+    {
     provide: XHRBackend,
     useClass: AuthenticateXHRBackend
   },
-  DecodeService],
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
+    DecodeService,
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

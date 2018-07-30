@@ -73,23 +73,7 @@ namespace StudentReportBookDAL.Context
 
             }
         }
-        //public class PersonSubjectConfiguration : IEntityTypeConfiguration<PersonSubject>
-        //{
-        //    public void Configure(EntityTypeBuilder<PersonSubject> builder)
-        //    {
-        //        builder.ToTable("PersonSubjects").HasKey(t => new { t.PersonId, t.SubjectId });
-
-        //        builder//.ToTable("PersonSubjects")
-        //             .HasOne(ps => ps.Person)
-        //             .WithMany(p => p.PersonSubjects)
-        //             .HasForeignKey(ps => ps.PersonId);
-
-        //        builder//.ToTable("PersonSubjects")
-        //            .HasOne(ps => ps.Subject)
-        //            .WithMany(s => s.PersonSubjects)
-        //            .HasForeignKey(ps => ps.SubjectId);
-        //    }
-        //}
+       
         public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
         {
             public void Configure(EntityTypeBuilder<Teacher> builder)
@@ -132,7 +116,6 @@ namespace StudentReportBookDAL.Context
                 builder.Property(m => m.StudentId).IsRequired();
                 builder.Property(m => m.TeachersWorkloadId).IsRequired();
                 builder.Property(m => m.Grade).IsRequired();
-                //builder.Property(m => m.Grade).HasAnnotation("[Range(1, 5)]", "MarkGrade");
             }
         }
     }

@@ -1,6 +1,10 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using StudentReportBookBLL.Identity.Model;
 using StudentReportBookBLL.Models;
+using StudentReportBookDAL.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -12,23 +16,44 @@ namespace StudentReportBookBLL.Auth
     public class JwtFactory : IJwtFactory
     {
         private readonly JWTIssuerOptions jwtOptions;
-
-        public JwtFactory(IOptions<JWTIssuerOptions> jwtOptions)
+        private readonly IIdentityUnitOfWork db;
+        public JwtFactory(IOptions<JWTIssuerOptions> jwtOptions, IIdentityUnitOfWork db)
         {
             this.jwtOptions = jwtOptions.Value;
+            this.db = db;
             ThrowIfInvalidOptions(this.jwtOptions);
         }
 
-        public async Task<string> GenerateEncodedToken(string userName, ClaimsIdentity identity)
+        public async Task<string> GenerateEncodedToken(IdentityUser user, ClaimsIdentity identity)
         {
-            var claims = new[]
-         {
-                 new Claim(JwtRegisteredClaimNames.Sub, userName),
+            IdentityOptions options = new IdentityOptions();
+            var claims = new List<Claim>
+           {
+                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                  new Claim(JwtRegisteredClaimNames.Jti, await jwtOptions.JtiGenerator()),
                  new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
-                 identity.FindFirst(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol),
-                 identity.FindFirst(Helpers.Constants.Strings.JwtClaimIdentifiers.Id)
+
+                  new Claim(options.ClaimsIdentity.UserIdClaimType, user.Id.ToString()),
+                    new Claim(options.ClaimsIdentity.UserNameClaimType, user.UserName)
+                // identity.FindFirst(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol),
+              //   identity.FindFirst(Helpers.Constants.Strings.JwtClaimIdentifiers.Id)
              };
+            var userClaims = await db.UserManager.GetClaimsAsync(user);
+            var userRoles = await db.UserManager.GetRolesAsync(user);
+            claims.AddRange(userClaims);
+            foreach (var userRole in userRoles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, userRole));
+                var role = await db.RoleManager.FindByNameAsync(userRole);
+                if(role != null)
+                {
+                    var roleClaims = await db.RoleManager.GetClaimsAsync(role);
+                    foreach(Claim roleClaim in roleClaims)
+                    {
+                        claims.Add(roleClaim);
+                    }
+                }
+            }
 
             // Create the JWT security token and encode it.
             var jwt = new JwtSecurityToken(

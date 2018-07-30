@@ -16,11 +16,16 @@ var core_1 = require("@angular/core");
 var http_1 = require("@angular/common/http");
 var CounterComponent = /** @class */ (function () {
     function CounterComponent(http, baseUrl) {
-        var _this = this;
         this.row = [];
         this.rowmarks = [];
         this.groups = [];
-        http.get(baseUrl + 'api/student/getMygradeBook').subscribe(function (result) {
+        this.http = http;
+        this.baseUrl = baseUrl;
+    }
+    CounterComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        var token = localStorage.getItem('auth_token');
+        this.http.get(this.baseUrl + 'api/student/getMygradeBook').subscribe(function (result) {
             _this.gradebook = result;
             console.log(result);
             _this.row = [{
@@ -32,8 +37,6 @@ var CounterComponent = /** @class */ (function () {
                 }];
             _this.rowmarks = _this.gradebook.marks;
         }, function (error) { return console.error(error); });
-    }
-    CounterComponent.prototype.ngOnInit = function () {
     };
     CounterComponent.prototype.getGroupRowHeight = function (group, rowHeight) {
         var style = {};

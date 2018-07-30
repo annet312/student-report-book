@@ -25,6 +25,8 @@ using StudentReportBookBLL.Helpers;
 using StudentReportBookBLL.Auth;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Reflection;
+using System.Security.Claims;
 //using StudentReportBookDAL.Repositories;
 
 namespace StudentReportBook
@@ -92,27 +94,38 @@ namespace StudentReportBook
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };
-            services.AddIdentity<IdentityUser, IdentityRole>().AddUserManager<UserManager<IdentityUser>>()
+            services.AddIdentity<IdentityUser, IdentityRole>()
+              .AddUserManager<UserManager<IdentityUser>>()
+              .AddRoleManager<RoleManager<IdentityRole>>()
               .AddEntityFrameworkStores<AppDbContext>()
               .AddDefaultTokenProviders();
             services.AddHttpContextAccessor();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+
+            string domain = $"https://{Configuration["Auth0:Domain"]}/";
+
+            services.AddAuthentication(/*JwtBearerDefaults.AuthenticationScheme*/
+                options => 
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; 
+                })
             .AddJwtBearer(configureOptions =>
             {
-                configureOptions.RequireHttpsMetadata = false;
+                //configureOptions.RequireHttpsMetadata = false;
                 configureOptions.ClaimsIssuer = jwtAppSettingOptions[nameof(JWTIssuerOptions.Issuer)];
                 configureOptions.TokenValidationParameters = tokenValidationParameters;
                 configureOptions.SaveToken = true;
-
+                configureOptions.Authority = domain;
+                configureOptions.Authority = Configuration["Auth0:ApiIdentifier"];
             });
 
 
             //// api user claim policy
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Student", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
-                options.AddPolicy("Moderator", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
-                options.AddPolicy("Teacher", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
+                options.AddPolicy("Moderator", policy => { policy.RequireClaim("Moderator", "Moderator"); });
+                options.AddPolicy("Teacher", policy => { policy.RequireClaim("Teacher", "Teacher"); });
+                options.AddPolicy("Student", policy => { policy.RequireClaim("Student", "Student"); });
             });
 
 

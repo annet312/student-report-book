@@ -5,7 +5,6 @@ import { NgStyle } from '@angular/common';
 
 
 
-
 @Component({
   selector: 'app-counter-component',
   templateUrl: './counter.component.html'  
@@ -18,26 +17,32 @@ export class CounterComponent {
   row = [];
   rowmarks = [];
   groups = [];
-
+  http: HttpClient;
+  baseUrl: string;
+  
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-   http.get<GradeBook>(baseUrl + 'api/student/getMygradeBook').subscribe(result => {
-      this.gradebook = result;
-     console.log(result);
-  
-     this.row = [{
-       name: this.gradebook.student.name,
-       studentCard: this.gradebook.student.studentCard,
-       currentTerm: this.gradebook.student.currentTerm,
-       group: this.gradebook.student.group,
-       faculty: this.gradebook.student.faculty
-     }];
-     this.rowmarks = this.gradebook.marks;
-
-    }, error => console.error(error));
+    this.http = http;
+    this.baseUrl = baseUrl;
   }
   ngOnInit() {
 
+    var token = localStorage.getItem('auth_token');
+    
+    this.http.get<GradeBook>(this.baseUrl + 'api/student/getMygradeBook' ).subscribe(result => {
+      this.gradebook = result;
+      console.log(result);
+
+      this.row = [{
+        name: this.gradebook.student.name,
+        studentCard: this.gradebook.student.studentCard,
+        currentTerm: this.gradebook.student.currentTerm,
+        group: this.gradebook.student.group,
+        faculty: this.gradebook.student.faculty
+      }];
+      this.rowmarks = this.gradebook.marks;
+
+    }, error => console.error(error));
   }
 
   getGroupRowHeight(group, rowHeight) {

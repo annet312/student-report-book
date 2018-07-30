@@ -14,7 +14,7 @@ namespace StudentReportBookDAL.Interfaces
 
         IPersonManager RersonManager { get; }
 
-        //ApplicationRoleManager RoleManager { get; }
+        RoleManager<IdentityRole> RoleManager { get; }
 
         Task SaveAsync();
     }
