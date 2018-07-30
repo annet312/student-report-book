@@ -16,6 +16,6 @@ namespace StudentReportBookBLL.Services.Interfaces
         /// </summary>
         /// <param name="userId">Identity id</param>
         /// <returns>grade book</returns>
-        GradeBook GetMyMarks(string userId);
+        GradeBook GetMyMarks();
     }
 }

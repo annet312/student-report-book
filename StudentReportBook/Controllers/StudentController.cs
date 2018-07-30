@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentReportBook.ViewModel;
 using StudentReportBookBLL.Models;
 using StudentReportBookBLL.Services.Interfaces;
-
+using System.Security.Claims;
 
 namespace StudentReportBook.Controllers
 {
@@ -21,14 +22,16 @@ namespace StudentReportBook.Controllers
         private readonly IMarkService markService;
         private readonly IGradeBookService gradeBookService;
         private readonly ITeacherService teacherService;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public StudentController(IMapper mapper, IStudentService studentService, IMarkService markService, IGradeBookService gradeBookService, ITeacherService teacherService)
+        public StudentController(IMapper mapper, IStudentService studentService, IMarkService markService, IGradeBookService gradeBookService, ITeacherService teacherService, IHttpContextAccessor httpContextAccessor)
         {
             this.mapper = mapper;
             this.studentService = studentService;
             this.markService = markService;
             this.gradeBookService = gradeBookService;
             this.teacherService = teacherService;
+            this.httpContextAccessor = httpContextAccessor;
         }
         
 
@@ -36,10 +39,9 @@ namespace StudentReportBook.Controllers
        
         public IActionResult GetMyGradeBook()
         {
-            var r = Request.Headers["HeaderAuthorization"];
             //int userId = int.Parse(HttpContext.User.Claims.First(c => c.Type == ClaimTypes.Name).Value);
             //userId for testing
-            GradeBook gradeBook = gradeBookService.GetMyMarks("2daff0cc-533e-45a0-b30e-0ad6f77c92f9");
+            GradeBook gradeBook = gradeBookService.GetMyMarks();
             var result = mapper.Map<GradeBookViewModel>(gradeBook);
             
             return new OkObjectResult(result);

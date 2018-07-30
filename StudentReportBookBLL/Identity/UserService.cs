@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using StudentReportBookBLL.Auth;
@@ -20,13 +21,20 @@ namespace StudentReportBookBLL.Identity
         private readonly IMapper mapper;
         private readonly IJwtFactory jwtFactory;
         private readonly JWTIssuerOptions jwtOptions;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public UserService(IIdentityUnitOfWork uow, IMapper mapper, IJwtFactory jwtFactory, JWTIssuerOptions jwtOptions)
+        public UserService(IIdentityUnitOfWork uow, IMapper mapper, IJwtFactory jwtFactory, JWTIssuerOptions jwtOptions, IHttpContextAccessor httpContextAccessor)
         {
             db = uow;
             this.mapper = mapper;
             this.jwtFactory = jwtFactory;
             this.jwtOptions = jwtOptions;
+            this.httpContextAccessor = httpContextAccessor;
+        }
+
+        public  string GetCurrentUserId()
+        {
+            return db.UserManager.GetUserId(httpContextAccessor.HttpContext.User);
         }
 
         public async Task<string> Authenticate(string userName, string password)

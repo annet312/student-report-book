@@ -18,5 +18,10 @@ namespace StudentReportBookBLL.Identity.Interface
         ///Authentication of user
         /// </summary>
         Task<string> Authenticate(string userName, string password);
+        /// <summary>
+        /// Return current (string) userId
+        /// </summary>
+        /// <returns></returns>
+        string GetCurrentUserId();
     }
 }

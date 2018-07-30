@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using StudentReportBookBLL.Identity.Interface;
 using StudentReportBookBLL.Models;
 using StudentReportBookBLL.Services.Interfaces;
 using StudentReportBookDAL.Entities;
@@ -6,6 +7,7 @@ using StudentReportBookDAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace StudentReportBookBLL.Services
 {
@@ -14,22 +16,28 @@ namespace StudentReportBookBLL.Services
         private readonly IMapper mapper;
         private readonly IUnitOfWork db;
         private readonly IMarkService markService;
-        private readonly ITeacherService teacherService;
+       // private readonly ITeacherService teacherService;
+        private readonly IUserService userService;
 
-        public GradeBookService(IUnitOfWork db, IMapper mapper, IMarkService markService, ITeacherService teacherService)
+        public GradeBookService(IUnitOfWork db, IMapper mapper, IMarkService markService,  IUserService userService)
         {
             this.mapper = mapper;
             this.db = db;
             this.markService = markService;
-            this.teacherService = teacherService;
+            //this.teacherService = teacherService;
+            this.userService = userService;
         }
 
-        GradeBook IGradeBookService.GetMyMarks(string userId)
-        {
-            if (string.IsNullOrEmpty(userId)) throw new ArgumentNullException("userId is empty", userId);
+        
 
-            Student student =  db.Students.Get(s => s.IdentityId == userId).SingleOrDefault();
-            if (student == null) throw new ArgumentException("This student does not exists", userId);
+        GradeBook IGradeBookService.GetMyMarks()
+        {
+            var userName = userService.GetCurrentUserId();
+
+            if (string.IsNullOrEmpty(userName)) throw new ArgumentNullException("userName is not available", userName);
+
+            Student student =  db.Students.Get(s => s.Identity.UserName == userName).SingleOrDefault();
+            if (student == null) throw new ArgumentException("This student does not exists", userName);
 
             var st = mapper.Map <StudentBll>(student);
             var gr = db.Groups.Get(gro => gro.Id == student.GroupId).SingleOrDefault();
