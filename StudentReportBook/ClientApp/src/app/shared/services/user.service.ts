@@ -42,7 +42,7 @@ export class UserService extends BaseService {
 
   register(email: string, password: string, firstName: string, lastName: string, role: string): Observable<boolean | {}> {
     console.log("in registration");
-    console.log(email +''+ password);
+    console.log(email + '' + password);
     let body = JSON.stringify({ email, password, firstName, lastName, role });
     console.log("body");
     console.log(body);
@@ -54,9 +54,9 @@ export class UserService extends BaseService {
     return this.http.post(this.baseUrls + "api/accounts", body, options)
       .map(res => true)
       .catch(this.handleError);
-  }  
+  }
 
-  login(userName: string, password : string) {
+  login(userName: string, password: string) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -94,21 +94,4 @@ export class UserService extends BaseService {
   isLoggedIn() {
     return this.loggedIn;
   }
-
-  //facebookLogin(accessToken: string) {
-  //  let headers = new Headers();
-  //  headers.append('Content-Type', 'application/json');
-  //  let body = JSON.stringify({ accessToken });
-  //  return this.http
-  //    .post(
-  //      this.baseUrl + '/externalauth/facebook', body, { headers })
-  //    .map(res => res.json())
-  //    .map(res => {
-  //      localStorage.setItem('auth_token', res.auth_token);
-  //      this.loggedIn = true;
-  //      this.authNavStatusSource.next(true);
-  //      return true;
-  //    })
-  //    .catch(this.handleError);
-  //}
 }

@@ -27,6 +27,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
 using System.Security.Claims;
+using StudentReportBook.Scope;
+using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 //using StudentReportBookDAL.Repositories;
 
 namespace StudentReportBook
@@ -63,7 +66,7 @@ namespace StudentReportBook
                b => b.MigrationsAssembly("StudentReportBook")));
 
 
-            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //// jwt wire up
             //// Get options from app settings
@@ -72,6 +75,7 @@ namespace StudentReportBook
             //// Configure JwtIssuerOptions
             services.Configure<JWTIssuerOptions>(options =>
             {
+                
                 options.Issuer = jwtAppSettingOptions[nameof(JWTIssuerOptions.Issuer)];
                 options.Audience = jwtAppSettingOptions[nameof(JWTIssuerOptions.Audience)];
                 options.SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
@@ -92,42 +96,62 @@ namespace StudentReportBook
 
                 RequireExpirationTime = false,
                 ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
+                ClockSkew = TimeSpan.FromMinutes(5)//,//TimeSpan.Zero
             };
             services.AddIdentity<IdentityUser, IdentityRole>()
               .AddUserManager<UserManager<IdentityUser>>()
               .AddRoleManager<RoleManager<IdentityRole>>()
               .AddEntityFrameworkStores<AppDbContext>()
               .AddDefaultTokenProviders();
+
             services.AddHttpContextAccessor();
 
             string domain = $"https://{Configuration["Auth0:Domain"]}/";
 
-            services.AddAuthentication(/*JwtBearerDefaults.AuthenticationScheme*/
-                options => 
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; 
-                })
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(configureOptions =>
             {
                 //configureOptions.RequireHttpsMetadata = false;
                 configureOptions.ClaimsIssuer = jwtAppSettingOptions[nameof(JWTIssuerOptions.Issuer)];
                 configureOptions.TokenValidationParameters = tokenValidationParameters;
+
                 configureOptions.SaveToken = true;
                 configureOptions.Authority = domain;
                 configureOptions.Authority = Configuration["Auth0:ApiIdentifier"];
+
+                configureOptions.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        Console.WriteLine("OnAuthenticationFailed: " +
+                            context.Exception.Message);
+                        return Task.CompletedTask;
+                    },
+                    OnTokenValidated = context =>
+                    {
+                        Console.WriteLine("OnTokenValidated: " +
+                            context.SecurityToken);
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
 
             //// api user claim policy
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Moderator", policy => { policy.RequireClaim("Moderator", "Moderator"); });
-                options.AddPolicy("Teacher", policy => { policy.RequireClaim("Teacher", "Teacher"); });
-                options.AddPolicy("Student", policy => { policy.RequireClaim("Student", "Student"); });
-            });
+                options.AddPolicy("Student", policy =>
+                {
+                    policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
+                    policy.RequireAuthenticatedUser();
+                    policy.Requirements.Add(new HasScopeRequirement("Student", domain));
+                });
 
+                options.AddPolicy("Moderator", policy =>  policy.Requirements.Add(new HasScopeRequirement("Moderator", domain)));
+                options.AddPolicy("Teacher", policy => policy.Requirements.Add(new HasScopeRequirement("Teacher", domain)));
+            });
+           
+            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 
             var builder = services.AddIdentityCore<AppUser>(o =>
             {
@@ -157,13 +181,14 @@ namespace StudentReportBook
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
              };
 
-            services.AddMvc() 
+            
+            services.AddMvc()
                 //.AddJsonOptions(options => {
                 //   options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 //})
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1); 
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-           
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -177,9 +202,12 @@ namespace StudentReportBook
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+        
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+              
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -193,14 +221,14 @@ namespace StudentReportBook
             app.UseAuthentication();
             app.UseDefaultFiles();
 
-            //app.UseCookieAuthentication();
+        
 
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>

@@ -29,7 +29,7 @@ export class CounterComponent {
 
     var token = localStorage.getItem('auth_token');
     
-    this.http.get<GradeBook>(this.baseUrl + 'api/student/getMygradeBook' ).subscribe(result => {
+    this.http.get<GradeBook>(this.baseUrl + 'api/student/getMyGradeBook' ).subscribe(result => {
       this.gradebook = result;
       console.log(result);
 

@@ -25,7 +25,7 @@ var CounterComponent = /** @class */ (function () {
     CounterComponent.prototype.ngOnInit = function () {
         var _this = this;
         var token = localStorage.getItem('auth_token');
-        this.http.get(this.baseUrl + 'api/student/getMygradeBook').subscribe(function (result) {
+        this.http.get(this.baseUrl + 'api/student/getMyGradeBook').subscribe(function (result) {
             _this.gradebook = result;
             console.log(result);
             _this.row = [{

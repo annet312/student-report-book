@@ -16,14 +16,13 @@ var TokenInterceptor = /** @class */ (function () {
         this.auth = auth;
     }
     TokenInterceptor.prototype.intercept = function (request, next) {
-        console.log(localStorage.getItem('access_token'));
         var token = this.auth.getToken();
         request = request.clone({
             setHeaders: {
                 "Authorization": "Bearer " + token
             }
         });
-        console.log(request);
+        console.log("req +" + request);
         return next.handle(request);
     };
     TokenInterceptor = __decorate([
