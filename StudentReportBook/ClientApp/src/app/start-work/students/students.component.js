@@ -47,11 +47,12 @@ var StudentsComponent = /** @class */ (function () {
     };
     StudentsComponent.prototype.filterGroup = function (groupId) {
         var _this = this;
-        this.http.get(this.baseUrl + 'api/teacher/getStudents', { params: { groupId: groupId } }).subscribe(function (result) {
+        this.http.get(this.baseUrl + 'api/teacher/getStudents', { params: { groupId: groupId, subjectId: this.subjtId } }).subscribe(function (result) {
             _this.students = result;
+            console.log(_this.students);
             if (!!_this.students) {
-                var buf = new Array(_this.students[0].currentTerm);
-                for (var i = 1; i <= _this.students[0].currentTerm; i++) {
+                var buf = new Array(_this.students[0].student.currentTerm);
+                for (var i = 1; i <= _this.students[0].student.currentTerm; i++) {
                     buf[i - 1] = i;
                 }
                 _this.terms = buf;

@@ -16,9 +16,10 @@ export class StudentsComponent implements OnInit {
   public subjects: Dropdata[] = null;
   public faculties: Dropdata[] = null;
   public groups: Dropdata[] = null;
-  public students: Student[] = null;
+  public students: StudentWithMarks[] = null;
   public terms: number[];
   public subjtId: any;
+ 
   
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
@@ -49,11 +50,12 @@ export class StudentsComponent implements OnInit {
   }
 
   filterGroup(groupId) {
-    this.http.get<Student[]>(this.baseUrl + 'api/teacher/getStudents', { params: { groupId: groupId } }).subscribe(result => {
+    this.http.get<StudentWithMarks[]>(this.baseUrl + 'api/teacher/getStudents', { params: { groupId: groupId, subjectId: this.subjtId } }).subscribe(result => {
       this.students = result;
+      console.log(this.students);
       if (!!this.students) {
-        let buf: number[] = new Array(this.students[0].currentTerm);
-        for (let i = 1; i <= this.students[0].currentTerm; i++) {
+        let buf: number[] = new Array(this.students[0].student.currentTerm);
+        for (let i = 1; i <= this.students[0].student.currentTerm; i++) {
           buf[i-1] = i;
         }
         this.terms = buf;
@@ -66,5 +68,8 @@ interface Dropdata {
   id: number;
   name: string;
 }
-
+interface StudentWithMarks {
+  student: Student;
+  marks: Mark[];
+}
 

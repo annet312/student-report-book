@@ -13,7 +13,7 @@ namespace StudentReportBookBLL.Services.Interfaces
 
         IEnumerable<MarkBll> GetAllMarksOfGroup(int subjectId, int groupId);
 
-        IEnumerable<MarkBll> GetAllMarksOfGroup(string teacherUserId, int subjectId, int groupId);
+        IEnumerable<MarkBll> GetAllMarksOfSubject(int teacherId, int subjectId, int groupId, int studentId);
 
         void AddMark(int grade, int studentId, string teacherUserId, int subjectId);
 

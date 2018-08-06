@@ -24,7 +24,7 @@ var StartWorkModule = /** @class */ (function () {
     StartWorkModule = __decorate([
         core_1.NgModule({
             imports: [
-                common_1.CommonModule, forms_1.FormsModule, start_work_routing_1.routing, shared_module_1.SharedModule, ngx_datatable_1.NgxDatatableModule, ng_bootstrap_1.NgbCollapseModule.forRoot()
+                common_1.CommonModule, forms_1.FormsModule, start_work_routing_1.routing, shared_module_1.SharedModule, ngx_datatable_1.NgxDatatableModule, ng_bootstrap_1.NgbCollapseModule.forRoot(), ng_bootstrap_1.NgbModule
             ],
             declarations: [teacher_component_1.TeacherComponent, students_component_1.StudentsComponent, gradebook_component_1.GradeBookComponent, start_work_component_1.StartWorkComponent],
             providers: [user_service_1.UserService]

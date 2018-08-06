@@ -15,12 +15,14 @@ namespace StudentReportBookBLL.Services
         private readonly IMapper mapper;
         private readonly IUnitOfWork db;
         private readonly IUserService userService;
+        private readonly IMarkService markService;
 
-        public StudentService(IMapper mapper, IUnitOfWork db, IUserService userService)
+        public StudentService(IMapper mapper, IUnitOfWork db, IUserService userService, IMarkService markService)
         {
             this.mapper = mapper;
             this.db = db;
             this.userService = userService;
+            this.markService = markService;
         }
         private TeacherBll GetCurrentTeacherId()
         {
@@ -84,58 +86,26 @@ namespace StudentReportBookBLL.Services
             return groups;
         }
 
-        //public IEnumerable<FacultyBll> GetFaculties()
-        //{
-        //    //TeacherBll teacher = GetCurrentTeacherId();
-
-        //    //IEnumerable<TeachersWorkload> tw = db.TeachersWorkloads.Get(tw => tw.TeacherId == teacher.Id);
-        //    //IEnumerable<Faculty> faculties = GetFaculties(teacher.)
-        //    //IEnumerable<FacultyBll> facultiesBll = mapper.Map<IEnumerable<FacultyBll>>(faculties);
-
-        //    //return facultiesBll;
-        //}
-
-        //public IEnumerable<FacultyBll> GetFaculties(int teacherWorkloadsId)
-        //{
-        //    IEnumerable<GroupBll> groups = GetGroups(teacherWorkloadsId);
-
-        //    IEnumerable<FacultyBll> faculties = groups.Select(g => g.Faculty);
-
-        //    return faculties;
-
-        //}
-
-        //private IEnumerable<GroupBll> GetGroups(int teachersWorkloadId)
-        //{
-        //    IEnumerable<TeachersWorkloadBll> teachersWorkloads = db.TeachersWorkloads.Get(tw => tw.Id == teachersWorkloadId);
-
-        //    if (!teachersWorkloads.Any()) return null;
-
-        //    IEnumerable<Group> groups = teachersWorkloads.Select(tw => tw.Group);
-        //    IEnumerable<GroupBll> groupsBll = mapper.Map<IEnumerable<GroupBll>>(groups);
-
-        //    return groupsBll;
-        //}
-
-        //    IEnumerable<GroupBll> IStudentService.GetGroups(int facultyId)
-        //    {
-        //        IEnumerable<Group> groups = db.Groups.Get(g => g.Faculty.Id == facultyId);
-        //        IEnumerable<GroupBll> groupsBll = mapper.Map<IEnumerable<GroupBll>>(groups);
-        //        return groupsBll;
-        //    }
-
-        //    //public  IEnumerable<GroupBll> GetGroups(int facultyId, int teachersWorkloadId)
-        //    //{
-        //    //    IEnumerable<GroupBll> groups = this.GetGroups(teachersWorkloadId).Where(g => g.Faculty.Id == facultyId);
-
-        //    //    return groups;
-        //    //}
-
-        public IEnumerable<StudentBll> GetStudents(int groupId)
+        public IEnumerable<MarkOfStudent> GetStudentsWithMarks(int groupId, int subjectId)
         {
+            IEnumerable<TeachersWorkloadBll> tws = GetTWOfCurrentTeacher();
+            if (!tws.Any())
+                return null;
+
             IEnumerable<Student> students = db.Students.Get(s => s.Group.Id == groupId);
-            IEnumerable<StudentBll> studentsBll = mapper.Map<IEnumerable<StudentBll>>(students);
-            return studentsBll;
+            IEnumerable<StudentBll> studentBlls = mapper.Map<IEnumerable<StudentBll>>(students);
+            List<MarkOfStudent> marksOfStudents = new List<MarkOfStudent>();
+            
+            foreach (var student in studentBlls)
+            {
+                marksOfStudents.Add(new MarkOfStudent()
+                {
+                    Student = student,
+                    Marks = markService.GetAllMarksOfSubject(tws.FirstOrDefault().Teacher.Id, subjectId, groupId, student.Id).ToArray()
+                });
+            }
+        
+            return marksOfStudents;
         }
     }
 }

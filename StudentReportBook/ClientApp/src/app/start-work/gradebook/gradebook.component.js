@@ -38,14 +38,6 @@ var GradeBookComponent = /** @class */ (function () {
             _this.rowmarks = _this.gradebook.marks;
         }, function (error) { return console.error(error); });
     };
-    GradeBookComponent.prototype.getGroupRowHeight = function (group, rowHeight) {
-        var style = {};
-        style = {
-            height: (group.length * 40) + 'px',
-            width: '100%'
-        };
-        return style;
-    };
     GradeBookComponent.prototype.toggleExpandGroup = function (group) {
         console.log('onToggleExpandGroup', group);
         this.markTable.groupHeader.toggleExpandGroup(group);
@@ -60,7 +52,7 @@ var GradeBookComponent = /** @class */ (function () {
     GradeBookComponent = __decorate([
         core_1.Component({
             selector: 'app-gradebook',
-            templateUrl: './gradebook.component.html'
+            templateUrl: 'gradebook.component.html'
         }),
         __param(1, core_1.Inject('BASE_URL')),
         __metadata("design:paramtypes", [http_1.HttpClient, String])

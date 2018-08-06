@@ -19,4 +19,10 @@ namespace StudentReportBook.ViewModel
         public int Grade { get; set; }
 
     }
+    public class MarkOfStudentViewModel
+    {
+        public StudentViewModel Student { get; set; }
+
+        public MarkViewModel[] Marks { get; set; }
+    }
 }

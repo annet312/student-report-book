@@ -22,7 +22,10 @@ namespace StudentReportBook.Controllers
         private readonly IMarkService markService;
         private readonly ITeacherService teacherService;
 
-        public TeacherController(IMapper mapper,IStudentService studentService, ITeacherService teacherService, IMarkService markService)
+        public TeacherController(IMapper mapper,
+                                    IStudentService studentService, 
+                                    ITeacherService teacherService, 
+                                    IMarkService markService)
         {
             this.mapper = mapper;
             this.studentService = studentService;
@@ -66,12 +69,10 @@ namespace StudentReportBook.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetStudents(int groupId)
+        public IActionResult GetStudents(int groupId, int subjectId)
         {
-            IEnumerable<StudentBll> students = studentService.GetStudents(groupId);
-
-            IEnumerable<StudentViewModel> studentViewModels = mapper.Map<IEnumerable<StudentViewModel>>(students);
-
+            IEnumerable<MarkOfStudent> students = studentService.GetStudentsWithMarks(groupId, subjectId);
+            IEnumerable<MarkOfStudentViewModel> studentViewModels = mapper.Map<IEnumerable<MarkOfStudentViewModel>>(students);
             return new OkObjectResult(studentViewModels);
         }
     }

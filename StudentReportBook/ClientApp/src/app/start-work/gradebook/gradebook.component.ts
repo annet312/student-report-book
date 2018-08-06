@@ -1,15 +1,13 @@
-import { Component, Inject, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { GradeBook, Student, Mark } from '../../shared/models/gradebook.interface';
 import { NgStyle } from '@angular/common';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
-
-
 @Component({
   selector: 'app-gradebook',
-  templateUrl: './gradebook.component.html'  
+  templateUrl: 'gradebook.component.html'  
 })
 
 export class GradeBookComponent {
@@ -48,14 +46,6 @@ export class GradeBookComponent {
     }, error => console.error(error));
   }
 
-  getGroupRowHeight(group, rowHeight) {
-    let style = {};
-    style = {
-      height: (group.length * 40) + 'px',
-      width: '100%'
-    };
-    return style;
-  }
   public toggleExpandGroup(group) {
     console.log('onToggleExpandGroup', group);
     this.markTable.groupHeader.toggleExpandGroup(group);
@@ -66,4 +56,3 @@ export class GradeBookComponent {
     console.log('onDetailToggle', event);
   }
 }
-

@@ -14,9 +14,6 @@ namespace StudentReportBook.ViewModel
         public string StudentCard { get; set; }
         public int CurrentTerm { get; set; }
     }
-    public class MarkOfGroupViewModel
-    {
-        public StudentViewModel Student { get; set; }
-        public IEnumerable<MarkViewModel> Marks { get; set; }
-    }
+
+
 }

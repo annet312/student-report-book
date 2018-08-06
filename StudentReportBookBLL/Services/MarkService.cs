@@ -97,12 +97,23 @@ namespace StudentReportBookBLL.Services
 
         public IEnumerable<MarkBll> GetAllMarksOfGroup(int subjectId, int groupId)
         {
-            throw new NotImplementedException();
+            //IEnumerable<Mark> marks = db.Marks.Get(m => (m.TeachersWorkload.Subject.Id == subjectId)
+            //                                         && (m.Student.Group.Id == groupId));
+            //IEnumerable<MarkBll> marksbll = mapper.Map<IEnumerable<MarkBll>>(marks);
+
+            //return marksbll;
+            throw new Exception();
         }
 
-        public IEnumerable<MarkBll> GetAllMarksOfGroup(string teacherUserId, int subjectId, int groupId)
+
+        public IEnumerable<MarkBll> GetAllMarksOfSubject(int teacherId, int subjectId, int groupId, int studentId)
         {
-            throw new NotImplementedException();
+            IEnumerable<Mark> marks = db.Marks.Get(m => (m.TeachersWorkload.Subject.Id == subjectId)
+                                                    && (m.Student.Group.Id == groupId)
+                                                    && (m.TeachersWorkload.Teacher.Id == teacherId)
+                                                    && (m.Student.Id == studentId));
+            IEnumerable<MarkBll> markBlls = mapper.Map<IEnumerable<MarkBll>>(marks);
+            return markBlls;
         }
 
         IEnumerable<MarkBll> IMarkService.GetAllMarks(StudentBll student)

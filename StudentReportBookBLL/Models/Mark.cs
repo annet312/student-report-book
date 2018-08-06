@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 
 namespace StudentReportBookBLL.Models
 {
@@ -14,5 +15,10 @@ namespace StudentReportBookBLL.Models
         public DateTime Date { get; set; }
 
         public TeachersWorkloadBll TeachersWorkload { get; set; }
+    }
+    public class MarkOfStudent
+    {
+        public StudentBll Student { get; set; }
+        public MarkBll[] Marks { get; set; }
     }
 }

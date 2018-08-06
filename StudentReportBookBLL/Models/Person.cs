@@ -18,7 +18,7 @@ namespace StudentReportBookBLL.Models
         public AppUserBll Identity { get; set; }
     }
 
-    public class StudentBll /*: PersonBll*/
+    public class StudentBll 
     {
         public int Id { get; set; }
 
@@ -35,7 +35,7 @@ namespace StudentReportBookBLL.Models
         public GroupBll Group { get; set; }
     }
 
-    public class TeacherBll /*: PersonBll*/
+    public class TeacherBll 
     {
         public int Id { get; set; }
 

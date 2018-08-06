@@ -21,6 +21,16 @@ namespace StudentReportBook.ViewModel.Mapping
                 .ForMember(gbvm => gbvm.Marks, map => map.MapFrom(gb => gb.Marks));
         }
     }
+
+    public class MarkOfStudentProfile : Profile
+    {
+        public MarkOfStudentProfile()
+        {
+            CreateMap<MarkOfStudent, MarkOfStudentViewModel>()
+                .ForMember(m => m.Student, map => map.MapFrom(mvm => mvm.Student))
+                .ForMember(m => m.Marks, map => map.MapFrom(mvm => mvm.Marks));
+        }
+    }
     public class StudentToStudentViewProfile : Profile
     {
         public StudentToStudentViewProfile()
