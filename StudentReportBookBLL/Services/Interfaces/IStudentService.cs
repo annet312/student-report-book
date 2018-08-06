@@ -19,7 +19,7 @@ namespace StudentReportBookBLL.Services.Interfaces
         /// Get subject for teacher who ask
         /// </summary>
         /// <returns>subjects </returns>
-        IEnumerable<FacultyBll> GetFaculties();
+        IEnumerable<FacultyBll> GetFacultiesForCurrentTeacher(int subjectId);
         /// <summary>
         /// Get faculties where teacher with this Id has workload
         /// </summary>
@@ -31,7 +31,7 @@ namespace StudentReportBookBLL.Services.Interfaces
         /// </summary>
         /// <param name="faculty">needed faculty</param>
         /// <returns>groups</returns>
-        IEnumerable<GroupBll> GetGroups(int facultyId);
+        IEnumerable<GroupBll> GetGroupsForCurrentTeacher(int facultyId, int subjectId);
         /// <summary>
         /// get groups of faculty where this teacher has workload
         /// </summary>

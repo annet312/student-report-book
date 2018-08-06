@@ -32,9 +32,8 @@ namespace StudentReportBookDAL.Entities
 
     public class Teacher : Person
     {
-
-       // public int? TeachersWorkloadId { get; set; }
-       // public List<TeachersWorkload> TeachersWorkloads { get; set; }
+        public int? TeachersWorkloadId { get; set; }
+        public List<TeachersWorkload> TeachersWorkloads { get; set; }
         public string Department { get; set; }
 
        

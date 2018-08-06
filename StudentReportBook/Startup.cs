@@ -168,13 +168,10 @@ namespace StudentReportBook
 
             services.AddAutoMapper(typeof(Startup));
 
-            //    JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-            //    {
-            //        ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            //};
+           
 
 
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+        JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 Formatting = Formatting.Indented,
@@ -183,9 +180,6 @@ namespace StudentReportBook
 
             
             services.AddMvc()
-                //.AddJsonOptions(options => {
-                //   options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                //})
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
 

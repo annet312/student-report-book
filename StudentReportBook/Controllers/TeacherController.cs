@@ -4,7 +4,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StudentReportBook.Models.Entities;
+using StudentReportBook.ViewModel;
+using StudentReportBookBLL.Models;
 using StudentReportBookBLL.Services.Interfaces;
+using System.Collections.Generic;
 
 namespace StudentReportBook.Controllers
 {
@@ -26,15 +30,49 @@ namespace StudentReportBook.Controllers
             this.markService = markService;
         }
         /// <summary>
-        /// get faculties where this teacher work
+        /// get subjects that this teacher has in workload
         /// </summary>
-        /// <returns></returns>
+        /// <returns>subjects</returns>
         [HttpGet]
         public IActionResult GetSubjectsForCurrentTeacher( )
         {
-            var subjects = studentService.GetSubjectsForCurrentTeacher();
-          
+            IEnumerable<SubjectBll> subjects = studentService.GetSubjectsForCurrentTeacher();
+           
             return new OkObjectResult(subjects);
+        }
+
+        /// <summary>
+        /// get faculties where this teacher work with pointed subject
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult GetFaculties(int subjectId)
+        {
+            IEnumerable<FacultyBll> faculties = studentService.GetFacultiesForCurrentTeacher(subjectId);
+            IEnumerable<FacultyViewModel> facultyViewModels = mapper.Map < IEnumerable<FacultyViewModel>>(faculties);
+            return new OkObjectResult(facultyViewModels);
+        }
+        /// <summary>
+        /// get groups where current teacher work with filtered subject and faculty
+        /// </summary>
+        /// <param name="subjectId"></param>
+        /// <returns>groups</returns>
+        [HttpGet]
+        public IActionResult GetGroups(int subjectId, int facultyId)
+        {
+            IEnumerable<GroupBll> groups = studentService.GetGroupsForCurrentTeacher(facultyId,subjectId);
+            IEnumerable<GroupViewModel> groupViewModels = mapper.Map<IEnumerable<GroupViewModel>>(groups);
+            return new OkObjectResult(groupViewModels);
+        }
+
+        [HttpGet]
+        public IActionResult GetStudents(int groupId)
+        {
+            IEnumerable<StudentBll> students = studentService.GetStudents(groupId);
+
+            IEnumerable<StudentViewModel> studentViewModels = mapper.Map<IEnumerable<StudentViewModel>>(students);
+
+            return new OkObjectResult(studentViewModels);
         }
     }
 }

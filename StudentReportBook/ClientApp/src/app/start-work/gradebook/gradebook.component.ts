@@ -6,6 +6,7 @@ import { NgStyle } from '@angular/common';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 
+
 @Component({
   selector: 'app-gradebook',
   templateUrl: './gradebook.component.html'  
@@ -49,19 +50,17 @@ export class GradeBookComponent {
 
   getGroupRowHeight(group, rowHeight) {
     let style = {};
-
     style = {
       height: (group.length * 40) + 'px',
       width: '100%'
     };
-
     return style;
   }
-
-  public ToggleExpandGroup(group) {
+  public toggleExpandGroup(group) {
     console.log('onToggleExpandGroup', group);
     this.markTable.groupHeader.toggleExpandGroup(group);
   }
+
 
   public onDetailToggle(event) {
     console.log('onDetailToggle', event);

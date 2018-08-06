@@ -14,9 +14,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/common/http");
-//import { Subject } from '../../../node_modules/rxjs';
 var StudentsComponent = /** @class */ (function () {
     function StudentsComponent(http, baseUrl) {
+        this.subjects = null;
+        this.faculties = null;
+        this.groups = null;
+        this.students = null;
         this.baseUrl = baseUrl;
         this.http = http;
     }
@@ -25,6 +28,34 @@ var StudentsComponent = /** @class */ (function () {
         this.http.get(this.baseUrl + 'api/teacher/getSubjectsForCurrentTeacher').subscribe(function (result) {
             _this.subjects = result;
             console.log(result);
+        }, function (error) { return console.error(error); });
+    };
+    StudentsComponent.prototype.filterSubject = function (subjectId) {
+        var _this = this;
+        this.subjtId = subjectId;
+        this.http.get(this.baseUrl + 'api/teacher/getFaculties', { params: { subjectId: subjectId } }).subscribe(function (result) {
+            _this.faculties = result;
+            console.log(result);
+        }, function (error) { return console.error(error); });
+    };
+    StudentsComponent.prototype.filterFaculty = function (facId) {
+        var _this = this;
+        this.http.get(this.baseUrl + 'api/teacher/getGroups', { params: { subjectId: this.subjtId, facultyId: facId } }).subscribe(function (result) {
+            _this.groups = result;
+            console.log(result);
+        }, function (error) { return console.error(error); });
+    };
+    StudentsComponent.prototype.filterGroup = function (groupId) {
+        var _this = this;
+        this.http.get(this.baseUrl + 'api/teacher/getStudents', { params: { groupId: groupId } }).subscribe(function (result) {
+            _this.students = result;
+            if (!!_this.students) {
+                var buf = new Array(_this.students[0].currentTerm);
+                for (var i = 1; i <= _this.students[0].currentTerm; i++) {
+                    buf[i - 1] = i;
+                }
+                _this.terms = buf;
+            }
         }, function (error) { return console.error(error); });
     };
     StudentsComponent = __decorate([

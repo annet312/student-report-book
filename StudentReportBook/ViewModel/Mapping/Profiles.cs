@@ -15,5 +15,22 @@ namespace StudentReportBook.ViewModel.Mapping
             CreateMap<TeacherBll, Teacher>();
         }
     }
-
+    public class FacultyProfile : Profile
+    {
+        public FacultyProfile()
+        {
+            CreateMap<FacultyBll, FacultyViewModel>()
+               .ForMember(f => f.Id, map => map.MapFrom(m => m.Id))
+                .ForMember(f => f.Name, map => map.MapFrom(m => m.Name));
+        }
+    }
+    public class GroupProfile : Profile
+    {
+        public GroupProfile()
+        {
+            CreateMap<GroupBll, GroupViewModel>()
+               .ForMember(f => f.Id, map => map.MapFrom(m => m.Id))
+                .ForMember(f => f.Name, map => map.MapFrom(m => m.Name));
+        }
+    }
 }

@@ -11,6 +11,7 @@ var common_1 = require("@angular/common");
 var forms_1 = require("@angular/forms");
 var shared_module_1 = require("../shared/modules/shared.module");
 var ngx_datatable_1 = require("@swimlane/ngx-datatable");
+var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var user_service_1 = require("../shared/services/user.service");
 var start_work_routing_1 = require("./start-work.routing");
 var gradebook_component_1 = require("./gradebook/gradebook.component");
@@ -23,7 +24,7 @@ var StartWorkModule = /** @class */ (function () {
     StartWorkModule = __decorate([
         core_1.NgModule({
             imports: [
-                common_1.CommonModule, forms_1.FormsModule, start_work_routing_1.routing, shared_module_1.SharedModule, ngx_datatable_1.NgxDatatableModule
+                common_1.CommonModule, forms_1.FormsModule, start_work_routing_1.routing, shared_module_1.SharedModule, ngx_datatable_1.NgxDatatableModule, ng_bootstrap_1.NgbCollapseModule.forRoot()
             ],
             declarations: [teacher_component_1.TeacherComponent, students_component_1.StudentsComponent, gradebook_component_1.GradeBookComponent, start_work_component_1.StartWorkComponent],
             providers: [user_service_1.UserService]

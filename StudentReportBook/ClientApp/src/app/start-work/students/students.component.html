@@ -1,9 +1,45 @@
+<div>
+  <label>Subject: </label>
+  <select (change)="filterSubject($event.target.value)">
+    <option value="0">--</option>
+    <option *ngFor="let subject of subjects" value={{subject.id}}>
+      {{subject.name}}
+    </option>
+  </select>
+  <label>Faculty: </label>
+  <select (change)="filterFaculty($event.target.value)">
+    <option value="0">--</option>
+    <option *ngFor="let faculty of faculties" value={{faculty.id}}>
+      {{faculty.name}}
+    </option>
+  </select>
+  <label>Group: </label>
+  <select (change)="filterGroup($event.target.value)">
+    <option value="0">--</option>
+    <option *ngFor="let group of groups" value={{group.id}}>
+      {{group.name}}
+    </option>
+  </select>
+</div>
+<div *ngIf="!!students; then thenBlock else elseBlock"></div>
+<ng-template #thenBlock>
   <div>
-    <label>Subject: </label>
-    <select (change)="filterSubject($event.target.value)">
-      <option value="0">--</option>
-      <option *ngFor="let subject of subjects" value={{subject.id}}>
-        {{subject.name}}
-      </option>
-    </select>
+    <h2>Students</h2>
+    <ngx-datatable #studenrinfo class="material"
+                   style="top: 52px"
+                   [columnMode]="'force'"
+                   [headerHeight]="50"
+                   [footerHeight]="0"
+                   [rowHeight]="50"
+                   [rows]="students">          
+      <ngx-datatable-column name="Name"></ngx-datatable-column>
+      <ngx-datatable-column name="StudentCard"></ngx-datatable-column>
+      <ngx-datatable-column *ngFor="let term of terms" name={{term}}></ngx-datatable-column>
+    </ngx-datatable>
   </div>
+</ng-template>
+<ng-template #elseBlock>
+  <h2>Choose group</h2>
+</ng-template>
+
+

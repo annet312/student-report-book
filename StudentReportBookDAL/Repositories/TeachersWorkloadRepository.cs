@@ -22,21 +22,23 @@ namespace StudentReportBookDAL.Repositories
             IEnumerable<TeachersWorkload> teachersWorkloads = dbContext.TeachersWorkloads
                                             .Include(tw => tw.Group)
                                                     .ThenInclude(g => g.Faculty)
-                                            .Include(tw => tw.Subject)
-                                            .Include(tw => tw.Marks).AsEnumerable();
+                                            .Include(tw => tw.Subject).AsEnumerable();
+                                            //.Include(tw => tw.Marks).AsEnumerable();
 
             return teachersWorkloads;
         }
 
         public IEnumerable<TeachersWorkload> Get(Expression<Func<TeachersWorkload, bool>> predicate)
         {
-            //IEnumerable<TeachersWorkload> teachersWorkloads = dbContext.TeachersWorkloads
-            //                   .Where(predicate)
-            //                   // .Include(tw => tw.Group)
-            //                           // .ThenInclude(g => g.Faculty)
-            //                    .Include(tw => tw.Subject).AsEnumerable();
-            var r = dbContext.TeachersWorkloads.Include(s => s.Subject).FirstOrDefault();
-            return null;
+            IEnumerable<TeachersWorkload> teachersWorkloads = dbContext.TeachersWorkloads
+                               .Where(predicate)
+                                 .Include(tw => tw.Group)
+                                 .ThenInclude(g => g.Faculty)
+                                .Include(tw => tw.Subject)
+                                .AsEnumerable();
+
+
+            return teachersWorkloads;
         }
 
         public void Add(TeachersWorkload teachersWorkload)

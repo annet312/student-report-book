@@ -6,28 +6,7 @@ namespace StudentReportBookDAL.Entities
     {
         public int Id { get; set; }
 
-        public int Term
-        {
-            get
-            {
-                return Term;
-            }
-            set
-            {
-                if (value < 1)
-                {
-                    Term = 1;
-                }
-                else if (value > 12)
-                {
-                    Term = 12;
-                }
-                else
-                {
-                    Term = value;
-                }
-            }
-        }
+        public int Term { get; set;}
 
         public int GroupId { get; set; }
 
@@ -39,8 +18,8 @@ namespace StudentReportBookDAL.Entities
 
         public int TeacherId { get; set; }
 
-        //public Teacher Teacher { get; set; }
+        public Teacher Teacher { get; set; }
 
-        public List<Mark> Marks { get; set; }
+         public List<Mark> Marks { get; set; }
     }
 }

@@ -70,7 +70,6 @@ namespace StudentReportBookDAL.Context
             {
                 builder.ToTable("Subjects").HasKey(p => p.Id);
                 builder.Property(p => p.Name).IsRequired().HasMaxLength(50);
-
             }
         }
        
@@ -78,7 +77,8 @@ namespace StudentReportBookDAL.Context
         {
             public void Configure(EntityTypeBuilder<Teacher> builder)
             {
-               //?
+
+                builder.HasMany(t => t.TeachersWorkloads).WithOne(tw => tw.Teacher);//.OnDelete(DeleteBehavior.Restrict);
             }
         }
         public class TeachersWorkloadConfiguration : IEntityTypeConfiguration<TeachersWorkload>
@@ -86,7 +86,8 @@ namespace StudentReportBookDAL.Context
             public void Configure(EntityTypeBuilder<TeachersWorkload> builder)
             {
                 builder.ToTable("TeachersWorkloads").HasKey(p => p.Id);
-                builder.HasOne(tw => tw.Subject).WithMany(s => s.TeachersWorkloads);
+                builder.HasOne(tw => tw.Subject).WithMany(s => s.TeachersWorkloads).OnDelete(DeleteBehavior.Restrict);
+                builder.HasOne(tw => tw.Teacher).WithMany(t => t.TeachersWorkloads).OnDelete(DeleteBehavior.Restrict);
                 builder.Property(tw => tw.Term).IsRequired();
 
             }
@@ -116,6 +117,9 @@ namespace StudentReportBookDAL.Context
                 builder.Property(m => m.StudentId).IsRequired();
                 builder.Property(m => m.TeachersWorkloadId).IsRequired();
                 builder.Property(m => m.Grade).IsRequired();
+                builder.HasOne<TeachersWorkload>(e => e.TeachersWorkload)
+                    .WithMany(e => e.Marks)
+                     .OnDelete(DeleteBehavior.Restrict);
             }
         }
     }

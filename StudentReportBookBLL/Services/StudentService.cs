@@ -46,27 +46,42 @@ namespace StudentReportBookBLL.Services
         }
         public IEnumerable<SubjectBll> GetSubjectsForCurrentTeacher()
         {
-            var tws = GetTWOfCurrentTeacher();
-            if (tws.Any())
+            IEnumerable<TeachersWorkloadBll> tws = GetTWOfCurrentTeacher();
+            if (!tws.Any())
                 return null;
-            IEnumerable<SubjectBll> subjects = tws.Select(tw => tw.Subject);
+            //groupby for unic subjects
+            IEnumerable<SubjectBll> subjects = tws.GroupBy(s => s.Subject.Id)
+                                                    .Select(tw => tw.First())
+                                                    .Select(tw => tw.Subject).ToList();
+
 
             return subjects;
         }
 
-        public IEnumerable<FacultyBll> GetFaculties()
+        public IEnumerable<FacultyBll> GetFacultiesForCurrentTeacher(int subjectId)
         {
-            throw new NotImplementedException();
+            IEnumerable<TeachersWorkloadBll> tws = GetTWOfCurrentTeacher();
+            if (!tws.Any())
+                return null;
+
+            IEnumerable<FacultyBll> faculties = tws.Where(tw => tw.Subject.Id == subjectId)
+                                                    .GroupBy(s => s.Group.Faculty.Id)
+                                                    .Select(t => t.First())
+                                                    .Select(tw => tw.Group.Faculty).ToList();
+            return faculties;
         }
 
-        public IEnumerable<GroupBll> GetGroups(int facultyId)
+        public IEnumerable<GroupBll> GetGroupsForCurrentTeacher(int facultyId, int subjectId)
         {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<StudentBll> GetStudents(int groupId)
-        {
-            throw new NotImplementedException();
+            IEnumerable<TeachersWorkloadBll> tws = GetTWOfCurrentTeacher();
+            if (!tws.Any())
+                return null;
+            IEnumerable<GroupBll> groups = tws.Where(tw => (tw.Group.Faculty.Id == facultyId) 
+                                                             && (tw.Subject.Id == subjectId))
+                                               .GroupBy(s => s.Group.Id)
+                                                    .Select(t => t.First())
+                                            .Select(tw => tw.Group).ToList();
+            return groups;
         }
 
         //public IEnumerable<FacultyBll> GetFaculties()
@@ -116,11 +131,11 @@ namespace StudentReportBookBLL.Services
         //    //    return groups;
         //    //}
 
-        //    public IEnumerable<StudentBll> GetStudents(int groupId)
-        //    {
-        //        IEnumerable<Student> students = db.Students.Get(s => s.Group.Id == groupId);
-        //        IEnumerable<StudentBll> studentsBll = mapper.Map<IEnumerable<StudentBll>>(students);
-        //        return studentsBll;
-        //    }
+        public IEnumerable<StudentBll> GetStudents(int groupId)
+        {
+            IEnumerable<Student> students = db.Students.Get(s => s.Group.Id == groupId);
+            IEnumerable<StudentBll> studentsBll = mapper.Map<IEnumerable<StudentBll>>(students);
+            return studentsBll;
+        }
     }
 }

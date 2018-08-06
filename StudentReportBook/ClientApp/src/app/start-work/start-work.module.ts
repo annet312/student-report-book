@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/modules/shared.module';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { UserService } from '../shared/services/user.service';
 import { routing } from './start-work.routing';
 
@@ -17,7 +19,7 @@ import { StartWorkComponent } from './start-work.component';
 
 @NgModule({
   imports: [
-    CommonModule, FormsModule, routing, SharedModule, NgxDatatableModule
+    CommonModule, FormsModule, routing, SharedModule, NgxDatatableModule, NgbCollapseModule.forRoot()
   ],
   declarations: [TeacherComponent, StudentsComponent, GradeBookComponent, StartWorkComponent],
   providers: [UserService]

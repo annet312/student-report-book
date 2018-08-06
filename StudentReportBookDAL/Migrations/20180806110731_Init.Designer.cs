@@ -10,7 +10,7 @@ using StudentReportBookDAL.Context;
 namespace StudentReportBookDAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20180725121919_Init")]
+    [Migration("20180806110731_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -231,8 +231,7 @@ namespace StudentReportBookDAL.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<int>("Grade")
-                        .HasAnnotation("[Range(1, 100)]", "MarkGrade");
+                    b.Property<int>("Grade");
 
                     b.Property<int>("StudentId");
 
@@ -317,6 +316,8 @@ namespace StudentReportBookDAL.Migrations
 
                     b.HasIndex("SubjectId");
 
+                    b.HasIndex("TeacherId");
+
                     b.ToTable("TeachersWorkloads");
                 });
 
@@ -361,6 +362,8 @@ namespace StudentReportBookDAL.Migrations
                     b.HasBaseType("StudentReportBookDAL.Entities.Person");
 
                     b.Property<string>("Department");
+
+                    b.Property<int?>("TeachersWorkloadId");
 
                     b.ToTable("Teacher");
 
@@ -430,7 +433,7 @@ namespace StudentReportBookDAL.Migrations
                     b.HasOne("StudentReportBookDAL.Entities.TeachersWorkload", "TeachersWorkload")
                         .WithMany("Marks")
                         .HasForeignKey("TeachersWorkloadId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("StudentReportBookDAL.Entities.Person", b =>
@@ -451,6 +454,11 @@ namespace StudentReportBookDAL.Migrations
                     b.HasOne("StudentReportBookDAL.Entities.Subject", "Subject")
                         .WithMany("TeachersWorkloads")
                         .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("StudentReportBookDAL.Entities.Teacher", "Teacher")
+                        .WithMany("TeachersWorkloads")
+                        .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

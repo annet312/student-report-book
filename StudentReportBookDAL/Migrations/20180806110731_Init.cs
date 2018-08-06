@@ -221,6 +221,7 @@ namespace StudentReportBookDAL.Migrations
                     Position = table.Column<int>(nullable: false),
                     StudentCard = table.Column<string>(nullable: true),
                     GroupId = table.Column<int>(nullable: true),
+                    TeachersWorkloadId = table.Column<int>(nullable: true),
                     Department = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -259,13 +260,19 @@ namespace StudentReportBookDAL.Migrations
                         column: x => x.GroupId,
                         principalTable: "Groups",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TeachersWorkloads_Subjects_SubjectId",
                         column: x => x.SubjectId,
                         principalTable: "Subjects",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TeachersWorkloads_People_TeacherId",
+                        column: x => x.TeacherId,
+                        principalTable: "People",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -287,13 +294,13 @@ namespace StudentReportBookDAL.Migrations
                         column: x => x.StudentId,
                         principalTable: "People",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Marks_TeachersWorkloads_TeachersWorkloadId",
                         column: x => x.TeachersWorkloadId,
                         principalTable: "TeachersWorkloads",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -370,6 +377,11 @@ namespace StudentReportBookDAL.Migrations
                 name: "IX_TeachersWorkloads_SubjectId",
                 table: "TeachersWorkloads",
                 column: "SubjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TeachersWorkloads_TeacherId",
+                table: "TeachersWorkloads",
+                column: "TeacherId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -396,19 +408,19 @@ namespace StudentReportBookDAL.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "People");
+                name: "TeachersWorkloads");
 
             migrationBuilder.DropTable(
-                name: "TeachersWorkloads");
+                name: "Subjects");
+
+            migrationBuilder.DropTable(
+                name: "People");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Groups");
-
-            migrationBuilder.DropTable(
-                name: "Subjects");
 
             migrationBuilder.DropTable(
                 name: "Faculties");

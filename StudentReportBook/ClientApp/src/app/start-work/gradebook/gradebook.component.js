@@ -46,7 +46,7 @@ var GradeBookComponent = /** @class */ (function () {
         };
         return style;
     };
-    GradeBookComponent.prototype.ToggleExpandGroup = function (group) {
+    GradeBookComponent.prototype.toggleExpandGroup = function (group) {
         console.log('onToggleExpandGroup', group);
         this.markTable.groupHeader.toggleExpandGroup(group);
     };

@@ -5,6 +5,7 @@ export interface GradeBook {
 }
 
 export interface Mark {
+  id: number;
   subject: string;
   teacher: string;
   term: number;
@@ -12,6 +13,7 @@ export interface Mark {
 }
 
 export interface Student {
+  id: number;
   name: string;
   faculty: string;
   studentCard: string;
