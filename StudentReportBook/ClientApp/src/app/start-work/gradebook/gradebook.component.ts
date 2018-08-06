@@ -1,15 +1,17 @@
 import { Component, Inject, ViewEncapsulation, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { GradeBook, Student, Mark } from '../shared/models/gradebook.interface';
-import { NgStyle } from '@angular/common';
 
+import { HttpClient } from '@angular/common/http';
+import { GradeBook, Student, Mark } from '../../shared/models/gradebook.interface';
+import { NgStyle } from '@angular/common';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 
 @Component({
-  selector: 'app-counter-component',
-  templateUrl: './counter.component.html'  
+  selector: 'app-gradebook',
+  templateUrl: './gradebook.component.html'  
 })
-export class CounterComponent {
+
+export class GradeBookComponent {
   public gradebook: GradeBook;
 
   @ViewChild('markTable') markTable: any;

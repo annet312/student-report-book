@@ -24,7 +24,6 @@ import '../../rxjs-operators';
 export class UserService extends BaseService {
 
   baseUrls: string = '';
-
   //Observable navItem source
   private authNavStatusSource = new BehaviorSubject<boolean>(false);
   //Observable navItem stream
@@ -32,7 +31,7 @@ export class UserService extends BaseService {
 
   private loggedIn = false;
 
-  constructor(private http: Http, private configService: ConfigService, @Inject('BASE_URL') baseUrl: string, private decodeService: DecodeService) {
+  constructor(private http: Http, private httpClient: HttpClient, private configService: ConfigService, @Inject('BASE_URL') baseUrl: string, private decodeService: DecodeService) {
     super();
     this.loggedIn = !!localStorage.getItem('auth_token');
     this.authNavStatusSource.next(this.loggedIn);
@@ -41,16 +40,10 @@ export class UserService extends BaseService {
   }
 
   register(email: string, password: string, firstName: string, lastName: string, role: string): Observable<boolean | {}> {
-    console.log("in registration");
     console.log(email + '' + password);
     let body = JSON.stringify({ email, password, firstName, lastName, role });
-    console.log("body");
-    console.log(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    console.log(headers);
     let options = new RequestOptions({ headers: headers });
-    console.log(options);
-    console.log(this.baseUrls);
     return this.http.post(this.baseUrls + "api/accounts", body, options)
       .map(res => true)
       .catch(this.handleError);
@@ -70,9 +63,11 @@ export class UserService extends BaseService {
         localStorage.setItem('auth_token', res.auth_token);
         console.log(res.auth_token);
         this.loggedIn = true;
+
         this.authNavStatusSource.next(true);
         return true;
       })
+      
       .catch(this.handleError);
   }
 
@@ -84,9 +79,27 @@ export class UserService extends BaseService {
     }
     return userName;
   }
+  setCurrentUserRole() {
+   // let userRole: string = 'no role';
+    if (this.loggedIn) {
+      if (localStorage.getItem('current_role') == null) {
+        this.httpClient.get<string>(this.baseUrls + 'api/auth/getCurrentRole').subscribe(result => {
+          localStorage.setItem('current_role', result);
+          let userRole = localStorage.getItem('current_role');;
+          console.log('userservice ' + userRole);
+        }, error => console.error(error));
+      }
+      else {
+        let userRole = localStorage.getItem('current_role');
+        console.log('userservice else ' + userRole);
+      }
+    }
+ //   return userRole;
+  }
 
   logout() {
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('current_role');
     this.loggedIn = false;
     this.authNavStatusSource.next(false);
   }

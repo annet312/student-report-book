@@ -16,12 +16,16 @@ var core_1 = require("@angular/core");
 var http_1 = require("@angular/common/http");
 var FetchDataComponent = /** @class */ (function () {
     function FetchDataComponent(http, baseUrl) {
+        this.baseUrl = baseUrl;
+        this.http = http;
+    }
+    FetchDataComponent.prototype.ngOnInit = function () {
         var _this = this;
-        http.get(baseUrl + 'api/SampleData/WeatherForecasts').subscribe(function (result) {
+        this.http.get(this.baseUrl + 'api/SampleData/WeatherForecasts').subscribe(function (result) {
             _this.forecasts = result;
             console.log(result);
         }, function (error) { return console.error(error); });
-    }
+    };
     FetchDataComponent = __decorate([
         core_1.Component({
             selector: 'app-fetch-data',

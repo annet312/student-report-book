@@ -52,6 +52,9 @@
     <None Remove="ClientApp\src\app\shared\modules\shared.module.ts" />
     <None Remove="ClientApp\src\app\shared\services\base.service.ts" />
     <None Remove="ClientApp\src\app\shared\services\user.service.ts" />
+    <None Remove="ClientApp\src\app\start-work\start-work.component.ts" />
+    <None Remove="ClientApp\src\app\start-work\start-work.module.ts" />
+    <None Remove="ClientApp\src\app\start-work\start-work.routing.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -73,6 +76,9 @@
     <TypeScriptCompile Include="ClientApp\src\app\shared\modules\shared.module.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\services\base.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\services\user.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\start-work\start-work.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\start-work\start-work.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\start-work\start-work.routing.ts" />
   </ItemGroup>
 
   <ItemGroup>

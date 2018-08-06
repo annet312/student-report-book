@@ -259,13 +259,13 @@ namespace StudentReportBookDAL.Migrations
                         column: x => x.GroupId,
                         principalTable: "Groups",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_TeachersWorkloads_Subjects_SubjectId",
                         column: x => x.SubjectId,
                         principalTable: "Subjects",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -287,13 +287,13 @@ namespace StudentReportBookDAL.Migrations
                         column: x => x.StudentId,
                         principalTable: "People",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Marks_TeachersWorkloads_TeachersWorkloadId",
                         column: x => x.TeachersWorkloadId,
                         principalTable: "TeachersWorkloads",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(

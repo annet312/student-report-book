@@ -14,15 +14,15 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/common/http");
-var CounterComponent = /** @class */ (function () {
-    function CounterComponent(http, baseUrl) {
+var GradeBookComponent = /** @class */ (function () {
+    function GradeBookComponent(http, baseUrl) {
         this.row = [];
         this.rowmarks = [];
         this.groups = [];
         this.http = http;
         this.baseUrl = baseUrl;
     }
-    CounterComponent.prototype.ngOnInit = function () {
+    GradeBookComponent.prototype.ngOnInit = function () {
         var _this = this;
         var token = localStorage.getItem('auth_token');
         this.http.get(this.baseUrl + 'api/student/getMyGradeBook').subscribe(function (result) {
@@ -38,7 +38,7 @@ var CounterComponent = /** @class */ (function () {
             _this.rowmarks = _this.gradebook.marks;
         }, function (error) { return console.error(error); });
     };
-    CounterComponent.prototype.getGroupRowHeight = function (group, rowHeight) {
+    GradeBookComponent.prototype.getGroupRowHeight = function (group, rowHeight) {
         var style = {};
         style = {
             height: (group.length * 40) + 'px',
@@ -46,26 +46,26 @@ var CounterComponent = /** @class */ (function () {
         };
         return style;
     };
-    CounterComponent.prototype.ToggleExpandGroup = function (group) {
+    GradeBookComponent.prototype.ToggleExpandGroup = function (group) {
         console.log('onToggleExpandGroup', group);
         this.markTable.groupHeader.toggleExpandGroup(group);
     };
-    CounterComponent.prototype.onDetailToggle = function (event) {
+    GradeBookComponent.prototype.onDetailToggle = function (event) {
         console.log('onDetailToggle', event);
     };
     __decorate([
         core_1.ViewChild('markTable'),
         __metadata("design:type", Object)
-    ], CounterComponent.prototype, "markTable", void 0);
-    CounterComponent = __decorate([
+    ], GradeBookComponent.prototype, "markTable", void 0);
+    GradeBookComponent = __decorate([
         core_1.Component({
-            selector: 'app-counter-component',
-            templateUrl: './counter.component.html'
+            selector: 'app-gradebook',
+            templateUrl: './gradebook.component.html'
         }),
         __param(1, core_1.Inject('BASE_URL')),
         __metadata("design:paramtypes", [http_1.HttpClient, String])
-    ], CounterComponent);
-    return CounterComponent;
+    ], GradeBookComponent);
+    return GradeBookComponent;
 }());
-exports.CounterComponent = CounterComponent;
-//# sourceMappingURL=counter.component.js.map
+exports.GradeBookComponent = GradeBookComponent;
+//# sourceMappingURL=gradebook.component.js.map

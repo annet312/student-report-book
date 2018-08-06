@@ -25,6 +25,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var core_2 = require("@angular/core");
 var http_1 = require("@angular/http");
+var http_2 = require("@angular/common/http");
 var config_service_1 = require("../utils/config.service");
 var decode_service_1 = require("./decode.service");
 var base_service_1 = require("./base.service");
@@ -35,9 +36,10 @@ var Rx_1 = require("rxjs/Rx");
 require("../../rxjs-operators");
 var UserService = /** @class */ (function (_super) {
     __extends(UserService, _super);
-    function UserService(http, configService, baseUrl, decodeService) {
+    function UserService(http, httpClient, configService, baseUrl, decodeService) {
         var _this = _super.call(this) || this;
         _this.http = http;
+        _this.httpClient = httpClient;
         _this.configService = configService;
         _this.decodeService = decodeService;
         _this.baseUrls = '';
@@ -53,16 +55,10 @@ var UserService = /** @class */ (function (_super) {
         //this.baseUrl = configService.getApiURI();
     }
     UserService.prototype.register = function (email, password, firstName, lastName, role) {
-        console.log("in registration");
         console.log(email + '' + password);
         var body = JSON.stringify({ email: email, password: password, firstName: firstName, lastName: lastName, role: role });
-        console.log("body");
-        console.log(body);
         var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
-        console.log(headers);
         var options = new http_1.RequestOptions({ headers: headers });
-        console.log(options);
-        console.log(this.baseUrls);
         return this.http.post(this.baseUrls + "api/accounts", body, options)
             .map(function (res) { return true; })
             .catch(this.handleError);
@@ -91,8 +87,27 @@ var UserService = /** @class */ (function (_super) {
         }
         return userName;
     };
+    UserService.prototype.setCurrentUserRole = function () {
+        // let userRole: string = 'no role';
+        if (this.loggedIn) {
+            if (localStorage.getItem('current_role') == null) {
+                this.httpClient.get(this.baseUrls + 'api/auth/getCurrentRole').subscribe(function (result) {
+                    localStorage.setItem('current_role', result);
+                    var userRole = localStorage.getItem('current_role');
+                    ;
+                    console.log('userservice ' + userRole);
+                }, function (error) { return console.error(error); });
+            }
+            else {
+                var userRole = localStorage.getItem('current_role');
+                console.log('userservice else ' + userRole);
+            }
+        }
+        //   return userRole;
+    };
     UserService.prototype.logout = function () {
         localStorage.removeItem('auth_token');
+        localStorage.removeItem('current_role');
         this.loggedIn = false;
         this.authNavStatusSource.next(false);
     };
@@ -101,8 +116,8 @@ var UserService = /** @class */ (function (_super) {
     };
     UserService = __decorate([
         core_1.Injectable(),
-        __param(2, core_2.Inject('BASE_URL')),
-        __metadata("design:paramtypes", [http_1.Http, config_service_1.ConfigService, String, decode_service_1.DecodeService])
+        __param(3, core_2.Inject('BASE_URL')),
+        __metadata("design:paramtypes", [http_1.Http, http_2.HttpClient, config_service_1.ConfigService, String, decode_service_1.DecodeService])
     ], UserService);
     return UserService;
 }(base_service_1.BaseService));

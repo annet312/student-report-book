@@ -30,13 +30,13 @@ namespace StudentReportBookDAL.Repositories
 
         public IEnumerable<TeachersWorkload> Get(Expression<Func<TeachersWorkload, bool>> predicate)
         {
-            IEnumerable<TeachersWorkload> teachersWorkloads = dbContext.TeachersWorkloads
-                               .Where(predicate)
-                                .Include(tw => tw.Group)
-                                        .ThenInclude(g => g.Faculty)
-                                .Include(tw => tw.Subject).AsEnumerable();
-
-            return teachersWorkloads;
+            //IEnumerable<TeachersWorkload> teachersWorkloads = dbContext.TeachersWorkloads
+            //                   .Where(predicate)
+            //                   // .Include(tw => tw.Group)
+            //                           // .ThenInclude(g => g.Faculty)
+            //                    .Include(tw => tw.Subject).AsEnumerable();
+            var r = dbContext.TeachersWorkloads.Include(s => s.Subject).FirstOrDefault();
+            return null;
         }
 
         public void Add(TeachersWorkload teachersWorkload)

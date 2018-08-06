@@ -16,26 +16,20 @@ import { DataTablesModule } from 'angular-datatables';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { routing } from './app.routing';
  
 import { AccountModule } from './account/account.module';
+import { StartWorkModule } from './start-work/start-work.module';
 import { ConfigService } from './shared/utils/config.service';
 import { DecodeService } from './shared/services/decode.service';
 import { AuthService } from '../app/auth/auth.service';
-import { TeachersComponent } from './teachers/teachers.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
-    TeachersComponent,
-
+    HomeComponent,    
   ],
   imports: [
     NgbModule.forRoot(),
@@ -46,6 +40,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     NgxDatatableModule,
     DataTablesModule,
+    StartWorkModule,
     routing
   ],
   providers: [ConfigService,

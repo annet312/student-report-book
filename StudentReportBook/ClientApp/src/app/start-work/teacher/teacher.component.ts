@@ -2,18 +2,25 @@ import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-fetch-data',
-  templateUrl: './fetch-data.component.html'
+  selector: 'app-teacher',
+  templateUrl: './teacher.component.html'
 })
-export class FetchDataComponent {
+export class TeacherComponent {
   public forecasts: Teacher[];
+  private baseUrl: string;
+  private http: HttpClient;
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<Teacher[]>(baseUrl + 'api/SampleData/WeatherForecasts').subscribe(result => {
+    this.baseUrl = baseUrl;
+    this.http = http;    
+  }
+
+  ngOnInit(){
+    this.http.get<Teacher[]>(this.baseUrl + 'api/SampleData/WeatherForecasts').subscribe(result => {
       this.forecasts = result;
       console.log(result);
     }, error => console.error(error));
-  }
+}
 }
 
 

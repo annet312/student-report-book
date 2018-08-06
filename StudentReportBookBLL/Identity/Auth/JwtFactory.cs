@@ -35,8 +35,7 @@ namespace StudentReportBookBLL.Auth
 
                   new Claim(options.ClaimsIdentity.UserIdClaimType, user.Id.ToString()),
                     new Claim(options.ClaimsIdentity.UserNameClaimType, user.UserName)
-                // identity.FindFirst(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol),
-              //   identity.FindFirst(Helpers.Constants.Strings.JwtClaimIdentifiers.Id)
+            
              };
             var userClaims = await db.UserManager.GetClaimsAsync(user);
             var userRoles = await db.UserManager.GetRolesAsync(user);

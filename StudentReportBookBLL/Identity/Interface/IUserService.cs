@@ -23,5 +23,10 @@ namespace StudentReportBookBLL.Identity.Interface
         /// </summary>
         /// <returns></returns>
         string GetCurrentUserId();
+        /// <summary>
+        /// reeturn string that identify current users role
+        /// </summary>
+        /// <returns>role</returns>
+        Task<IList<string>> GetCurrentUserRoleAsync();
     }
 }

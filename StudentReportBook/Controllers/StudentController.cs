@@ -17,21 +17,13 @@ namespace StudentReportBook.Controllers
     public class StudentController : ControllerBase
     {
 
-        private readonly IStudentService studentService;
         private readonly IMapper mapper;
-        private readonly IMarkService markService;
         private readonly IGradeBookService gradeBookService;
-        private readonly ITeacherService teacherService;
-        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public StudentController(IMapper mapper, IStudentService studentService, IMarkService markService, IGradeBookService gradeBookService, ITeacherService teacherService, IHttpContextAccessor httpContextAccessor)
+        public StudentController(IMapper mapper, IGradeBookService gradeBookService)
         {
             this.mapper = mapper;
-            this.studentService = studentService;
-            this.markService = markService;
             this.gradeBookService = gradeBookService;
-            this.teacherService = teacherService;
-            this.httpContextAccessor = httpContextAccessor;
         }
         
 
@@ -39,8 +31,7 @@ namespace StudentReportBook.Controllers
        
         public IActionResult GetMyGradeBook()
         {
-            //int userId = int.Parse(HttpContext.User.Claims.First(c => c.Type == ClaimTypes.Name).Value);
-            //userId for testing
+         
             GradeBook gradeBook = gradeBookService.GetMyMarks();
             var result = mapper.Map<GradeBookViewModel>(gradeBook);
             

@@ -43,7 +43,9 @@ var LoginFormComponent = /** @class */ (function () {
                 .finally(function () { return _this.isRequesting = false; })
                 .subscribe(function (result) {
                 if (result) {
-                    _this.router.navigate(['counter']);
+                    _this.userService.setCurrentUserRole();
+                    console.log("login " + localStorage.getItem('current_user'));
+                    _this.router.navigate(['/']);
                 }
             }, function (error) { return _this.errors = error; });
         }

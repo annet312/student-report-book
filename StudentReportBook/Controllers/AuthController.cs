@@ -4,6 +4,9 @@ using StudentReportBook.ViewModel;
 using AutoMapper;
 using StudentReportBookBLL.Identity.Interface;
 using StudentReportBook.Helpers;
+using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace StudentReportBook.Controllers
 {
@@ -38,6 +41,17 @@ namespace StudentReportBook.Controllers
             }
             
             return new OkObjectResult(jwt);
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Produces("application/json")]
+        //GET api/auth/getCurrentRole
+        [HttpGet("getCurrentRole")]
+        public async Task<string> GetCurrentRole()
+        {
+            var roles = await userService.GetCurrentUserRoleAsync();
+            string role = roles.FirstOrDefault();
+            return role;
         }
     }
 }

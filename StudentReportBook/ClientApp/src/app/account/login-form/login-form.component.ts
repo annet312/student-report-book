@@ -48,7 +48,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
           .subscribe(
             result => {
               if (result) {
-                this.router.navigate(['counter']);
+                this.userService.setCurrentUserRole();
+
+                console.log("login " + localStorage.getItem('current_user'));
+                this.router.navigate(['/']);
               }
             },
             error => this.errors = error);

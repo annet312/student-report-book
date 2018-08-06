@@ -14,6 +14,11 @@ namespace StudentReportBookBLL.Services.Interfaces
         /// Get all faculties of University
         /// </summary>
         /// <returns>Faculties</returns>
+        IEnumerable<SubjectBll> GetSubjectsForCurrentTeacher();
+        /// <summary>
+        /// Get subject for teacher who ask
+        /// </summary>
+        /// <returns>subjects </returns>
         IEnumerable<FacultyBll> GetFaculties();
         /// <summary>
         /// Get faculties where teacher with this Id has workload

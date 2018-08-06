@@ -12,6 +12,7 @@ using StudentReportBookDAL.Interfaces;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace StudentReportBookBLL.Identity
 {
@@ -31,7 +32,14 @@ namespace StudentReportBookBLL.Identity
             this.jwtOptions = jwtOptions;
             this.httpContextAccessor = httpContextAccessor;
         }
-
+        
+        public async Task<IList<string>> GetCurrentUserRoleAsync()
+        {
+            var userName = GetCurrentUserId();
+            IdentityUser user = await db.UserManager.FindByNameAsync(userName);
+            var role = db.UserManager.GetRolesAsync(user);
+            return await role;
+        }
         public  string GetCurrentUserId()
         {
             return db.UserManager.GetUserId(httpContextAccessor.HttpContext.User);

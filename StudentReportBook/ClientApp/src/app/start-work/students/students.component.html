@@ -1,0 +1,9 @@
+  <div>
+    <label>Subject: </label>
+    <select (change)="filterSubject($event.target.value)">
+      <option value="0">--</option>
+      <option *ngFor="let subject of subjects" value={{subject.id}}>
+        {{subject.name}}
+      </option>
+    </select>
+  </div>
