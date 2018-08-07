@@ -33,7 +33,7 @@
   <ng-template #thenBlock>
     <div>
       <h2>Students</h2>
-      <ngx-datatable #studenrinfo class="material"
+      <ngx-datatable #studentinfo class="material"
                      style="top: 52px"
                      [columnMode]="'force'"
                      [headerHeight]="50"
@@ -50,7 +50,7 @@
             {{row.student.studentCard}}
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column *ngFor="let term of terms; let j = index" name={{term}}>
+        <ngx-datatable-column *ngFor="let term of terms; let j = index;" name={{term}}>
           <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
             <span title="Double click to edit"
                   (dblclick)="editing[rowIndex + '-grade' + j] = true"

@@ -45,6 +45,8 @@ namespace StudentReportBookBLL.Services.Interfaces
        // IEnumerable<StudentBll> GetStudents(int groupId);
         IEnumerable<MarkOfStudent> GetStudentsWithMarks(int groupId, int subjectId);
 
+        int[] GetTermsForCurrentTeacher(int groupId, int subjectId);
+
         /// <summary>
         /// Edit or add mark by current teacher for pointed student
         /// </summary>

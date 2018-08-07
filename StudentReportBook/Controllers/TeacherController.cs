@@ -65,6 +65,15 @@ namespace StudentReportBook.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetTerms(int subjectId, int groupId)
+        {
+            int[] terms = studentService.GetTermsForCurrentTeacher(groupId, subjectId);
+
+            return new OkObjectResult(terms);
+        }
+
+
+        [HttpGet]
         public IActionResult GetStudents(int groupId, int subjectId)
         {
             IEnumerable<MarkOfStudent> students = studentService.GetStudentsWithMarks(groupId, subjectId);

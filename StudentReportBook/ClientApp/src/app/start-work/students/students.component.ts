@@ -21,8 +21,6 @@ export class StudentsComponent implements OnInit {
   public subjtId: any;
   public editing = {};
 
-
-
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.baseUrl = baseUrl;
     this.http = http;
@@ -31,7 +29,6 @@ export class StudentsComponent implements OnInit {
   ngOnInit() {
     this.http.get<Dropdata[]>(this.baseUrl + 'api/teacher/getSubjectsForCurrentTeacher').subscribe(result => {
       this.subjects = result;
-      console.log(result);
     }, error => console.error(error));
   }
 
@@ -51,25 +48,21 @@ export class StudentsComponent implements OnInit {
   }
 
   filterGroup(groupId) {
-    this.
-    this.http.get<StudentWithMarks[]>(this.baseUrl + 'api/teacher/getStudents', { params: { groupId: groupId, subjectId: this.subjtId } }).subscribe(result => {
-      this.students = result;
-      console.log(this.students);
-      if (!!this.students) {
-      ///  
-      }
+    this.http.get<number[]>(this.baseUrl + 'api/teacher/getTerms', { params: { groupId: groupId, subjectId: this.subjtId } })
+      .subscribe(result => { this.terms = result });
+    this.http.get<StudentWithMarks[]>(this.baseUrl + 'api/teacher/getStudents', { params: { groupId: groupId, subjectId: this.subjtId } })
+      .subscribe(result => {
+            this.students = result;
     }, error => console.error(error));
   }
 
 
-  updateValue(event, cell, rowIndex, term) {
-    this.editing[rowIndex + '-' + cell + term] = false;
-    console.log(this.students[rowIndex].student.id + ' ' + this.subjtId + ' ' + (term + 1) + ' ' + event.target.value);
-
+  updateValue(event, cell, rowIndex, j) {
+    this.editing[rowIndex + '-' + cell + j] = false;
     let body = {
       studentId: this.students[rowIndex].student.id,
       subjectId: this.subjtId,
-      term: term + 1,
+      term: this.terms[j],
       grade: event.target.value
     };
 
@@ -78,9 +71,14 @@ export class StudentsComponent implements OnInit {
         if (!res) {
           alert("Cannot change grade");
         }
+        else {
+          this.students[rowIndex].marks[j].grade = event.target.value;
+          this.students = [...this.students];
+        }
       });
   }
 }
+
 interface Dropdata {
   id: number;
   name: string;

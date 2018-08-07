@@ -49,8 +49,9 @@ namespace StudentReportBookDAL.Repositories
 
         public void Update(Mark mark)
         {
-            dbContext.Entry(mark).State = EntityState.Modified;
-            dbContext.Set<Mark>().Attach(mark);
+            //dbContext.Entry(mark).State = EntityState.Modified;
+            //dbContext.Set<Mark>().Attach(mark);
+            dbContext.Set<Mark>().Update(mark);
         }
 
         public void Delete(Mark mark)

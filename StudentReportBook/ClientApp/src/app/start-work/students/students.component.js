@@ -28,7 +28,6 @@ var StudentsComponent = /** @class */ (function () {
         var _this = this;
         this.http.get(this.baseUrl + 'api/teacher/getSubjectsForCurrentTeacher').subscribe(function (result) {
             _this.subjects = result;
-            console.log(result);
         }, function (error) { return console.error(error); });
     };
     StudentsComponent.prototype.filterSubject = function (subjectId) {
@@ -48,31 +47,30 @@ var StudentsComponent = /** @class */ (function () {
     };
     StudentsComponent.prototype.filterGroup = function (groupId) {
         var _this = this;
-        this.http.get(this.baseUrl + 'api/teacher/getStudents', { params: { groupId: groupId, subjectId: this.subjtId } }).subscribe(function (result) {
+        this.http.get(this.baseUrl + 'api/teacher/getTerms', { params: { groupId: groupId, subjectId: this.subjtId } })
+            .subscribe(function (result) { _this.terms = result; });
+        this.http.get(this.baseUrl + 'api/teacher/getStudents', { params: { groupId: groupId, subjectId: this.subjtId } })
+            .subscribe(function (result) {
             _this.students = result;
-            console.log(_this.students);
-            if (!!_this.students) {
-                var buf = new Array(_this.students[0].student.currentTerm);
-                for (var i = 1; i <= _this.students[0].student.currentTerm; i++) {
-                    buf[i - 1] = i;
-                }
-                _this.terms = buf;
-            }
         }, function (error) { return console.error(error); });
     };
-    StudentsComponent.prototype.updateValue = function (event, cell, rowIndex, term) {
-        this.editing[rowIndex + '-' + cell + term] = false;
-        console.log(this.students[rowIndex].student.id + ' ' + this.subjtId + ' ' + (term + 1) + ' ' + event.target.value);
+    StudentsComponent.prototype.updateValue = function (event, cell, rowIndex, j) {
+        var _this = this;
+        this.editing[rowIndex + '-' + cell + j] = false;
         var body = {
             studentId: this.students[rowIndex].student.id,
             subjectId: this.subjtId,
-            term: term + 1,
+            term: this.terms[j],
             grade: event.target.value
         };
         this.http.post(this.baseUrl + 'api/teacher/editMark', body)
             .subscribe(function (res) {
             if (!res) {
                 alert("Cannot change grade");
+            }
+            else {
+                _this.students[rowIndex].marks[j].grade = event.target.value;
+                _this.students = _this.students.slice();
             }
         });
     };

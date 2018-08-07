@@ -41,7 +41,7 @@ namespace StudentReportBookBLL.Services
         {
             TeacherBll teacher = GetCurrentTeacherId();
 
-            var teacherWorkloads = db.TeachersWorkloads.Get(tw => tw.TeacherId == teacher.Id);
+            var teacherWorkloads = db.TeachersWorkloads.Get(tw => tw.TeacherId == teacher.Id).ToList();
             IEnumerable<TeachersWorkloadBll> workloadBlls = mapper.Map<IEnumerable<TeachersWorkloadBll>>(teacherWorkloads);
 
             return workloadBlls;
@@ -106,6 +106,14 @@ namespace StudentReportBookBLL.Services
             }
         
             return marksOfStudents;
+        }
+        public int[] GetTermsForCurrentTeacher(int groupId, int subjectId)
+        {
+            IEnumerable<TeachersWorkloadBll> tws = GetTWOfCurrentTeacher();
+            if (!tws.Any())
+                return null;
+            int[] terms = tws.Select(t => t.Term).Distinct().ToArray();
+            return terms;
         }
 
         public bool EditMarkByCurrentTeacher(int studentId, int subjectId, int term, int grade)
