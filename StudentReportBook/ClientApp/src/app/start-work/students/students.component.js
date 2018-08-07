@@ -20,6 +20,7 @@ var StudentsComponent = /** @class */ (function () {
         this.faculties = null;
         this.groups = null;
         this.students = null;
+        this.editing = {};
         this.baseUrl = baseUrl;
         this.http = http;
     }
@@ -58,6 +59,22 @@ var StudentsComponent = /** @class */ (function () {
                 _this.terms = buf;
             }
         }, function (error) { return console.error(error); });
+    };
+    StudentsComponent.prototype.updateValue = function (event, cell, rowIndex, term) {
+        this.editing[rowIndex + '-' + cell + term] = false;
+        console.log(this.students[rowIndex].student.id + ' ' + this.subjtId + ' ' + (term + 1) + ' ' + event.target.value);
+        var body = {
+            studentId: this.students[rowIndex].student.id,
+            subjectId: this.subjtId,
+            term: term + 1,
+            grade: event.target.value
+        };
+        this.http.post(this.baseUrl + 'api/teacher/editMark', body)
+            .subscribe(function (res) {
+            if (!res) {
+                alert("Cannot change grade");
+            }
+        });
     };
     StudentsComponent = __decorate([
         core_1.Component({

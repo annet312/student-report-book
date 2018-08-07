@@ -37,7 +37,7 @@ namespace StudentReportBookBLL.Services
             return teacherBll;
         }
 
-        private IEnumerable<TeachersWorkloadBll> GetTWOfCurrentTeacher()
+        public IEnumerable<TeachersWorkloadBll> GetTWOfCurrentTeacher()
         {
             TeacherBll teacher = GetCurrentTeacherId();
 
@@ -106,6 +106,29 @@ namespace StudentReportBookBLL.Services
             }
         
             return marksOfStudents;
+        }
+
+        public bool EditMarkByCurrentTeacher(int studentId, int subjectId, int term, int grade)
+        {
+            if ((term < 1) || (term > 12))
+            {
+                throw new ArgumentException("Term is not valid", "term");
+            }
+            if ((grade < 0) || (grade > 5))
+            {
+                throw new ArgumentException("Grade is not valid", "grade");
+            }
+            StudentBll student = mapper.Map<StudentBll>(db.Students.Get(st => st.Id == studentId).SingleOrDefault());
+            if (student == null)
+            {
+                throw new ArgumentException("Student not found", "studentId");
+            }
+            TeachersWorkloadBll tws = GetTWOfCurrentTeacher().Where(tw => (tw.Subject.Id == subjectId) 
+                                                                       && (tw.Group.Id == student.Group.Id)
+                                                                       && (tw.Term == term)).SingleOrDefault();
+            bool result = markService.EditMark(student, grade, tws);
+
+            return result;
         }
     }
 }

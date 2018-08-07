@@ -1,5 +1,5 @@
 import { Component, Inject, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NgStyle } from '@angular/common';
 import { Student, Mark } from '../../shared/models/gradebook.interface';
 
@@ -19,8 +19,9 @@ export class StudentsComponent implements OnInit {
   public students: StudentWithMarks[] = null;
   public terms: number[];
   public subjtId: any;
- 
-  
+  public editing = {};
+
+
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.baseUrl = baseUrl;
@@ -50,20 +51,36 @@ export class StudentsComponent implements OnInit {
   }
 
   filterGroup(groupId) {
+    this.
     this.http.get<StudentWithMarks[]>(this.baseUrl + 'api/teacher/getStudents', { params: { groupId: groupId, subjectId: this.subjtId } }).subscribe(result => {
       this.students = result;
       console.log(this.students);
       if (!!this.students) {
-        let buf: number[] = new Array(this.students[0].student.currentTerm);
-        for (let i = 1; i <= this.students[0].student.currentTerm; i++) {
-          buf[i-1] = i;
-        }
-        this.terms = buf;
+      ///  
       }
     }, error => console.error(error));
   }
-}
 
+
+  updateValue(event, cell, rowIndex, term) {
+    this.editing[rowIndex + '-' + cell + term] = false;
+    console.log(this.students[rowIndex].student.id + ' ' + this.subjtId + ' ' + (term + 1) + ' ' + event.target.value);
+
+    let body = {
+      studentId: this.students[rowIndex].student.id,
+      subjectId: this.subjtId,
+      term: term + 1,
+      grade: event.target.value
+    };
+
+    this.http.post<boolean>(this.baseUrl + 'api/teacher/editMark', body)
+      .subscribe(res => {
+        if (!res) {
+          alert("Cannot change grade");
+        }
+      });
+  }
+}
 interface Dropdata {
   id: number;
   name: string;

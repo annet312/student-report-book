@@ -51,15 +51,24 @@
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column *ngFor="let term of terms; let j = index" name={{term}}>
-          <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
-            <div *ngIf="!!row.marks[j] ; then thenBlock else elseBlock"></div>
-            <ng-template #thenBlock>
-              <div>{{row.marks[j].grade}}</div>
-            </ng-template>
-            <ng-template #elseBlock>
-              <div>-</div>
-            </ng-template>
-
+          <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+            <span title="Double click to edit"
+                  (dblclick)="editing[rowIndex + '-grade' + j] = true"
+                  *ngIf="!editing[rowIndex + '-grade' + j] ">
+              <div *ngIf="!!row.marks[j]">{{row.marks[j].grade}}</div>
+              <div *ngIf="!row.marks[j]">-</div>
+            </span>
+            <select *ngIf="editing[rowIndex + '-grade' + j]"
+                    (blur)="editing[rowIndex + '-grade' + j] = false"
+                    (change)="updateValue($event, 'grade', rowIndex, j)"
+                    [value]="value">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+            </select>
           </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>

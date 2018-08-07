@@ -8,6 +8,7 @@ using StudentReportBook.Models.Entities;
 using StudentReportBook.ViewModel;
 using StudentReportBookBLL.Models;
 using StudentReportBookBLL.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace StudentReportBook.Controllers
@@ -19,19 +20,14 @@ namespace StudentReportBook.Controllers
     {
         private readonly IStudentService studentService;
         private readonly IMapper mapper;
-        private readonly IMarkService markService;
-        private readonly ITeacherService teacherService;
 
         public TeacherController(IMapper mapper,
-                                    IStudentService studentService, 
-                                    ITeacherService teacherService, 
-                                    IMarkService markService)
+                                    IStudentService studentService)
         {
             this.mapper = mapper;
             this.studentService = studentService;
-            this.teacherService = teacherService;
-            this.markService = markService;
         }
+
         /// <summary>
         /// get subjects that this teacher has in workload
         /// </summary>
@@ -74,6 +70,14 @@ namespace StudentReportBook.Controllers
             IEnumerable<MarkOfStudent> students = studentService.GetStudentsWithMarks(groupId, subjectId);
             IEnumerable<MarkOfStudentViewModel> studentViewModels = mapper.Map<IEnumerable<MarkOfStudentViewModel>>(students);
             return new OkObjectResult(studentViewModels);
+        }
+
+        [HttpPost]
+        public IActionResult EditMark([FromBody]EditMarkViewModel model)
+        {
+            bool IfEdit = studentService.EditMarkByCurrentTeacher(model.studentId, model.subjectId, model.term, model.grade);
+            
+            return new OkObjectResult(IfEdit);
         }
     }
 }

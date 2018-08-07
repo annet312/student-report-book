@@ -79,6 +79,7 @@ export class UserService extends BaseService {
     }
     return userName;
   }
+
   setCurrentUserRole() {
    // let userRole: string = 'no role';
     if (this.loggedIn) {

@@ -15,11 +15,13 @@ namespace StudentReportBookBLL.Services.Interfaces
         /// </summary>
         /// <returns>Faculties</returns>
         IEnumerable<SubjectBll> GetSubjectsForCurrentTeacher();
+
         /// <summary>
         /// Get subject for teacher who ask
         /// </summary>
         /// <returns>subjects </returns>
         IEnumerable<FacultyBll> GetFacultiesForCurrentTeacher(int subjectId);
+
         /// <summary>
         /// Get faculties where teacher with this Id has workload
         /// </summary>
@@ -32,6 +34,7 @@ namespace StudentReportBookBLL.Services.Interfaces
         /// <param name="faculty">needed faculty</param>
         /// <returns>groups</returns>
         IEnumerable<GroupBll> GetGroupsForCurrentTeacher(int facultyId, int subjectId);
+
         /// <summary>
         /// get groups of faculty where this teacher has workload
         /// </summary>
@@ -42,5 +45,14 @@ namespace StudentReportBookBLL.Services.Interfaces
        // IEnumerable<StudentBll> GetStudents(int groupId);
         IEnumerable<MarkOfStudent> GetStudentsWithMarks(int groupId, int subjectId);
 
+        /// <summary>
+        /// Edit or add mark by current teacher for pointed student
+        /// </summary>
+        /// <param name="studentId">student</param>
+        /// <param name="subjectId">subject</param>
+        /// <param name="term">term</param>
+        /// <param name="grade">grade</param>
+        /// <returns>result of operation</returns>
+        bool EditMarkByCurrentTeacher(int studentId, int subjectId, int term, int grade);
     }
 }
