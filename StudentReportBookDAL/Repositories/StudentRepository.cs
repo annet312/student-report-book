@@ -49,8 +49,7 @@ namespace StudentReportBookDAL.Repositories
 
         public void Update(Student student)
         {
-            dbContext.Entry(student).State = EntityState.Modified;
-            dbContext.Set<Student>().Attach(student);
+            dbContext.Set<Student>().Update(student);
         }
 
         public void Delete(Student student)

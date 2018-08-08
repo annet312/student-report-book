@@ -29,7 +29,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let student of students">
+          <tr *ngFor="let student of students; let rowIndex = index">
             <td>{{student.name}}</td>
             <td>
               <select id="facultySelect" class="form-control" (change)="setFaculty($event.target.value)">
@@ -42,7 +42,7 @@
               </select>
             </td>
             <td>
-              <select #selectGroup{{rowIndex}} class="form-control"  (change)="editing[student.id] = true">
+              <select #selectGroup class="form-control" (change)="editing[student.id] = true">
                 <option value="none" disabled>
                   Choose group
                 </option>
@@ -52,7 +52,7 @@
               </select>
             </td>
             <td>
-              <button type="button" class="btn btn-success" id="submit" [disabled]="!editing[student.id]" (click)="setGroup(student.id)"><i class="fas fa-check"></i></button>
+              <button type="button" class="btn btn-success" id="submit" [disabled]="!editing[student.id]" (click)="setGroup(student.id, rowIndex)">Confirm</button>
             </td>
           </tr>
         </tbody>

@@ -45,9 +45,19 @@ var ModeratorComponent = /** @class */ (function () {
         this.groups = this.faculties[facultyIndex].groups;
         console.log(this.faculties);
     };
-    ModeratorComponent.prototype.setGroup = function (studentId) {
+    ModeratorComponent.prototype.setGroup = function (studentId, rowIndex) {
         console.log(studentId);
+        console.log(rowIndex);
+        console.log(this.selGroup.toArray()[rowIndex].nativeElement.value);
+        this.http.get(this.baseUrl + 'api/moderator/setGroupForStudent', { params: { studentId: studentId, groupId: this.selGroup.toArray()[rowIndex].nativeElement.value } })
+            .subscribe(function (result) {
+            console.log(result);
+        }, function (error) { return console.error(error); });
     };
+    __decorate([
+        core_1.ViewChildren("selectGroup"),
+        __metadata("design:type", core_1.QueryList)
+    ], ModeratorComponent.prototype, "selGroup", void 0);
     ModeratorComponent = __decorate([
         core_1.Component({
             selector: 'app-moderator',

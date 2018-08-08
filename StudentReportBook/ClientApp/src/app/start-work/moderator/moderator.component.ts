@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Student } from '../../shared/models/gradebook.interface';
 
@@ -15,7 +15,8 @@ export class ModeratorComponent {
   public groups: Group[];
   public editing = {};
 
-
+  @ViewChildren("selectGroup") selGroup: QueryList<any>
+  
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.baseUrl = baseUrl;
@@ -48,8 +49,14 @@ export class ModeratorComponent {
     console.log(this.faculties);
   }
 
-  setGroup(studentId) {
+  setGroup(studentId, rowIndex) {
     console.log(studentId);
+    console.log(rowIndex);
+    console.log(this.selGroup.toArray()[rowIndex].nativeElement.value);
+    this.http.get<boolean>(this.baseUrl + 'api/moderator/setGroupForStudent', { params: { studentId: studentId, groupId: this.selGroup.toArray()[rowIndex].nativeElement.value } })
+      .subscribe(result => {
+        console.log(result)
+      }, error => console.error(error));
     
   }
 }

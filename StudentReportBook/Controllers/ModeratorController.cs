@@ -60,5 +60,13 @@ namespace StudentReportBook.Controllers
             return students;
         }
 
+
+        [HttpGet]
+        public IActionResult SetGroupForStudent(int studentId, int groupId)
+        {
+            studentService.SetGroupForStudent(studentId, groupId);
+            return new OkObjectResult(true);
+        }
+
     }
 }

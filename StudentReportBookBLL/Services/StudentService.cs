@@ -153,5 +153,28 @@ namespace StudentReportBookBLL.Services
             IEnumerable<FacultyBll> facultiesBll = mapper.Map<IEnumerable<FacultyBll>>(faculties);
             return facultiesBll;
         }
+
+        public void SetGroupForStudent(int studentId, int groupId)
+        {
+            if (studentId < 0)
+                throw new ArgumentException("Student Id not valid", "studentId");
+            if (groupId < 0)
+                throw new ArgumentException("Group Id not valid", "groupId");
+            Student student = db.Students.Get(st => st.Id == studentId).SingleOrDefault();
+            if(student == null)
+            {
+                throw new ArgumentException("Student with this id not found", "studentId");
+            }
+            Group group = db.Groups.Get(g => g.Id == groupId).SingleOrDefault();
+            if (group == null)
+            {
+                throw new ArgumentException("Group with this id not found", "groupId");
+            }
+
+            student.Group = group;
+
+            db.Students.Update(student);
+            db.Save();
+        }
     }
 }
