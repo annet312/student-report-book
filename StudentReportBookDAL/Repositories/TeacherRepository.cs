@@ -19,7 +19,7 @@ namespace StudentReportBookDAL.Repositories
         public IEnumerable<Teacher> GetAll()
         {
             IEnumerable<Teacher> teachers = dbContext.Teachers
-                                            .Include(st => st.Identity);
+                                            .Include(st => st.Identity).AsEnumerable();
 
             return teachers;
         }
@@ -28,7 +28,7 @@ namespace StudentReportBookDAL.Repositories
         {
             IEnumerable<Teacher> teachers = dbContext.Teachers
                                .Where(predicate)
-                               .Include(st => st.Identity);
+                               .Include(st => st.Identity).AsEnumerable();
 
             return teachers;
         }
@@ -40,8 +40,7 @@ namespace StudentReportBookDAL.Repositories
 
         public void Update(Teacher teacher)
         {
-            dbContext.Entry(teacher).State = EntityState.Modified;
-            dbContext.Set<Teacher>().Attach(teacher);
+            dbContext.Set<Teacher>().Update(teacher);
         }
 
         public void Delete(Teacher teacher)

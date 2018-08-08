@@ -1,0 +1,42 @@
+<ngb-tabset class="tabset1">
+  
+  <ngb-tab title="Teachers">
+    <ng-template ngbTabContent>
+        <table class='table' *ngIf="teachers">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Department</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let teacher of teachers">
+              <td>{{ teacher.name }}</td>
+              <td>{{ teacher.department }}</td>
+            </tr>
+          </tbody>
+        </table>     
+    </ng-template>
+  </ngb-tab>
+
+  <ngb-tab title="Students" (click)="getStudents()">
+    <ng-template ngbTabContent>
+      <table class='table' *ngIf="students">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Choose group</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let students of students">
+            <td>{{ students.name }}</td>
+            <td>--</td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>
+
+

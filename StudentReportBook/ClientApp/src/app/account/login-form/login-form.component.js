@@ -12,8 +12,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var user_service_1 = require("../../shared/services/user.service");
+var auth_service_1 = require("../../auth/auth.service");
 var LoginFormComponent = /** @class */ (function () {
-    function LoginFormComponent(userService, router, activatedRoute) {
+    function LoginFormComponent(auth, userService, router, activatedRoute) {
+        this.auth = auth;
         this.userService = userService;
         this.router = router;
         this.activatedRoute = activatedRoute;
@@ -43,8 +45,6 @@ var LoginFormComponent = /** @class */ (function () {
                 .finally(function () { return _this.isRequesting = false; })
                 .subscribe(function (result) {
                 if (result) {
-                    _this.userService.setCurrentUserRole();
-                    console.log("login " + localStorage.getItem('current_user'));
                     _this.router.navigate(['/']);
                 }
             }, function (error) { return _this.errors = error; });
@@ -56,7 +56,7 @@ var LoginFormComponent = /** @class */ (function () {
             templateUrl: './login-form.component.html',
             styleUrls: ['./login-form.component.css']
         }),
-        __metadata("design:paramtypes", [user_service_1.UserService, router_1.Router, router_1.ActivatedRoute])
+        __metadata("design:paramtypes", [auth_service_1.AuthService, user_service_1.UserService, router_1.Router, router_1.ActivatedRoute])
     ], LoginFormComponent);
     return LoginFormComponent;
 }());

@@ -56,5 +56,7 @@ namespace StudentReportBookBLL.Services.Interfaces
         /// <param name="grade">grade</param>
         /// <returns>result of operation</returns>
         bool EditMarkByCurrentTeacher(int studentId, int subjectId, int term, int grade);
+
+        IEnumerable<StudentBll> GetStudentWithoutGroup();
     }
 }

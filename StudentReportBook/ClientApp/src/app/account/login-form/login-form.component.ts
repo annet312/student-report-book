@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { Credentials } from '../../shared/models/credentials.interface';
 import { UserService } from '../../shared/services/user.service';
+import { AuthService } from '../../auth/auth.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   submitted: boolean = false;
   credentials: Credentials = { email: '', password: '' };
 
-  constructor(private userService: UserService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private auth: AuthService, private userService: UserService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
 
@@ -48,9 +49,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
           .subscribe(
             result => {
               if (result) {
-                this.userService.setCurrentUserRole();
-
-                console.log("login " + localStorage.getItem('current_user'));
                 this.router.navigate(['/']);
               }
             },

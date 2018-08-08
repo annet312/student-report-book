@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../shared/services/user.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -8,13 +9,15 @@ import { UserService } from '../shared/services/user.service';
 })
 export class HomeComponent implements OnInit {
   private name: string = null;
+
   private IsLoggedIn = false;
-  constructor(private userService: UserService) { }
+
+  constructor(private auth: AuthService, private userService: UserService) { }
 
   ngOnInit() {
-    this.IsLoggedIn = this.userService.isLoggedIn();
+    this.IsLoggedIn = this.auth.isAuthenticated();
     if (this.IsLoggedIn) {
-      this.name = this.userService.getCurrentUser();
+      this.name = this.auth.getCurrentUser();
     }
   }
   submitlogout() {

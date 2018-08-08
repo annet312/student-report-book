@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GradeBookComponent } from './gradebook/gradebook.component';
-import { StudentsComponent } from './students/students.component';
 import { TeacherComponent } from './teacher/teacher.component';
-import { UserService } from '../shared/services/user.service';
+import { ModeratorComponent } from './moderator/moderator.component';
+import { AuthService } from '../auth/auth.service';
 
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -13,22 +13,22 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class StartWorkComponent implements OnInit {
   title = 'start-work';
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor( private router: Router, private auth: AuthService) {
   }
 
   ngOnInit() {
-    let role = localStorage.getItem('current_role');
+    let role = this.auth.getCurrentUserRole();
     switch (role) {
       case "Student": {
         this.router.navigate(['gradebook']);
         break;
       }
       case "Teacher": {
-        this.router.navigate(['student']);
+        this.router.navigate(['teacher']);
         break;
       }
       case "Moderator": {
-        this.router.navigate(['teacher']);
+        this.router.navigate(['moderator']);
         break;
       }
       default: {

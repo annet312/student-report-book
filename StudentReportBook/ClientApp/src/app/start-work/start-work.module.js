@@ -15,7 +15,7 @@ var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var user_service_1 = require("../shared/services/user.service");
 var start_work_routing_1 = require("./start-work.routing");
 var gradebook_component_1 = require("./gradebook/gradebook.component");
-var students_component_1 = require("./students/students.component");
+var moderator_component_1 = require("./moderator/moderator.component");
 var teacher_component_1 = require("./teacher/teacher.component");
 var start_work_component_1 = require("./start-work.component");
 var StartWorkModule = /** @class */ (function () {
@@ -26,7 +26,7 @@ var StartWorkModule = /** @class */ (function () {
             imports: [
                 common_1.CommonModule, forms_1.FormsModule, start_work_routing_1.routing, shared_module_1.SharedModule, ngx_datatable_1.NgxDatatableModule, ng_bootstrap_1.NgbCollapseModule.forRoot(), ng_bootstrap_1.NgbModule
             ],
-            declarations: [teacher_component_1.TeacherComponent, students_component_1.StudentsComponent, gradebook_component_1.GradeBookComponent, start_work_component_1.StartWorkComponent],
+            declarations: [teacher_component_1.TeacherComponent, moderator_component_1.ModeratorComponent, gradebook_component_1.GradeBookComponent, start_work_component_1.StartWorkComponent],
             providers: [user_service_1.UserService]
         })
     ], StartWorkModule);

@@ -27,8 +27,9 @@ var core_2 = require("@angular/core");
 var http_1 = require("@angular/http");
 var http_2 = require("@angular/common/http");
 var config_service_1 = require("../utils/config.service");
-var decode_service_1 = require("./decode.service");
+//import { DecodeService } from './decode.service';
 var base_service_1 = require("./base.service");
+var auth_service_1 = require("../../auth/auth.service");
 //import { Observable } from 'rxjs/Rx';
 var Rx_1 = require("rxjs/Rx");
 //import { UserResponse } from '../models/UserResponse';
@@ -36,23 +37,22 @@ var Rx_1 = require("rxjs/Rx");
 require("../../rxjs-operators");
 var UserService = /** @class */ (function (_super) {
     __extends(UserService, _super);
-    function UserService(http, httpClient, configService, baseUrl, decodeService) {
+    function UserService(http, authService, httpClient, configService, baseUrl) {
         var _this = _super.call(this) || this;
         _this.http = http;
+        _this.authService = authService;
         _this.httpClient = httpClient;
         _this.configService = configService;
-        _this.decodeService = decodeService;
         _this.baseUrls = '';
         //Observable navItem source
         _this.authNavStatusSource = new Rx_1.BehaviorSubject(false);
         //Observable navItem stream
         _this.authNavStatus$ = _this.authNavStatusSource.asObservable();
         _this.loggedIn = false;
-        _this.loggedIn = !!localStorage.getItem('auth_token');
+        _this.loggedIn = authService.isAuthenticated();
         _this.authNavStatusSource.next(_this.loggedIn);
         _this.baseUrls = baseUrl;
         return _this;
-        //this.baseUrl = configService.getApiURI();
     }
     UserService.prototype.register = function (email, password, firstName, lastName, role) {
         console.log(email + '' + password);
@@ -71,39 +71,11 @@ var UserService = /** @class */ (function (_super) {
             .post(this.baseUrls + 'api/auth/login', JSON.stringify({ userName: userName, password: password }), { headers: headers })
             .map(function (res) { return res.json(); })
             .map(function (res) {
-            localStorage.setItem('auth_token', res.auth_token);
-            console.log(res.auth_token);
-            _this.loggedIn = true;
+            _this.loggedIn = _this.authService.setToken(res.auth_token);
             _this.authNavStatusSource.next(true);
             return true;
         })
             .catch(this.handleError);
-    };
-    UserService.prototype.getCurrentUser = function () {
-        var userName = null;
-        if (this.loggedIn) {
-            var token = localStorage.getItem('auth_token');
-            userName = this.decodeService.getDecodedAccessToken(token).sub;
-        }
-        return userName;
-    };
-    UserService.prototype.setCurrentUserRole = function () {
-        // let userRole: string = 'no role';
-        if (this.loggedIn) {
-            if (localStorage.getItem('current_role') == null) {
-                this.httpClient.get(this.baseUrls + 'api/auth/getCurrentRole').subscribe(function (result) {
-                    localStorage.setItem('current_role', result);
-                    var userRole = localStorage.getItem('current_role');
-                    ;
-                    console.log('userservice ' + userRole);
-                }, function (error) { return console.error(error); });
-            }
-            else {
-                var userRole = localStorage.getItem('current_role');
-                console.log('userservice else ' + userRole);
-            }
-        }
-        //   return userRole;
     };
     UserService.prototype.logout = function () {
         localStorage.removeItem('auth_token');
@@ -111,13 +83,10 @@ var UserService = /** @class */ (function (_super) {
         this.loggedIn = false;
         this.authNavStatusSource.next(false);
     };
-    UserService.prototype.isLoggedIn = function () {
-        return this.loggedIn;
-    };
     UserService = __decorate([
         core_1.Injectable(),
-        __param(3, core_2.Inject('BASE_URL')),
-        __metadata("design:paramtypes", [http_1.Http, http_2.HttpClient, config_service_1.ConfigService, String, decode_service_1.DecodeService])
+        __param(4, core_2.Inject('BASE_URL')),
+        __metadata("design:paramtypes", [http_1.Http, auth_service_1.AuthService, http_2.HttpClient, config_service_1.ConfigService, String])
     ], UserService);
     return UserService;
 }(base_service_1.BaseService));

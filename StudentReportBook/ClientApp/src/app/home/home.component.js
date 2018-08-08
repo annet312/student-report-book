@@ -11,16 +11,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var user_service_1 = require("../shared/services/user.service");
+var auth_service_1 = require("../auth/auth.service");
 var HomeComponent = /** @class */ (function () {
-    function HomeComponent(userService) {
+    function HomeComponent(auth, userService) {
+        this.auth = auth;
         this.userService = userService;
         this.name = null;
         this.IsLoggedIn = false;
     }
     HomeComponent.prototype.ngOnInit = function () {
-        this.IsLoggedIn = this.userService.isLoggedIn();
+        this.IsLoggedIn = this.auth.isAuthenticated();
         if (this.IsLoggedIn) {
-            this.name = this.userService.getCurrentUser();
+            this.name = this.auth.getCurrentUser();
         }
     };
     HomeComponent.prototype.submitlogout = function () {
@@ -34,7 +36,7 @@ var HomeComponent = /** @class */ (function () {
             templateUrl: './home.component.html',
             styleUrls: ['./home.component.scss']
         }),
-        __metadata("design:paramtypes", [user_service_1.UserService])
+        __metadata("design:paramtypes", [auth_service_1.AuthService, user_service_1.UserService])
     ], HomeComponent);
     return HomeComponent;
 }());

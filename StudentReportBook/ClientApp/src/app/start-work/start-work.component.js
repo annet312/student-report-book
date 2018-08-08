@@ -11,26 +11,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var user_service_1 = require("../shared/services/user.service");
+var auth_service_1 = require("../auth/auth.service");
 var router_1 = require("@angular/router");
 var StartWorkComponent = /** @class */ (function () {
-    function StartWorkComponent(userService, router) {
+    function StartWorkComponent(userService, router, auth) {
         this.userService = userService;
         this.router = router;
+        this.auth = auth;
         this.title = 'start-work';
     }
     StartWorkComponent.prototype.ngOnInit = function () {
-        var role = localStorage.getItem('current_role');
+        var role = this.auth.getCurrentUserRole();
         switch (role) {
             case "Student": {
                 this.router.navigate(['gradebook']);
                 break;
             }
             case "Teacher": {
-                this.router.navigate(['student']);
+                this.router.navigate(['teacher']);
                 break;
             }
             case "Moderator": {
-                this.router.navigate(['teacher']);
+                this.router.navigate(['moderator']);
                 break;
             }
             default: {
@@ -44,7 +46,7 @@ var StartWorkComponent = /** @class */ (function () {
             selector: 'start-work',
             templateUrl: './start-work.component.html',
         }),
-        __metadata("design:paramtypes", [user_service_1.UserService, router_1.Router])
+        __metadata("design:paramtypes", [user_service_1.UserService, router_1.Router, auth_service_1.AuthService])
     ], StartWorkComponent);
     return StartWorkComponent;
 }());

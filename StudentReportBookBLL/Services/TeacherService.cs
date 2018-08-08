@@ -25,7 +25,7 @@ namespace StudentReportBookBLL.Services
         {
             IEnumerable<Teacher> results;
 
-            results = db.Teachers.GetAll();
+            results = db.Teachers.GetAll().Where(t => t.Identity.Role != "Moderator");
             IEnumerable<TeacherBll> resultsBll = mapper.Map<IEnumerable<Teacher>, IEnumerable<TeacherBll>>(results);
 
             return resultsBll;

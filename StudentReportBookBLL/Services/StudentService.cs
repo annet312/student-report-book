@@ -24,6 +24,7 @@ namespace StudentReportBookBLL.Services
             this.userService = userService;
             this.markService = markService;
         }
+
         private TeacherBll GetCurrentTeacherId()
         {
             var userName = userService.GetCurrentUserId();
@@ -46,6 +47,7 @@ namespace StudentReportBookBLL.Services
 
             return workloadBlls;
         }
+
         public IEnumerable<SubjectBll> GetSubjectsForCurrentTeacher()
         {
             IEnumerable<TeachersWorkloadBll> tws = GetTWOfCurrentTeacher();
@@ -55,8 +57,6 @@ namespace StudentReportBookBLL.Services
             IEnumerable<SubjectBll> subjects = tws.GroupBy(s => s.Subject.Id)
                                                     .Select(tw => tw.First())
                                                     .Select(tw => tw.Subject).ToList();
-
-
             return subjects;
         }
 
@@ -107,6 +107,7 @@ namespace StudentReportBookBLL.Services
         
             return marksOfStudents;
         }
+
         public int[] GetTermsForCurrentTeacher(int groupId, int subjectId)
         {
             IEnumerable<TeachersWorkloadBll> tws = GetTWOfCurrentTeacher();
@@ -137,6 +138,13 @@ namespace StudentReportBookBLL.Services
             bool result = markService.EditMark(student, grade, tws);
 
             return result;
+        }
+
+        public IEnumerable<StudentBll> GetStudentWithoutGroup()
+        {
+            IEnumerable<Student> students = db.Students.Get(st => st.Group == null);
+            IEnumerable<StudentBll> studentBlls = mapper.Map<IEnumerable<StudentBll>>(students);
+            return studentBlls;
         }
     }
 }
