@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudentReportBook.Models.Entities;
+using StudentReportBook.ViewModel;
 using StudentReportBookBLL.Models;
 using StudentReportBookBLL.Services.Interfaces;
 using System.Collections.Generic;
@@ -36,11 +37,28 @@ namespace StudentReportBook.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Student> GetStudents()
+        public IEnumerable<Student> GetStudentsWithoutGroup()
         {
             IEnumerable<StudentBll> studentsbll = studentService.GetStudentWithoutGroup();
             IEnumerable<Student> students = mapper.Map<IEnumerable<Student>>(studentsbll);
             return students;
         }
+
+        [HttpGet]
+        public IEnumerable<FacultyWithGroupsViewModel> GetAllFaculties()
+        {
+            IEnumerable<FacultyBll> facultiesbll = studentService.GetAllFaculties();
+            IEnumerable<FacultyWithGroupsViewModel> faculties = mapper.Map<IEnumerable<FacultyWithGroupsViewModel>>(facultiesbll);
+            return faculties;
+        }
+
+        [HttpGet]
+        public IEnumerable<Student> GetGroupsOfFaculty( int facultyId)
+        {
+            IEnumerable<StudentBll> studentsbll = studentService.GetStudentWithoutGroup();
+            IEnumerable<Student> students = mapper.Map<IEnumerable<Student>>(studentsbll);
+            return students;
+        }
+
     }
 }

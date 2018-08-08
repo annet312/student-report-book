@@ -7,15 +7,11 @@ import { HttpClient } from '@angular/common/http';
 import { UserRegistration } from '../models/user.registration.interface';
 import { ConfigService } from '../utils/config.service';
 import { UserResponse } from '../models/UserResponse';
-//import { DecodeService } from './decode.service';
 import { BaseService } from "./base.service";
 import { AuthService } from "../../auth/auth.service";
 
 import { Observable, of as observableOf } from 'rxjs';
-//import { Observable } from 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/Rx';
-
-//import { UserResponse } from '../models/UserResponse';
 
 // Add the RxJS Observable operators we need in this app.
 import '../../rxjs-operators';
@@ -52,7 +48,6 @@ export class UserService extends BaseService {
   login(userName: string, password: string) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-
     return this.http
       .post(
         this.baseUrls + 'api/auth/login',
@@ -64,11 +59,8 @@ export class UserService extends BaseService {
         this.authNavStatusSource.next(true);
         return true;
       })
-      
       .catch(this.handleError);
   }
-
-
 
   logout() {
     localStorage.removeItem('auth_token');

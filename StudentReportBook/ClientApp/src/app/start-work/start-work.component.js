@@ -10,12 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var user_service_1 = require("../shared/services/user.service");
 var auth_service_1 = require("../auth/auth.service");
 var router_1 = require("@angular/router");
 var StartWorkComponent = /** @class */ (function () {
-    function StartWorkComponent(userService, router, auth) {
-        this.userService = userService;
+    function StartWorkComponent(router, auth) {
         this.router = router;
         this.auth = auth;
         this.title = 'start-work';
@@ -46,7 +44,7 @@ var StartWorkComponent = /** @class */ (function () {
             selector: 'start-work',
             templateUrl: './start-work.component.html',
         }),
-        __metadata("design:paramtypes", [user_service_1.UserService, router_1.Router, auth_service_1.AuthService])
+        __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService])
     ], StartWorkComponent);
     return StartWorkComponent;
 }());

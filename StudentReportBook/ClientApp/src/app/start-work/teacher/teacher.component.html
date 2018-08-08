@@ -2,7 +2,9 @@
   <div class="form-group">
     <label for="subject">Subject</label>
     <select id="subject" class="form-control" (change)="filterSubject($event.target.value)">
-      <option value="0">--</option>
+      <option value="none" disabled>
+        Choose subject
+      </option>
       <option *ngFor="let subject of subjects" value={{subject.id}}>
         {{subject.name}}
       </option>
@@ -11,7 +13,9 @@
   <div class="form-group">
     <label for="faculty">Faculty</label>
     <select id="faculty" class="form-control" (change)="filterFaculty($event.target.value)">
-      <option value="0">--</option>
+      <option value="none" disabled>
+        Choose faculty
+      </option>
       <option *ngFor="let faculty of faculties" value={{faculty.id}}>
         {{faculty.name}}
       </option>
@@ -20,7 +24,9 @@
   <div class="form-group">
     <label for="group">Group</label>
     <select id="group" class="form-control" (change)="filterGroup($event.target.value)">
-      <option value="0">--</option>
+      <option value="none" disabled>
+        Choose group
+      </option>
       <option *ngFor="let group of groups" value={{group.id}}>
         {{group.name}}
       </option>
@@ -54,8 +60,8 @@
           <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
             <span title="Double click to edit"
                   (dblclick)="editing[rowIndex + '-grade' + j] = true"
-                  *ngIf="!editing[rowIndex + '-grade' + j] ">
-              <div *ngIf="!!row.marks[j]">{{row.marks[j].grade}}</div>
+                  *ngIf="!editing[rowIndex + '-grade' + j]">
+              <div *ngIf="row.marks[j]">{{row.marks[j].grade}}</div>
               <div *ngIf="!row.marks[j]">-</div>
             </span>
             <select *ngIf="editing[rowIndex + '-grade' + j]"

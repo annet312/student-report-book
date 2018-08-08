@@ -146,5 +146,12 @@ namespace StudentReportBookBLL.Services
             IEnumerable<StudentBll> studentBlls = mapper.Map<IEnumerable<StudentBll>>(students);
             return studentBlls;
         }
+
+        public IEnumerable<FacultyBll> GetAllFaculties()
+        {
+            IEnumerable<Faculty> faculties = db.Faculties.GetAll();
+            IEnumerable<FacultyBll> facultiesBll = mapper.Map<IEnumerable<FacultyBll>>(faculties);
+            return facultiesBll;
+        }
     }
 }

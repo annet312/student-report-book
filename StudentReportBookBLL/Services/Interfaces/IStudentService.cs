@@ -58,5 +58,7 @@ namespace StudentReportBookBLL.Services.Interfaces
         bool EditMarkByCurrentTeacher(int studentId, int subjectId, int term, int grade);
 
         IEnumerable<StudentBll> GetStudentWithoutGroup();
+
+        IEnumerable<FacultyBll> GetAllFaculties();
     }
 }

@@ -9,8 +9,7 @@ namespace StudentReportBookBLL.Profiles
     {
         public PersonProfile()
         {
-            CreateMap<Person, PersonBll>().ReverseMap();//.ForMember(dest => dest.Identity, opt => opt.MapFrom(src => src.Identity));
-
+            CreateMap<Person, PersonBll>().ReverseMap();
         }
     }
     public class UserProfile : Profile
@@ -32,8 +31,7 @@ namespace StudentReportBookBLL.Profiles
                 .ForMember(t => t.Identity, map => map.MapFrom(ts => ts.Identity)).ReverseMap()
                 .ForMember(t => t.Identity.Id, map => map.MapFrom(ts => ts.Identity.Id))
                 .ForMember(t => t.Department, map => map.MapFrom(ts => ts.Department)).ReverseMap();
-
-                //.IncludeBase<PersonBll, Person>().ReverseMap();
+            
         }
     }
     public class TeachersWorkloadProfile : Profile

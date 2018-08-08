@@ -16,6 +16,7 @@ var core_1 = require("@angular/core");
 var http_1 = require("@angular/common/http");
 var ModeratorComponent = /** @class */ (function () {
     function ModeratorComponent(http, baseUrl) {
+        this.editing = {};
         this.baseUrl = baseUrl;
         this.http = http;
     }
@@ -26,12 +27,26 @@ var ModeratorComponent = /** @class */ (function () {
             console.log(result);
         }, function (error) { return console.error(error); });
     };
-    ModeratorComponent.prototype.getStudents = function () {
+    ModeratorComponent.prototype.getContent = function (event) {
         var _this = this;
-        this.http.get(this.baseUrl + 'api/moderator/getStudents').subscribe(function (result) {
-            _this.students = result;
-            console.log(result);
-        }, function (error) { return console.error(error); });
+        if (event.nextId == "ngb-tab-1") {
+            this.http.get(this.baseUrl + 'api/moderator/getStudentsWithoutGroup').subscribe(function (result) {
+                _this.students = result;
+                if (!_this.faculties) {
+                    _this.http.get(_this.baseUrl + 'api/moderator/getAllFaculties').subscribe(function (res) {
+                        _this.faculties = res;
+                    }, function (error) { return console.error(error); });
+                }
+            }, function (error) { return console.error(error); });
+        }
+    };
+    ModeratorComponent.prototype.setFaculty = function (facultyIndex) {
+        console.log(facultyIndex);
+        this.groups = this.faculties[facultyIndex].groups;
+        console.log(this.faculties);
+    };
+    ModeratorComponent.prototype.setGroup = function (studentId) {
+        console.log(studentId);
     };
     ModeratorComponent = __decorate([
         core_1.Component({

@@ -17,7 +17,7 @@ namespace StudentReportBookDAL.Repositories
         private MarkRepository marks;
         private TeachersWorkloadRepository teachersWorkloads;
         private SubjectRepository subjects;
-        private IRepository<Faculty> faculties; 
+        private FacultyRepository faculties; 
 
         public UnitOfWork(AppDbContext context)
         {
@@ -74,7 +74,7 @@ namespace StudentReportBookDAL.Repositories
             {
                 if (faculties == null)
                 {
-                    faculties = new Repository<Faculty>(dbContext);
+                    faculties = new FacultyRepository(dbContext);
                 }
                 return faculties;
             }

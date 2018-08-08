@@ -39,7 +39,6 @@ namespace StudentReportBook.Controllers
            
             return new OkObjectResult(subjects);
         }
-
         /// <summary>
         /// get faculties where this teacher work with pointed subject
         /// </summary>

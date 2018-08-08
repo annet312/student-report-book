@@ -22,6 +22,6 @@ namespace StudentReportBookBLL.Models
 
         public string Name { get; set; }
 
-        //public List<GroupBll> Groups { get; set; }
+        public List<GroupBll> Groups { get; set; }
     }
 }
