@@ -5,7 +5,7 @@ import { SharedModule } from '../shared/modules/shared.module';
 import { AuthService } from '../auth/auth.service';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
-import { NgbModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbCollapseModule, NgbModalModule, } from '@ng-bootstrap/ng-bootstrap';
 
 
 import { UserService } from '../shared/services/user.service';

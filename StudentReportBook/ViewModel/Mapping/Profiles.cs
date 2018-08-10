@@ -91,4 +91,22 @@ namespace StudentReportBook.ViewModel.Mapping
                 .ForMember(mvm => mvm.Term, map => map.MapFrom(m => m.TeachersWorkload.Term));
         }
     }
+    public class SubjectToSubjectViewModelProfile : Profile
+    {
+        public SubjectToSubjectViewModelProfile()
+        {
+            CreateMap<SubjectBll, SubjectViewModel>().ReverseMap();
+        }
+    }
+    public class TeacherWorkloadToTeacherWorkloadViewMopdelProfile : Profile
+    {
+        public TeacherWorkloadToTeacherWorkloadViewMopdelProfile()
+        {
+            CreateMap<TeachersWorkloadBll, TeacherWorkloadViewModel>()
+                .ForMember(twvm => twvm.Id, map => map.MapFrom(tw => tw.Id))
+                .ForMember(twvm => twvm.Subject, map => map.MapFrom(tw => tw.Subject))
+                .ForMember(twvm => twvm.Term, map => map.MapFrom(tw => tw.Term))
+                .ForMember(twvm => twvm.Group, map => map.MapFrom(tw => tw.Group));
+        }
+    }
 }

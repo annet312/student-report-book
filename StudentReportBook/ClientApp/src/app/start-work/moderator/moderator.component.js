@@ -14,11 +14,13 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/common/http");
+var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var ModeratorComponent = /** @class */ (function () {
-    function ModeratorComponent(http, baseUrl) {
+    function ModeratorComponent(http, baseUrl, modalService) {
+        this.http = http;
+        this.modalService = modalService;
         this.editing = {};
         this.baseUrl = baseUrl;
-        this.http = http;
     }
     ModeratorComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -41,18 +43,49 @@ var ModeratorComponent = /** @class */ (function () {
         }
     };
     ModeratorComponent.prototype.setFaculty = function (facultyIndex) {
-        console.log(facultyIndex);
         this.groups = this.faculties[facultyIndex].groups;
-        console.log(this.faculties);
     };
     ModeratorComponent.prototype.setGroup = function (studentId, rowIndex) {
-        console.log(studentId);
-        console.log(rowIndex);
-        console.log(this.selGroup.toArray()[rowIndex].nativeElement.value);
+        var _this = this;
         this.http.get(this.baseUrl + 'api/moderator/setGroupForStudent', { params: { studentId: studentId, groupId: this.selGroup.toArray()[rowIndex].nativeElement.value } })
             .subscribe(function (result) {
-            console.log(result);
+            if (result) {
+                _this.editing[studentId] = !_this.editing[studentId];
+                _this.students.splice(rowIndex, 1);
+                _this.students = _this.students.slice();
+            }
+            else {
+                alert("Can't set group");
+            }
         }, function (error) { return console.error(error); });
+    };
+    ModeratorComponent.prototype.getTeacherWorkload = function (teacherId) {
+        var _this = this;
+        this.http.get(this.baseUrl + 'api/moderator/getTeacherWorkloads', { params: { teacherId: teacherId } })
+            .subscribe(function (result) {
+            _this.teacherWs = result;
+            console.log(_this.teacherWs);
+        });
+    };
+    ModeratorComponent.prototype.open = function (content, teacherId) {
+        var _this = this;
+        this.getTeacherWorkload(teacherId);
+        this.modalService.open(content).result.then(function (result) {
+            _this.closeResult = "Closed with: " + result;
+        }, function (reason) {
+            _this.closeResult = "Dismissed " + _this.getDismissReason(reason);
+        });
+    };
+    ModeratorComponent.prototype.getDismissReason = function (reason) {
+        if (reason === ng_bootstrap_1.ModalDismissReasons.ESC) {
+            return 'by pressing ESC';
+        }
+        else if (reason === ng_bootstrap_1.ModalDismissReasons.BACKDROP_CLICK) {
+            return 'by clicking on a backdrop';
+        }
+        else {
+            return "with: " + reason;
+        }
     };
     __decorate([
         core_1.ViewChildren("selectGroup"),
@@ -64,7 +97,7 @@ var ModeratorComponent = /** @class */ (function () {
             templateUrl: './moderator.component.html'
         }),
         __param(1, core_1.Inject('BASE_URL')),
-        __metadata("design:paramtypes", [http_1.HttpClient, String])
+        __metadata("design:paramtypes", [http_1.HttpClient, String, ng_bootstrap_1.NgbModal])
     ], ModeratorComponent);
     return ModeratorComponent;
 }());

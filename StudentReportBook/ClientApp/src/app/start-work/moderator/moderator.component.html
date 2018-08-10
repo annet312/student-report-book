@@ -1,23 +1,95 @@
 <ngb-tabset class="tabset1" (tabChange)="getContent($event)">
-  
+
   <ngb-tab title="Teachers">
     <ng-template ngbTabContent>
-        <table class='table' *ngIf="teachers">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Department</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let teacher of teachers">
-              <td>{{ teacher.name }}</td>
-              <td>{{ teacher.department }}</td>
-            </tr>
-          </tbody>
-        </table>     
+      <table class='table' *ngIf="teachers">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Department</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let teacher of teachers">
+            <td>{{ teacher.name }}</td>
+            <td>{{ teacher.department }}</td>
+            <td>
+
+              <ng-template #content let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-basic-title">Teacher Workload</h4>
+                  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div *ngIf="teacherWs">
+                    <ngx-datatable #teacherinfo class="material"
+                                   style="top: 10px"
+                                   [columnMode]="'force'"
+                                   [headerHeight]="50"
+                                   [footerHeight]="0"
+                                   [rowHeight]="50"
+                                   [rows]="teacherWs">
+                      <ngx-datatable-column name="">
+                        <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-num="rowIndex">
+                          {{num}}
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column name="Subject">
+                        <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                          {{row.subject.name}}
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column name="Group">
+                        <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                          {{row.group.name}}
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column name="Term">
+                        <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-num="rowIndex">
+                          <span title="Double click to edit"
+                                (dblclick)="editing[rowIndex + '-term' + num] = true"
+                                *ngIf="!editing[rowIndex + '-term' + num]">
+                            {{row.term}}
+                          </span>
+                          <select *ngIf="editing[rowIndex + '-term' + num]"
+                                  (blur)="editing[rowIndex + '-term' + num] = false"
+                                  (change)="updateTerm($event, 'term', num)"
+                                  [value]="value">
+                            <option value="none" disabled>
+                              Choose term
+                            </option>
+                            <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]" value={{number}}>
+                              {{number}}
+                            </option>
+                          </select>
+                        </ng-template>
+                      </ngx-datatable-column>
+                    </ngx-datatable>
+                   </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Save</button>
+                </div>
+              </ng-template>
+
+              <button class="btn btn-info" (click)="open(content, teacher.id)">Workload</button>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </ng-template>
   </ngb-tab>
+
+
+
+
+
 
   <ngb-tab title="Students">
     <ng-template ngbTabContent>
@@ -26,6 +98,8 @@
           <tr>
             <th>Name</th>
             <th>Choose group</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -34,7 +108,7 @@
             <td>
               <select id="facultySelect" class="form-control" (change)="setFaculty($event.target.value)">
                 <option value="none" disabled>
-                 Choose faculty
+                  Choose faculty
                 </option>
                 <option *ngFor="let faculty of faculties; let j = index" value={{j}}>
                   {{faculty.name}}

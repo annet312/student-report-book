@@ -1,5 +1,4 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -47,6 +46,7 @@ namespace StudentReportBook.Controllers
         [HttpGet]
         public IEnumerable<FacultyWithGroupsViewModel> GetAllFaculties()
         {
+
             IEnumerable<FacultyBll> facultiesbll = studentService.GetAllFaculties();
             IEnumerable<FacultyWithGroupsViewModel> faculties = mapper.Map<IEnumerable<FacultyWithGroupsViewModel>>(facultiesbll);
             return faculties;
@@ -66,6 +66,17 @@ namespace StudentReportBook.Controllers
         {
             studentService.SetGroupForStudent(studentId, groupId);
             return new OkObjectResult(true);
+        }
+
+        [HttpGet]
+        public IActionResult GetTeacherWorkloads(int teacherId)
+        {
+            IEnumerable<TeachersWorkloadBll> twBll= teacherService.GetTeachersWorkloads(teacherId);
+            if (twBll == null)
+                return new OkObjectResult(twBll);
+
+            IEnumerable<TeacherWorkloadViewModel> tws = mapper.Map<IEnumerable<TeacherWorkloadViewModel>>(twBll);
+            return new OkObjectResult(tws);
         }
 
     }

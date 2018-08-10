@@ -36,8 +36,9 @@ namespace StudentReportBook.Controllers
         public IActionResult GetSubjectsForCurrentTeacher( )
         {
             IEnumerable<SubjectBll> subjects = studentService.GetSubjectsForCurrentTeacher();
+            IEnumerable<SubjectViewModel> subjectViews = mapper.Map<IEnumerable<SubjectViewModel>>(subjects);
            
-            return new OkObjectResult(subjects);
+            return new OkObjectResult(subjectViews);
         }
         /// <summary>
         /// get faculties where this teacher work with pointed subject
@@ -71,7 +72,6 @@ namespace StudentReportBook.Controllers
             return new OkObjectResult(terms);
         }
 
-
         [HttpGet]
         public IActionResult GetStudents(int groupId, int subjectId)
         {
@@ -87,5 +87,6 @@ namespace StudentReportBook.Controllers
             
             return new OkObjectResult(IfEdit);
         }
+        
     }
 }

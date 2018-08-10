@@ -14,6 +14,4 @@ namespace StudentReportBook.ViewModel
         public string StudentCard { get; set; }
         public int CurrentTerm { get; set; }
     }
-
-
 }

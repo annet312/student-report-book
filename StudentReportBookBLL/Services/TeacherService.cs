@@ -64,7 +64,6 @@ namespace StudentReportBookBLL.Services
             IEnumerable<SubjectBll> subjects = teachersWorkloads.Select(tw => tw.Subject);
             return subjects;
         }
-
         
         public IEnumerable<SubjectBll> GetSubjects(int teacherId)
         {
@@ -73,18 +72,12 @@ namespace StudentReportBookBLL.Services
             return subjects;
         }
 
-        //public IEnumerable<int> GetTerm(int GroupId, int SubjectId, string userid)
-        //{
-            
-        //}
-
-        private IEnumerable<TeachersWorkloadBll> GetTeachersWorkloads(int teacherId)
+        public IEnumerable<TeachersWorkloadBll> GetTeachersWorkloads(int teacherId)
         {
             IEnumerable<TeachersWorkload> teachersWorkloads= db.TeachersWorkloads.Get(tw => tw.TeacherId == teacherId);
             IEnumerable<TeachersWorkloadBll> teachersWorkloadBlls = mapper.Map<IEnumerable<TeachersWorkloadBll>>(teachersWorkloads);
 
             return teachersWorkloadBlls;
-
         }
         public TeacherBll GetTeacher(string userId)
         {
