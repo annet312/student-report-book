@@ -1,14 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StudentReportBookDAL.Context;
-using StudentReportBookDAL.Entities;
-using StudentReportBookDAL.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-//using Microsoft.Data.Extensions;
-using System.Text;
-using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
+using Microsoft.EntityFrameworkCore;
+using StudentReportBookDAL.Context;
+using StudentReportBookDAL.Entities;
+using StudentReportBookDAL.Interfaces;
 
 namespace StudentReportBookDAL.Repositories
 {
@@ -20,6 +17,7 @@ namespace StudentReportBookDAL.Repositories
         {
             this.dbContext = dbContext;
         }
+
         public IEnumerable<Student> GetAll()
         {
             IEnumerable<Student> students = dbContext.Students

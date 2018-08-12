@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StudentReportBookDAL.Context;
-using StudentReportBookDAL.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
+using StudentReportBookDAL.Context;
+using StudentReportBookDAL.Entities;
+
 
 namespace StudentReportBookDAL.Repositories
 {
@@ -16,6 +17,7 @@ namespace StudentReportBookDAL.Repositories
         {
             this.dbContext = dbContext;
         }
+
         public IEnumerable<Teacher> GetAll()
         {
             IEnumerable<Teacher> teachers = dbContext.Teachers

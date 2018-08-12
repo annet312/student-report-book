@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-
+﻿
 namespace StudentReportBookBLL.Models
 {
     public class SubjectBll
@@ -7,6 +6,5 @@ namespace StudentReportBookBLL.Models
         public int Id { get; set; }
 
         public string Name { get; set; }
-
     }
 }

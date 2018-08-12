@@ -17,8 +17,6 @@ namespace StudentReportBookDAL.Entities
         public string LastName { get; set; }
   
         public AppUser Identity { get; set; }
-
-
     }
 
     public class Student : Person
@@ -33,10 +31,9 @@ namespace StudentReportBookDAL.Entities
     public class Teacher : Person
     {
         public int? TeachersWorkloadId { get; set; }
+
         public List<TeachersWorkload> TeachersWorkloads { get; set; }
+
         public string Department { get; set; }
-
-       
     }
-
 }

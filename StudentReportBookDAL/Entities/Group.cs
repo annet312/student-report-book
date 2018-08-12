@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace StudentReportBookDAL.Entities
 {
@@ -15,12 +13,8 @@ namespace StudentReportBookDAL.Entities
         public int FacultyID { get; set; }
 
         public Faculty Faculty { get; set; }
-        public int CurrentTerm {
-            get; set;
-        }
 
-        //public int TeacherWorkloadId { get; set; }
-        //public List<TeachersWorkload> TeachersWorkloads { get; set; }
+        public int CurrentTerm { get; set; }
     }
 
     public class Faculty

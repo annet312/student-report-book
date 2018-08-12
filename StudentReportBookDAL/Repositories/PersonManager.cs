@@ -1,8 +1,6 @@
 ﻿using StudentReportBookDAL.Context;
 using StudentReportBookDAL.Entities;
 using StudentReportBookDAL.Interfaces;
-using System;
-using System.Linq;
 
 namespace StudentReportBookDAL.Repositories
 {
@@ -10,13 +8,10 @@ namespace StudentReportBookDAL.Repositories
     {
         private readonly AppDbContext db;
 
-       
-
         public PersonManager(AppDbContext context)
         {
-            this.db = context;
+            db = context;
         }
-
 
         public void Dispose()
         {
@@ -25,10 +20,8 @@ namespace StudentReportBookDAL.Repositories
        
         public void Create(Person person)
         {
-            
             db.People.Add(person);
             db.SaveChanges();
         }
-
     }
 }

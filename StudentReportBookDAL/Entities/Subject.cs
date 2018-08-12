@@ -11,6 +11,5 @@ namespace StudentReportBookDAL.Entities
         public int? TeachersWorkloadId { get; set; }
 
         public List<TeachersWorkload> TeachersWorkloads { get; set; }
-
     }
 }

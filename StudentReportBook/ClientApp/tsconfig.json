@@ -19,17 +19,10 @@
     "moduleResolution": "node",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
-    "target": "es6" //,
-    //"typeRoots": [ "node_modules/@types" ]//,
-    //"types": [
-    //  "jasmine",
-    //  "node",
-    //  "types",
-    //  "core-js"
-    //]
+    "target": "es6" 
   },
   "include": [
-    "./src", /**/
+    "./src", 
     "*"
   ],
   "exclude": [

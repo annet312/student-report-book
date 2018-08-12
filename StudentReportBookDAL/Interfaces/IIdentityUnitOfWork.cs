@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using StudentReportBookDAL.Entities;
-using StudentReportBookDAL.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace StudentReportBookDAL.Interfaces
 {

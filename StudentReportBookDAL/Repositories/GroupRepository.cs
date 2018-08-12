@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StudentReportBookDAL.Context;
-using StudentReportBookDAL.Entities;
-using StudentReportBookDAL.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
+using StudentReportBookDAL.Context;
+using StudentReportBookDAL.Entities;
+using StudentReportBookDAL.Interfaces;
+
 
 namespace StudentReportBookDAL.Repositories
 {
@@ -17,11 +18,12 @@ namespace StudentReportBookDAL.Repositories
         {
             this.dbContext = dbContext;
         }
+
         public IEnumerable<Group> GetAll()
         {
             IEnumerable<Group> groups = dbContext.Groups
                                         .Include(g => g.Faculty)
-                                        .Include(g => g.Students);
+                                        .Include(g => g.Students).AsEnumerable();
 
             return groups;
         }
@@ -43,8 +45,7 @@ namespace StudentReportBookDAL.Repositories
 
         public void Update(Group group)
         {
-            dbContext.Entry(group).State = EntityState.Modified;
-            dbContext.Set<Group>().Attach(group);
+            dbContext.Set<Group>().Update(group);
         }
 
         public void Delete(Group group)

@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StudentReportBookDAL.Context;
-using StudentReportBookDAL.Entities;
-using StudentReportBookDAL.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
+using StudentReportBookDAL.Context;
+using StudentReportBookDAL.Entities;
+using StudentReportBookDAL.Interfaces;
+
 
 namespace StudentReportBookDAL.Repositories
 {
@@ -17,6 +18,7 @@ namespace StudentReportBookDAL.Repositories
         {
             this.dbContext = dbContext;
         }
+
         public IEnumerable<Subject> GetAll()
         {
             IEnumerable<Subject> subjects = dbContext.Subjects
@@ -41,8 +43,7 @@ namespace StudentReportBookDAL.Repositories
 
         public void Update(Subject subject)
         {
-            dbContext.Entry(subject).State = EntityState.Modified;
-            dbContext.Set<Subject>().Attach(subject);
+            dbContext.Set<Subject>().Update(subject);
         }
 
         public void Delete(Subject subject)

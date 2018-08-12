@@ -95,17 +95,16 @@ namespace StudentReportBookBLL.Services
                                                     && (m.TeachersWorkload.Teacher.Id == teacherId)
                                                     && (m.Student.Id == studentId));
             IEnumerable<MarkBll> markBlls = mapper.Map<IEnumerable<MarkBll>>(marks);
+
             return markBlls;
         }
 
         IEnumerable<MarkBll> IMarkService.GetAllMarks(StudentBll student)
         {
-            //How need to work(with teacherworkload):
             IEnumerable<Mark> marks = db.Marks.Get(m => m.StudentId == student.Id);
             if (marks == null)
                 return null;
             IEnumerable<MarkBll> marksbll = mapper.Map<IEnumerable<MarkBll>>(marks);
-            
             
             return marksbll;
         }

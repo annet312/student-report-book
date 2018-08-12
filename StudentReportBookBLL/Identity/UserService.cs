@@ -40,6 +40,7 @@ namespace StudentReportBookBLL.Identity
             var role = db.UserManager.GetRolesAsync(user);
             return await role;
         }
+
         public  string GetCurrentUserId()
         {
             return db.UserManager.GetUserId(httpContextAccessor.HttpContext.User);

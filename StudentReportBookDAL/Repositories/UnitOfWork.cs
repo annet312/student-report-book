@@ -1,9 +1,10 @@
-﻿using StudentReportBookDAL.Context;
-using StudentReportBookDAL.Entities;
-using StudentReportBookDAL.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using StudentReportBookDAL.Context;
+using StudentReportBookDAL.Entities;
+using StudentReportBookDAL.Interfaces;
+
 
 namespace StudentReportBookDAL.Repositories
 {
@@ -23,6 +24,7 @@ namespace StudentReportBookDAL.Repositories
         {
             this.dbContext = context;
         }
+
         public StudentRepository Students
         {
             get
@@ -46,6 +48,7 @@ namespace StudentReportBookDAL.Repositories
                 return teachers;
             }
         }
+
         public SubjectRepository Subjects
         {
             get
@@ -57,6 +60,7 @@ namespace StudentReportBookDAL.Repositories
                 return subjects;
             }
         }
+
         public GroupRepository Groups
         {
             get
@@ -68,6 +72,7 @@ namespace StudentReportBookDAL.Repositories
                 return groups;
             }
         }
+
         public IRepository<Faculty> Faculties
         {
             get
@@ -79,6 +84,7 @@ namespace StudentReportBookDAL.Repositories
                 return faculties;
             }
         }
+
         public TeachersWorkloadRepository TeachersWorkloads
         {
             get
@@ -90,6 +96,7 @@ namespace StudentReportBookDAL.Repositories
                 return teachersWorkloads;
             }
         }
+
         public MarkRepository Marks
         {
             get

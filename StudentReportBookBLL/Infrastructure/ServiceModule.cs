@@ -1,28 +1,21 @@
 ﻿using Autofac;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 using StudentReportBookDAL.Interfaces;
 using StudentReportBookDAL.Repositories;
-//using Microsoft.IdentityModel.Protocols;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using StudentReportBookDAL.Context;
-using Autofac.Core;
-using Microsoft.AspNetCore.Identity;
-using StudentReportBookBLL.Identity.Model;
 using StudentReportBookDAL.Entities;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using StudentReportBookBLL.Auth;
 using StudentReportBookBLL.Models;
-using StudentReportBookBLL.Services;
+using System.IO;
 
 namespace StudentReportBookBLL.Infrastructure
 {
-    public class ServiceModule : Autofac.Module
+    public class ServiceModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
@@ -31,8 +24,11 @@ namespace StudentReportBookBLL.Infrastructure
             builder.RegisterType<JwtFactory>().As<IJwtFactory>().SingleInstance();
             builder.RegisterType<JWTIssuerOptions>().AsSelf();
 
-
-            string connectionString = "Server=(localdb)\\mssqllocaldb;Database=ReportBook;Trusted_Connection=True;";
+            var build = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+            var configur= build.Build();
+            var connectionString = configur.GetConnectionString("DefaultConnection");
 
             builder.Register(c =>
             {
@@ -41,13 +37,12 @@ namespace StudentReportBookBLL.Infrastructure
                 var opt = new DbContextOptionsBuilder<AppDbContext>();
                 opt.UseSqlServer(connectionString, b => b.MigrationsAssembly("StudentReportBook"));
 
-                return new AppDbContext(opt.Options);//.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+                return new AppDbContext(opt.Options);
             }).AsSelf().InstancePerLifetimeScope();
 
 
-            builder.RegisterType<IdentityUnitOfWork>().As<IIdentityUnitOfWork>();//.WithParameter(AppDbContext dbContext);
-            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();//.WithParameter("connectionString", connectionString);
-
+            builder.RegisterType<IdentityUnitOfWork>().As<IIdentityUnitOfWork>();
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
             builder.RegisterAssemblyTypes(typeof(ServiceModule).Assembly)
                 .Where(t => t.Name.EndsWith("Service"))
                  .AsImplementedInterfaces();
@@ -59,13 +54,8 @@ namespace StudentReportBookBLL.Infrastructure
                 {
                     cfg.AddProfile(profile);
                 }
-                
             })).AsSelf().SingleInstance();
-            
         }
-
     }
-
-   
 }
 

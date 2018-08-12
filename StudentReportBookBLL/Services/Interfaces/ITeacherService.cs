@@ -1,14 +1,10 @@
-﻿using StudentReportBookBLL.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using StudentReportBookBLL.Models;
 
 namespace StudentReportBookBLL.Services.Interfaces
 {
     public interface ITeacherService
     {
-        TeacherBll GetTeacher(string teacherUserId);
-
         IEnumerable<TeacherBll> GetAllTeachers();
 
         IEnumerable<TeachersWorkloadBll> GetTeachersWorkloads(int teacherId);

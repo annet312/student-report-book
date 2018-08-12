@@ -18,7 +18,6 @@ namespace StudentReportBookDAL.Context
         public DbSet<TeachersWorkload> TeachersWorkloads { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
 
-
         public AppDbContext(DbContextOptions options)
             : base(options)
         {
@@ -36,9 +35,8 @@ namespace StudentReportBookDAL.Context
             modelBuilder.ApplyConfiguration(new GroupConfiguration());
             modelBuilder.ApplyConfiguration(new FacultyConfiguration());
             modelBuilder.ApplyConfiguration(new MarkConfiguration());
-
-            
         }
+
         public class PersonConfiguration : IEntityTypeConfiguration<Person>
         {
             public void Configure(EntityTypeBuilder<Person> builder)
@@ -64,6 +62,7 @@ namespace StudentReportBookDAL.Context
                 builder.HasOne(s => s.Group).WithMany(g => g.Students);
             }
         }
+
         public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
         {
             public void Configure(EntityTypeBuilder<Subject> builder)
@@ -81,6 +80,7 @@ namespace StudentReportBookDAL.Context
                 builder.HasMany(t => t.TeachersWorkloads).WithOne(tw => tw.Teacher);//.OnDelete(DeleteBehavior.Restrict);
             }
         }
+
         public class TeachersWorkloadConfiguration : IEntityTypeConfiguration<TeachersWorkload>
         {
             public void Configure(EntityTypeBuilder<TeachersWorkload> builder)
@@ -89,9 +89,9 @@ namespace StudentReportBookDAL.Context
                 builder.HasOne(tw => tw.Subject).WithMany(s => s.TeachersWorkloads).OnDelete(DeleteBehavior.Restrict);
                 builder.HasOne(tw => tw.Teacher).WithMany(t => t.TeachersWorkloads).OnDelete(DeleteBehavior.Restrict);
                 builder.Property(tw => tw.Term).IsRequired();
-
             }
         }
+
         public class GroupConfiguration : IEntityTypeConfiguration<Group>
         {
             public void Configure(EntityTypeBuilder<Group> builder)
@@ -101,6 +101,7 @@ namespace StudentReportBookDAL.Context
                 builder.HasOne(g => g.Faculty).WithMany(f => f.Groups);
             }
         }
+
         public class FacultyConfiguration : IEntityTypeConfiguration<Faculty>
         {
             public void Configure(EntityTypeBuilder<Faculty> builder)
@@ -109,6 +110,7 @@ namespace StudentReportBookDAL.Context
                 builder.Property(p => p.Name).IsRequired().HasMaxLength(30);
             }
         }
+
         public class MarkConfiguration : IEntityTypeConfiguration<Mark>
         {
             public void Configure(EntityTypeBuilder<Mark> builder)

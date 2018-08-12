@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using StudentReportBookBLL.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StudentReportBookBLL.Identity.Model
 {

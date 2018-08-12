@@ -51,7 +51,7 @@ export class ModerateTeacherComponent implements OnInit {
           this.editing[rowIndex + '-subject'] = false;
           this.teacherWs[rowIndex].subject = {
             id: event.target.value,
-            name: event.target.text
+            name: event.target.selectedOptions[0].innerText
           };
         }
         else {
@@ -80,11 +80,9 @@ export class ModerateTeacherComponent implements OnInit {
       .subscribe(result => {
         if (result) {
           this.editing[rowIndex + '-group'] = false;
-          this.teacherWs[rowIndex].group = {
-            id: event.target.value,
-            name: event.target.text
-          };
-
+          this.teacherWs[rowIndex].group.id = event.target.value;
+          console.log(event.target.selectedOptions[0].innerText);
+          this.teacherWs[rowIndex].group.name = event.target.selectedOptions[0].innerText;
         }
         else {
           alert("Can't set group");

@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq.Expressions;
 
 namespace StudentReportBookDAL.Interfaces
 {
-
     public interface IRepository<T> where T : class
     {
         IEnumerable<T> GetAll();
 
-        //T Get(int id);
-
-
-        IEnumerable<T> Get(/*Func<T, Boolean> predicate*/System.Linq.Expressions.Expression<Func<T, bool>> predicate);
+        IEnumerable<T> Get(Expression<Func<T, bool>> predicate);
 
         void Add(T entity);
 
@@ -20,5 +16,4 @@ namespace StudentReportBookDAL.Interfaces
 
         void Delete(T entity);
     }
-    
 }

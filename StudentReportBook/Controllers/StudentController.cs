@@ -25,13 +25,10 @@ namespace StudentReportBook.Controllers
             this.mapper = mapper;
             this.gradeBookService = gradeBookService;
         }
-        
 
         [HttpGet]
-       
         public IActionResult GetMyGradeBook()
         {
-         
             GradeBook gradeBook = gradeBookService.GetMyMarks();
             var result = mapper.Map<GradeBookViewModel>(gradeBook);
             

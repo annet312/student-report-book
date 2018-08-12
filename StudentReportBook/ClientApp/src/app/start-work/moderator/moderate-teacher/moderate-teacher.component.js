@@ -51,7 +51,7 @@ var ModerateTeacherComponent = /** @class */ (function () {
                 _this.editing[rowIndex + '-subject'] = false;
                 _this.teacherWs[rowIndex].subject = {
                     id: event.target.value,
-                    name: event.target.text
+                    name: event.target.selectedOptions[0].innerText
                 };
             }
             else {
@@ -80,10 +80,9 @@ var ModerateTeacherComponent = /** @class */ (function () {
             .subscribe(function (result) {
             if (result) {
                 _this.editing[rowIndex + '-group'] = false;
-                _this.teacherWs[rowIndex].group = {
-                    id: event.target.value,
-                    name: event.target.text
-                };
+                _this.teacherWs[rowIndex].group.id = event.target.value;
+                console.log(event.target.selectedOptions[0].innerText);
+                _this.teacherWs[rowIndex].group.name = event.target.selectedOptions[0].innerText;
             }
             else {
                 alert("Can't set group");

@@ -1,20 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using StudentReportBookDAL.Context;
 using StudentReportBookDAL.Entities;
 using StudentReportBookDAL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace StudentReportBookDAL.Repositories
 {
     public class FacultyRepository : IRepository<Faculty> 
     {
         private readonly AppDbContext dbContext;
+
         public FacultyRepository(AppDbContext db)
         {
-            this.dbContext = db;
+            dbContext = db;
         }
+
         public void Add(Faculty faculty)
         {
             dbContext.Set<Faculty>().Add(faculty);
@@ -28,13 +30,18 @@ namespace StudentReportBookDAL.Repositories
 
         public IEnumerable<Faculty> GetAll()
         {
-            return dbContext.Set<Faculty>().Include(f => f.Groups).AsEnumerable();
-        }
+            IEnumerable<Faculty> faculties = dbContext.Set<Faculty>()
+                                            .Include(f => f.Groups).AsEnumerable();
 
+            return faculties;
+        }
 
         public IEnumerable<Faculty> Get(System.Linq.Expressions.Expression<Func<Faculty, bool>> predicate)
         {
-            return dbContext.Set<Faculty>().Include(f => f.Groups).Where(predicate).AsEnumerable<Faculty>();
+            IEnumerable<Faculty> faculties = dbContext.Set<Faculty>()
+                                            .Include(f => f.Groups)
+                                            .Where(predicate).AsEnumerable();
+            return faculties;
         }
 
         public void Update(Faculty faculty)

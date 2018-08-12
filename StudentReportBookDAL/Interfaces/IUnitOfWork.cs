@@ -1,6 +1,6 @@
-﻿using StudentReportBookDAL.Entities;
+﻿using System;
+using StudentReportBookDAL.Entities;
 using StudentReportBookDAL.Repositories;
-using System;
 
 namespace StudentReportBookDAL.Interfaces
 {

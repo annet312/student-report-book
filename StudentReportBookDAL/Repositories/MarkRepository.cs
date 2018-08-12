@@ -1,11 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StudentReportBookDAL.Context;
-using StudentReportBookDAL.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
+using Microsoft.EntityFrameworkCore;
+using StudentReportBookDAL.Context;
+using StudentReportBookDAL.Entities;
 
 namespace StudentReportBookDAL.Repositories
 {
@@ -17,6 +16,7 @@ namespace StudentReportBookDAL.Repositories
         {
             this.dbContext = dbContext;
         }
+
         public IEnumerable<Mark> GetAll()
         {
             IEnumerable<Mark> marks = dbContext.Marks
@@ -49,8 +49,6 @@ namespace StudentReportBookDAL.Repositories
 
         public void Update(Mark mark)
         {
-            //dbContext.Entry(mark).State = EntityState.Modified;
-            //dbContext.Set<Mark>().Attach(mark);
             dbContext.Set<Mark>().Update(mark);
         }
 
@@ -59,6 +57,5 @@ namespace StudentReportBookDAL.Repositories
             Mark existing = dbContext.Set<Mark>().Find(mark);
             if (existing != null) dbContext.Set<Mark>().Remove(existing);
         }
-
     }
 }

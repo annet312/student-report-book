@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StudentReportBookDAL.Context;
-using StudentReportBookDAL.Entities;
-using StudentReportBookDAL.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
+using StudentReportBookDAL.Context;
+using StudentReportBookDAL.Entities;
+using StudentReportBookDAL.Interfaces;
+
 
 namespace StudentReportBookDAL.Repositories
 {
@@ -17,14 +18,13 @@ namespace StudentReportBookDAL.Repositories
         {
             this.dbContext = dbContext;
         }
+
         public IEnumerable<TeachersWorkload> GetAll()
         {
             IEnumerable<TeachersWorkload> teachersWorkloads = dbContext.TeachersWorkloads
                                             .Include(tw => tw.Group)
                                                     .ThenInclude(g => g.Faculty)
                                             .Include(tw => tw.Subject).AsEnumerable();
-                                            //.Include(tw => tw.Marks).AsEnumerable();
-
             return teachersWorkloads;
         }
 

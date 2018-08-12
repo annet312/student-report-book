@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace StudentReportBookBLL.Models
 {
@@ -16,6 +14,7 @@ namespace StudentReportBookBLL.Models
 
         public int CurrentTerm{ get;set; }
     }
+
     public class FacultyBll
     {
         public int Id { get; set; }

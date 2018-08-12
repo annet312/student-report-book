@@ -1,13 +1,12 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using StudentReportBookBLL.Identity.Interface;
 using StudentReportBookBLL.Models;
 using StudentReportBookBLL.Services.Interfaces;
 using StudentReportBookDAL.Entities;
 using StudentReportBookDAL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace StudentReportBookBLL.Services
 {
@@ -16,7 +15,6 @@ namespace StudentReportBookBLL.Services
         private readonly IMapper mapper;
         private readonly IUnitOfWork db;
         private readonly IMarkService markService;
-       // private readonly ITeacherService teacherService;
         private readonly IUserService userService;
 
         public GradeBookService(IUnitOfWork db, IMapper mapper, IMarkService markService,  IUserService userService)
@@ -24,30 +22,22 @@ namespace StudentReportBookBLL.Services
             this.mapper = mapper;
             this.db = db;
             this.markService = markService;
-            //this.teacherService = teacherService;
             this.userService = userService;
         }
 
-        
-
-        GradeBook IGradeBookService.GetMyMarks()
+        public GradeBook GetMyMarks()
         {
             var userName = userService.GetCurrentUserId();
-
-            if (string.IsNullOrEmpty(userName)) throw new ArgumentNullException("userName is not available", userName);
-
+            if (string.IsNullOrEmpty(userName))
+                throw new ArgumentNullException("userName is not available", userName);
             Student student =  db.Students.Get(s => s.Identity.UserName == userName).SingleOrDefault();
-            if (student == null) throw new ArgumentException("This student does not exists", userName);
-
+            if (student == null)
+                throw new ArgumentException("This student does not exists", userName);
             var st = mapper.Map <StudentBll>(student);
             var gr = db.Groups.Get(gro => gro.Id == student.GroupId).SingleOrDefault();
-
             StudentBll studentBll = mapper.Map<StudentBll>(student);
-
             IEnumerable<MarkBll> studentMarks = markService.GetAllMarks(studentBll);
-
             var marks = new List<MarkBll>(studentMarks);
-          
             GradeBook gradeBook = new GradeBook()
             {
                 Student = studentBll,
@@ -56,6 +46,5 @@ namespace StudentReportBookBLL.Services
 
             return gradeBook;
         }
-
     }
 }

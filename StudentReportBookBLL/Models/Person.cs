@@ -1,7 +1,4 @@
 ﻿using StudentReportBookBLL.Identity.Model;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StudentReportBookBLL.Models
 {
@@ -46,7 +43,7 @@ namespace StudentReportBookBLL.Models
         public string LastName { get; set; }
 
         public AppUserBll Identity { get; set; }
-        public string Department { get; set; }
 
+        public string Department { get; set; }
     }
 }

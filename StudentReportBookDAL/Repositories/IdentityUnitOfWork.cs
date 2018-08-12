@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using StudentReportBookDAL.Context;
-using StudentReportBookDAL.Entities;
-using StudentReportBookDAL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using StudentReportBookDAL.Context;
+using StudentReportBookDAL.Interfaces;
 
 namespace StudentReportBookDAL.Repositories
 {
@@ -15,17 +12,17 @@ namespace StudentReportBookDAL.Repositories
 
         public IdentityUnitOfWork(AppDbContext dbContext, UserManager<IdentityUser> userManager, IPersonManager personManager, RoleManager<IdentityRole> roleManager)
         {
-            this.db = dbContext;
-            this.UserManager = userManager;
-            this.RoleManager = roleManager;
-            this.RersonManager = personManager;
+            db = dbContext;
+            UserManager = userManager;
+            RoleManager = roleManager;
+            RersonManager = personManager;
         }
 
         public UserManager<IdentityUser> UserManager { get; }
+
         public RoleManager<IdentityRole> RoleManager { get; }
 
         public IPersonManager RersonManager { get; }
-
 
         public async Task SaveAsync()
         {
@@ -42,15 +39,15 @@ namespace StudentReportBookDAL.Repositories
 
         public virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!disposed)
             {
                 if (disposing)
                 {
                     UserManager.Dispose();
-                   // roleManager.Dispose();
+                    RoleManager.Dispose();
                     RersonManager.Dispose();
                 }
-                this.disposed = true;
+                disposed = true;
             }
         }
     }
