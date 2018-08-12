@@ -48,8 +48,7 @@ namespace StudentReportBookDAL.Repositories
 
         public void Update(TeachersWorkload teachersWorkload)
         {
-            dbContext.Entry(teachersWorkload).State = EntityState.Modified;
-            dbContext.Set<TeachersWorkload>().Attach(teachersWorkload);
+            dbContext.Set<TeachersWorkload>().Update(teachersWorkload);
         }
 
         public void Delete(TeachersWorkload teachersWorkload)

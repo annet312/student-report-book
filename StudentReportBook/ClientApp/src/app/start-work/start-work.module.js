@@ -19,6 +19,8 @@ var gradebook_component_1 = require("./gradebook/gradebook.component");
 var moderator_component_1 = require("./moderator/moderator.component");
 var teacher_component_1 = require("./teacher/teacher.component");
 var start_work_component_1 = require("./start-work.component");
+var moderate_student_component_1 = require("./moderator/moderate-student/moderate-student.component");
+var moderate_teacher_component_1 = require("./moderator/moderate-teacher/moderate-teacher.component");
 var StartWorkModule = /** @class */ (function () {
     function StartWorkModule() {
     }
@@ -27,7 +29,7 @@ var StartWorkModule = /** @class */ (function () {
             imports: [
                 common_1.CommonModule, forms_1.FormsModule, start_work_routing_1.routing, shared_module_1.SharedModule, ngx_datatable_1.NgxDatatableModule, ng_bootstrap_1.NgbCollapseModule.forRoot(), ng_bootstrap_1.NgbModule
             ],
-            declarations: [teacher_component_1.TeacherComponent, moderator_component_1.ModeratorComponent, gradebook_component_1.GradeBookComponent, start_work_component_1.StartWorkComponent],
+            declarations: [teacher_component_1.TeacherComponent, moderator_component_1.ModeratorComponent, gradebook_component_1.GradeBookComponent, start_work_component_1.StartWorkComponent, moderate_student_component_1.ModerateStudentComponent, moderate_teacher_component_1.ModerateTeacherComponent],
             providers: [user_service_1.UserService, auth_service_1.AuthService]
         })
     ], StartWorkModule);

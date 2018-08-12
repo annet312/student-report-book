@@ -11,17 +11,14 @@ namespace StudentReportBookBLL.Services.Interfaces
 
         IEnumerable<TeacherBll> GetAllTeachers();
 
-       // IEnumerable<SubjectBll> GetSubjects(string userId);
-
-        //IEnumerable<SubjectBll> GetSubjects(int teacherId);
-
         IEnumerable<TeachersWorkloadBll> GetTeachersWorkloads(int teacherId);
 
-       // TeachersWorkloadBll GetTeachersWorkload(int teacherId, GroupBll group, int subjectId);
-        
-       // IEnumerable<FacultyBll> GetFaculties(string userId, int subjectId);
+        IEnumerable<SubjectBll> GetAllSubjects();
 
-        //IEnumerable<GroupBll> GetGroups(int facultyId, string userId, int subjectId);
+        void ChangeTerm(int teacherWorkloadId, int term);
 
+        void ChangeGroup(int teacherWorkloadId, int groupId);
+
+        void ChangeSubject(int teacherWorkloadId, int subjectId);
     }
 }

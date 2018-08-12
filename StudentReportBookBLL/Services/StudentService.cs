@@ -153,6 +153,12 @@ namespace StudentReportBookBLL.Services
             IEnumerable<FacultyBll> facultiesBll = mapper.Map<IEnumerable<FacultyBll>>(faculties);
             return facultiesBll;
         }
+        public IEnumerable<GroupBll> GetAllGroups()
+        {
+            IEnumerable<Group> groups = db.Groups.GetAll();
+            IEnumerable<GroupBll> groupBlls = mapper.Map<IEnumerable<GroupBll>>(groups);
+            return groupBlls;
+        }
 
         public void SetGroupForStudent(int studentId, int groupId)
         {

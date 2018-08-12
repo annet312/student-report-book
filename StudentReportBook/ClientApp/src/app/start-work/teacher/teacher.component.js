@@ -14,8 +14,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/common/http");
-var StudentsComponent = /** @class */ (function () {
-    function StudentsComponent(http, baseUrl) {
+var TeacherComponent = /** @class */ (function () {
+    function TeacherComponent(http, baseUrl) {
         this.subjects = null;
         this.faculties = null;
         this.groups = null;
@@ -24,13 +24,13 @@ var StudentsComponent = /** @class */ (function () {
         this.baseUrl = baseUrl;
         this.http = http;
     }
-    StudentsComponent.prototype.ngOnInit = function () {
+    TeacherComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.http.get(this.baseUrl + 'api/teacher/getSubjectsForCurrentTeacher').subscribe(function (result) {
             _this.subjects = result;
         }, function (error) { return console.error(error); });
     };
-    StudentsComponent.prototype.filterSubject = function (subjectId) {
+    TeacherComponent.prototype.filterSubject = function (subjectId) {
         var _this = this;
         this.subjtId = subjectId;
         this.http.get(this.baseUrl + 'api/teacher/getFaculties', { params: { subjectId: subjectId } }).subscribe(function (result) {
@@ -38,14 +38,14 @@ var StudentsComponent = /** @class */ (function () {
             console.log(result);
         }, function (error) { return console.error(error); });
     };
-    StudentsComponent.prototype.filterFaculty = function (facId) {
+    TeacherComponent.prototype.filterFaculty = function (facId) {
         var _this = this;
         this.http.get(this.baseUrl + 'api/teacher/getGroups', { params: { subjectId: this.subjtId, facultyId: facId } }).subscribe(function (result) {
             _this.groups = result;
             console.log(result);
         }, function (error) { return console.error(error); });
     };
-    StudentsComponent.prototype.filterGroup = function (groupId) {
+    TeacherComponent.prototype.filterGroup = function (groupId) {
         var _this = this;
         this.http.get(this.baseUrl + 'api/teacher/getTerms', { params: { groupId: groupId, subjectId: this.subjtId } })
             .subscribe(function (result) { _this.terms = result; });
@@ -54,7 +54,7 @@ var StudentsComponent = /** @class */ (function () {
             _this.students = result;
         }, function (error) { return console.error(error); });
     };
-    StudentsComponent.prototype.updateValue = function (event, cell, rowIndex, j) {
+    TeacherComponent.prototype.updateValue = function (event, cell, rowIndex, j) {
         var _this = this;
         this.editing[rowIndex + '-' + cell + j] = false;
         var body = {
@@ -74,16 +74,16 @@ var StudentsComponent = /** @class */ (function () {
             }
         });
     };
-    StudentsComponent = __decorate([
+    TeacherComponent = __decorate([
         core_1.Component({
-            selector: 'app-students',
-            templateUrl: './students.component.html',
-            styleUrls: ['./students.component.css']
+            selector: 'app-teacher',
+            templateUrl: './teacher.component.html',
+            styleUrls: ['./teacher.component.css']
         }),
         __param(1, core_1.Inject('BASE_URL')),
         __metadata("design:paramtypes", [http_1.HttpClient, String])
-    ], StudentsComponent);
-    return StudentsComponent;
+    ], TeacherComponent);
+    return TeacherComponent;
 }());
-exports.StudentsComponent = StudentsComponent;
-//# sourceMappingURL=students.component.js.map
+exports.TeacherComponent = TeacherComponent;
+//# sourceMappingURL=teacher.component.js.map

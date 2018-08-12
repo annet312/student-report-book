@@ -53,6 +53,15 @@ namespace StudentReportBook.Controllers
         }
 
         [HttpGet]
+        public IEnumerable<GroupViewModel> GetAllGroups()
+        {
+            IEnumerable<GroupBll> groupsbll = studentService.GetAllGroups();
+            IEnumerable<GroupViewModel> groups = mapper.Map<IEnumerable<GroupViewModel>>(groupsbll);
+            return groups;
+        }
+
+
+        [HttpGet]
         public IEnumerable<Student> GetGroupsOfFaculty( int facultyId)
         {
             IEnumerable<StudentBll> studentsbll = studentService.GetStudentWithoutGroup();
@@ -69,6 +78,19 @@ namespace StudentReportBook.Controllers
         }
 
         [HttpGet]
+        public IActionResult ChangeGroup(int teacherWorkloadId, int groupId)
+        {
+            teacherService.ChangeGroup(teacherWorkloadId, groupId);
+            return new OkObjectResult(true);
+        }
+
+        public IActionResult ChangeSubject(int teacherWorkloadId, int subjectId)
+        {
+            teacherService.ChangeSubject(teacherWorkloadId, subjectId);
+            return new OkObjectResult(true);
+        }
+
+        [HttpGet]
         public IActionResult GetTeacherWorkloads(int teacherId)
         {
             IEnumerable<TeachersWorkloadBll> twBll= teacherService.GetTeachersWorkloads(teacherId);
@@ -77,6 +99,31 @@ namespace StudentReportBook.Controllers
 
             IEnumerable<TeacherWorkloadViewModel> tws = mapper.Map<IEnumerable<TeacherWorkloadViewModel>>(twBll);
             return new OkObjectResult(tws);
+        }
+
+        [HttpGet]
+        public IActionResult GetAllSubjects()
+        {
+            IEnumerable<SubjectBll> subjects = teacherService.GetAllSubjects();
+            if (subjects == null)
+                return new OkObjectResult(subjects);
+
+            IEnumerable<SubjectViewModel> subjectViews = mapper.Map<IEnumerable<SubjectViewModel>>(subjects);
+            return new OkObjectResult(subjectViews);
+        }
+
+        [HttpGet]
+        public IActionResult ChangeTerm(int teacherWorkloadId, int term)
+        {
+            try
+            {
+                teacherService.ChangeTerm(teacherWorkloadId, term);
+            }
+            catch
+            {
+                return new OkObjectResult(false);
+            }
+            return new OkObjectResult(true);
         }
 
     }
