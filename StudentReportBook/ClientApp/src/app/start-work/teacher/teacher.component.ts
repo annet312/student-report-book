@@ -73,7 +73,6 @@ export class TeacherComponent implements OnInit {
         }
         else {
           this.students[rowIndex].marks[j].grade = event.target.value;
-          this.students = [...this.students];
         }
       });
   }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Student, Faculty, Group, Teacher, TeacherWorkload, Subject } from '../../../shared/models/gradebook.interface';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { forEach } from '../../../../../node_modules/@angular/router/src/utils/collection';
+import { TeacherWorkloadAdd } from '../../../shared/models/teacher-workload.add.class';
 
 @Component({
   selector: 'app-moderate-teacher',
@@ -16,6 +17,11 @@ export class ModerateTeacherComponent implements OnInit {
   private editing = {};
   private teacherWs: TeacherWorkload[];
   private subjects: Subject[];
+
+  private IfAdding: boolean = false;
+  errors: string;
+  isRequesting: boolean;
+  submitted: boolean = false;
 
   private closeResult: string;
 
@@ -38,10 +44,12 @@ export class ModerateTeacherComponent implements OnInit {
   }
 
   getAllSubjects() {
-    this.http.get<Subject[]>(this.baseUrl + 'api/moderator/getAllSubjects').subscribe(result => {
-      this.subjects = result;
-      console.log(result);
-    }, error => console.error(error)); 
+    if (!this.subjects) {
+      this.http.get<Subject[]>(this.baseUrl + 'api/moderator/getAllSubjects').subscribe(result => {
+        this.subjects = result;
+        console.log(result);
+      }, error => console.error(error));
+    }
   }
 
   updateSubject(event, teacherWorkloadId, rowIndex) {
@@ -101,11 +109,43 @@ export class ModerateTeacherComponent implements OnInit {
 
   open(content, teacherId) {
     this.getTeacherWorkload(teacherId);
-    this.modalService.open(content).result.then((result) => {
+    this.modalService.open(content, { size: 'lg', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+  }
+
+  openAddWorload(content, teacherId) {
+    this.IfAdding = true;
+    this.getAllSubjects();
+    this.getAllGroups();    
+  }
+
+  submitNewWorkload({ value, valid }: { value: TeacherWorkloadAdd, valid: boolean }, teacherId) {
+    this.IfAdding = false;
+    this.submitted = true;
+    this.errors = '';
+    if (valid) {
+      let newTW = new TeacherWorkloadAdd(value.subjectId, value.groupId, value.term, teacherId, );
+      this.http.post<TeacherWorkload>(this.baseUrl + 'api/moderator/addWorkload', newTW )
+        .subscribe(
+        data => {
+          console.log('success', data);
+          
+          if (data == null) {
+             alert("Cannot add workload");
+            }
+          else {
+            this.teacherWs.push(data);
+          }
+          },
+          error => console.log('oops', error));
+    }
+  }
+
+  closeAddWorkload() {
+    this.IfAdding = false;
   }
 
   private getDismissReason(reason: any): string {

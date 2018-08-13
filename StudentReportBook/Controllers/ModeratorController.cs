@@ -126,5 +126,20 @@ namespace StudentReportBook.Controllers
             return new OkObjectResult(true);
         }
 
+        [HttpPost]
+        public IActionResult AddWorkload([FromBody]AddWorkloadViewModel model)
+        {
+            TeachersWorkloadBll tws;
+            try
+            {
+                tws = teacherService.AddWorkload(model.TeacherId, model.SubjectId, model.GroupId, model.Term);
+            }
+            catch
+            {
+                return new OkObjectResult(null);
+            }
+            TeacherWorkloadViewModel res = mapper.Map<TeacherWorkloadViewModel>(tws);
+            return new OkObjectResult(res);
+        }
     }
 }

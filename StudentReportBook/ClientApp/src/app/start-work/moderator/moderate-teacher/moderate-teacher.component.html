@@ -1,3 +1,4 @@
+
 <table class='table' *ngIf="teachers">
   <thead>
     <tr>
@@ -19,86 +20,141 @@
             </button>
           </div>
           <div class="modal-body">
-            <div *ngIf="teacherWs">
-              <ngx-datatable #teacherinfo class="material"
-                             style="top: 10px"
-                             [columnMode]="'force'"
-                             [headerHeight]="50"
-                             [footerHeight]="0"
-                             [rowHeight]="50"
-                             [rows]="teacherWs">
-                <ngx-datatable-column name="">
-                  <ng-template  ngx-datatable-cell-template let-num="rowIndex">
-                    {{num + 1}}
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Subject">
-                  <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-num="rowIndex">             
-                    <span title="Double click to edit"
-                          (dblclick)="editing[num + '-subject'] = true; getAllSubjects()"
-                          *ngIf="!editing[num + '-subject']">
-                      {{row.subject.name}}
-                    </span>
-                    <select *ngIf="editing[num + '-subject']"
-                            (blur)="editing[num + '-subject'] = false"
-                            (change)="updateSubject($event, row.id, num)">
-                      <option value="none" disabled>
-                        Choose subject
-                      </option>
-                      <option *ngFor="let subject of subjects" value={{subject.id}}
-                              [selected]="row.subject.name == subject.name">
-                        {{subject.name}}
-                      </option>
-                    </select>
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Group">
-                  <ng-template ngx-datatable-cell-template let-row="row" let-num="rowIndex">
-                    <span title="Double click to edit"
-                          (dblclick)="editing[num + '-group'] = true; getAllGroups()"
-                          *ngIf="!editing[num + '-group']">
-                      {{row.group.name}}
-                    </span>
-                    <select *ngIf="editing[num + '-group']"
-                            (blur)="editing[num + '-group'] = false"
-                            (change)="updateGroup($event, row.id, num)">
-                      <option value="none" disabled>
-                        Choose group
-                      </option>
-                      <option *ngFor="let group of listOfGroups" value={{group.id}}
-                              [selected]="row.group.name == group.name">
-                        {{group.name}}
-                      </option>
-                    </select>
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Term">
-                  <ng-template ngx-datatable-cell-template let-row="row" let-num="rowIndex">
-                    <span title="Double click to edit"
-                          (dblclick)="editing[num + '-term'] = true"
-                          *ngIf="!editing[num + '-term']">
-                      {{row.term}}
-                    </span>
-                    <select *ngIf="editing[num + '-term']"
-                            (blur)="editing[num + '-term'] = false"
-                            (change)="updateTerm($event, row.id, num)">
-                      <option value="none" disabled>
-                        Choose term
-                      </option>
-                      <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]" value={{number}}
-                              [selected]="row.term == number">
-                        {{number}}
-                      </option>
-                    </select>
-                  </ng-template>
-                </ngx-datatable-column>
-              </ngx-datatable>
+              <button class="btn btn-info" (click)="openAddWorload(addWorkload, teacher.id)">Add new workload</button>
+
+            <div *ngIf="IfAdding">
+              <fieldset class="border p-4">
+                <legend class="w-auto" align="right" style="font-size:16px">Add new workload</legend>
+                <form #f="ngForm" novalidate (ngSubmit)="submitNewWorkload(f, teacher.id)">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label for="choose-subject">Subject</label>
+                      <select class="form-control" name="subjectId" required [(ngModel)]="subjectId" >
+                        <option value="none" disabled selected>
+                          Choose subject
+                        </option>
+                        <option *ngFor="let subject of subjects" value={{subject.id}}>
+                          {{subject.name}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="choose-group">Group</label>
+                      <select class="form-control" name="groupId" required [(ngModel)]="groupId">
+                        <option value="none" disabled selected>
+                          Choose group
+                        </option>
+                        <option *ngFor="let group of listOfGroups" value={{group.id}}>
+                          {{group.name}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="choose-term">Term</label>
+                      <select class="form-control" name="term" type="number" required [(ngModel)]="term">
+                        <option value="none" disabled selected>
+                          Choose term
+                        </option>
+                        <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]" value={{number}}>
+                          {{number}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group" align="center">
+                    <br />
+                    <button type="submit" class="btn btn-outline-success distance" [disabled]="f.invalid">Add</button>
+                    <button type="submit" class="btn btn-outline-danger distance" (click)="closeAddWorkload()">Close</button>
+                    <br />
+                  </div>
+                  <div *ngIf="errors" class="alert alert-danger" role="alert">
+                    <strong>Oops!</strong> {{errors}}
+                  </div>
+                </form>
+              </fieldset>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Close</button>
-          </div>
-        </ng-template>
+
+            <div *ngIf="teacherWs">
+                <ngx-datatable #teacherinfo class="material"
+                               style="top: 10px"
+                               [columnMode]="'force'"
+                               [headerHeight]="50"
+                               [footerHeight]="0"
+                               [rowHeight]="50"
+                               [rows]="teacherWs">
+                  <ngx-datatable-column name="">
+                    <ng-template ngx-datatable-cell-template let-num="rowIndex">
+                      {{num + 1}}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Subject">
+                    <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-num="rowIndex">
+                      <span title="Double click to edit"
+                            (dblclick)="editing[num + '-subject'] = true; getAllSubjects()"
+                            *ngIf="!editing[num + '-subject']">
+                        {{row.subject.name}}
+                      </span>
+                      <select *ngIf="editing[num + '-subject']"
+                              (blur)="editing[num + '-subject'] = false"
+                              (change)="updateSubject($event, row.id, num)">
+                        <option value="none" disabled>
+                          Choose subject
+                        </option>
+                        <option *ngFor="let subject of subjects" value={{subject.id}}
+                                [selected]="row.subject.name == subject.name">
+                          {{subject.name}}
+                        </option>
+                      </select>
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Group">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-num="rowIndex">
+                      <span title="Double click to edit"
+                            (dblclick)="editing[num + '-group'] = true; getAllGroups()"
+                            *ngIf="!editing[num + '-group']">
+                        {{row.group.name}}
+                      </span>
+                      <select *ngIf="editing[num + '-group']"
+                              (blur)="editing[num + '-group'] = false"
+                              (change)="updateGroup($event, row.id, num)">
+                        <option value="none" disabled>
+                          Choose group
+                        </option>
+                        <option *ngFor="let group of listOfGroups" value={{group.id}}
+                                [selected]="row.group.name == group.name">
+                          {{group.name}}
+                        </option>
+                      </select>
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Term">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-num="rowIndex">
+                      <span title="Double click to edit"
+                            (dblclick)="editing[num + '-term'] = true"
+                            *ngIf="!editing[num + '-term']">
+                        {{row.term}}
+                      </span>
+                      <select *ngIf="editing[num + '-term']"
+                              (blur)="editing[num + '-term'] = false"
+                              (change)="updateTerm($event, row.id, num)">
+                        <option value="none" disabled>
+                          Choose term
+                        </option>
+                        <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]" value={{number}}
+                                [selected]="row.term == number">
+                          {{number}}
+                        </option>
+                      </select>
+                    </ng-template>
+                  </ngx-datatable-column>
+                </ngx-datatable>
+              </div>
+</div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Close</button>
+              </div>
+            </ng-template>
+
         <button class="btn btn-info" (click)="open(content, teacher.id)">Workload</button>
       </td>
     </tr>

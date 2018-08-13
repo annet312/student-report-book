@@ -15,11 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/common/http");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
+var teacher_workload_add_class_1 = require("../../../shared/models/teacher-workload.add.class");
 var ModerateTeacherComponent = /** @class */ (function () {
     function ModerateTeacherComponent(http, baseUrl, modalService) {
         this.http = http;
         this.modalService = modalService;
         this.editing = {};
+        this.IfAdding = false;
+        this.submitted = false;
         this.baseUrl = baseUrl;
     }
     ModerateTeacherComponent.prototype.ngOnInit = function () {
@@ -38,10 +41,12 @@ var ModerateTeacherComponent = /** @class */ (function () {
     };
     ModerateTeacherComponent.prototype.getAllSubjects = function () {
         var _this = this;
-        this.http.get(this.baseUrl + 'api/moderator/getAllSubjects').subscribe(function (result) {
-            _this.subjects = result;
-            console.log(result);
-        }, function (error) { return console.error(error); });
+        if (!this.subjects) {
+            this.http.get(this.baseUrl + 'api/moderator/getAllSubjects').subscribe(function (result) {
+                _this.subjects = result;
+                console.log(result);
+            }, function (error) { return console.error(error); });
+        }
     };
     ModerateTeacherComponent.prototype.updateSubject = function (event, teacherWorkloadId, rowIndex) {
         var _this = this;
@@ -101,11 +106,39 @@ var ModerateTeacherComponent = /** @class */ (function () {
     ModerateTeacherComponent.prototype.open = function (content, teacherId) {
         var _this = this;
         this.getTeacherWorkload(teacherId);
-        this.modalService.open(content).result.then(function (result) {
+        this.modalService.open(content, { size: 'lg', backdrop: 'static' }).result.then(function (result) {
             _this.closeResult = "Closed with: " + result;
         }, function (reason) {
             _this.closeResult = "Dismissed " + _this.getDismissReason(reason);
         });
+    };
+    ModerateTeacherComponent.prototype.openAddWorload = function (content, teacherId) {
+        this.IfAdding = true;
+        this.getAllSubjects();
+        this.getAllGroups();
+    };
+    ModerateTeacherComponent.prototype.submitNewWorkload = function (_a, teacherId) {
+        var _this = this;
+        var value = _a.value, valid = _a.valid;
+        this.IfAdding = false;
+        this.submitted = true;
+        this.errors = '';
+        if (valid) {
+            var newTW = new teacher_workload_add_class_1.TeacherWorkloadAdd(value.subjectId, value.groupId, value.term, teacherId);
+            this.http.post(this.baseUrl + 'api/moderator/addWorkload', newTW)
+                .subscribe(function (data) {
+                console.log('success', data);
+                if (data == null) {
+                    alert("Cannot add workload");
+                }
+                else {
+                    _this.teacherWs.push(data);
+                }
+            }, function (error) { return console.log('oops', error); });
+        }
+    };
+    ModerateTeacherComponent.prototype.closeAddWorkload = function () {
+        this.IfAdding = false;
     };
     ModerateTeacherComponent.prototype.getDismissReason = function (reason) {
         if (reason === ng_bootstrap_1.ModalDismissReasons.ESC) {

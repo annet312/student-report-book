@@ -70,7 +70,6 @@ var TeacherComponent = /** @class */ (function () {
             }
             else {
                 _this.students[rowIndex].marks[j].grade = event.target.value;
-                _this.students = _this.students.slice();
             }
         });
     };

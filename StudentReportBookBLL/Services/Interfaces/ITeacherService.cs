@@ -16,5 +16,7 @@ namespace StudentReportBookBLL.Services.Interfaces
         void ChangeGroup(int teacherWorkloadId, int groupId);
 
         void ChangeSubject(int teacherWorkloadId, int subjectId);
+
+        TeachersWorkloadBll AddWorkload(int teacherId, int subjectId, int groupId, int term);
     }
 }
