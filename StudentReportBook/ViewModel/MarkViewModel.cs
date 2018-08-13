@@ -8,7 +8,7 @@ namespace StudentReportBook.ViewModel
 {
     public class MarkViewModel
     {
-        int Id { get; set; }
+        public int Id { get; set; }
 
         public string Subject { get; set; }
 

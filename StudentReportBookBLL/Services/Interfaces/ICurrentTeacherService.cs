@@ -51,6 +51,6 @@ namespace StudentReportBookBLL.Services.Interfaces
         /// <param name="term">term</param>
         /// <param name="grade">grade</param>
         /// <returns>result of operation</returns>
-        bool EditMarkByCurrentTeacher(int studentId, int subjectId, int term, int grade);
+        MarkBll EditMarkByCurrentTeacher(int studentId, int subjectId, int term, int grade);
     }
 }

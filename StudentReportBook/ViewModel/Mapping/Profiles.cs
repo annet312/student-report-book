@@ -85,6 +85,7 @@ namespace StudentReportBook.ViewModel.Mapping
         public MarkToMarkViewProfile()
         {
             CreateMap<MarkBll, MarkViewModel>()
+                .ForMember(mvm => mvm.Id, map => map.MapFrom(m => m.Id))
                 .ForMember(mvm => mvm.Grade, map => map.MapFrom(m => m.Grade))
                 .ForMember(mvm => mvm.Subject, map => map.MapFrom(m => m.TeachersWorkload.Subject.Name))
                 .ForMember(mvm => mvm.Teacher, map => map.MapFrom(m => m.TeachersWorkload.Teacher.Name))

@@ -47,6 +47,18 @@ namespace StudentReportBookBLL.Services
             return workloadBlls;
         }
 
+        public IEnumerable<TeachersWorkloadBll> GetTWOfCurrentTeacher(int groupId, int subjectId)
+        {
+            TeacherBll teacher = GetCurrentTeacherId();
+            IEnumerable<TeachersWorkload> teacherWorkloads = db.TeachersWorkloads.Get(tw => 
+                                                                (tw.TeacherId == teacher.Id)
+                                                             && (tw.Group.Id == groupId)
+                                                             && (tw.Subject.Id == subjectId)).ToList();
+            IEnumerable<TeachersWorkloadBll> workloadBlls = mapper.Map<IEnumerable<TeachersWorkloadBll>>(teacherWorkloads);
+
+            return workloadBlls;
+        }
+
         public IEnumerable<SubjectBll> GetSubjectsForCurrentTeacher()
         {
             IEnumerable<TeachersWorkloadBll> tws = GetTWOfCurrentTeacher();
@@ -124,15 +136,16 @@ namespace StudentReportBookBLL.Services
                 throw new ArgumentException("GroupId is not valid", "groupId");
             if (subjectId < 1)
                 throw new ArgumentException("SubjectId is not valid", "subjectId");
-            IEnumerable<TeachersWorkloadBll> tws = GetTWOfCurrentTeacher();
+            IEnumerable<TeachersWorkloadBll> tws = GetTWOfCurrentTeacher(groupId, subjectId);
             if (!tws.Any())
                 return null;
             int[] terms = tws.Select(t => t.Term).Distinct().ToArray();
+            Array.Sort(terms);
 
             return terms;
         }
 
-        public bool EditMarkByCurrentTeacher(int studentId, int subjectId, int term, int grade)
+        public MarkBll EditMarkByCurrentTeacher(int studentId, int subjectId, int term, int grade)
         {
             if ((term < 1) || (term > 12))
                 throw new ArgumentException("Term is not valid", "term");
@@ -145,9 +158,9 @@ namespace StudentReportBookBLL.Services
                                                                        && (tw.Group.Id == student.Group.Id)
                                                                        && (tw.Term == term))
                                                                        .SingleOrDefault();
-            bool result = markService.EditMark(student, grade, tws);
+            MarkBll mark = markService.EditMark(student, grade, tws);
 
-            return result;
+            return mark;
         }
     }
 }

@@ -85,9 +85,10 @@ namespace StudentReportBook.Controllers
         [HttpPost]
         public IActionResult EditMark([FromBody]EditMarkViewModel model)
         {
-            bool IfEdit = currentTeacherService.EditMarkByCurrentTeacher(model.studentId, model.subjectId, model.term, model.grade);
-            
-            return new OkObjectResult(IfEdit);
+            MarkBll mark = currentTeacherService.EditMarkByCurrentTeacher(model.studentId, model.subjectId, model.term, model.grade);
+
+            MarkViewModel markVM = mapper.Map<MarkViewModel>(mark);
+            return new OkObjectResult(markVM);
         }
         
     }

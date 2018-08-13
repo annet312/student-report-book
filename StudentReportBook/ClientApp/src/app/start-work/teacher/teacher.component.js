@@ -65,11 +65,12 @@ var TeacherComponent = /** @class */ (function () {
         };
         this.http.post(this.baseUrl + 'api/teacher/editMark', body)
             .subscribe(function (res) {
-            if (!res) {
+            if (res == null) {
                 alert("Cannot change grade");
             }
             else {
-                _this.students[rowIndex].marks[j].grade = event.target.value;
+                console.log(res);
+                _this.students[rowIndex].marks[j] = res;
             }
         });
     };

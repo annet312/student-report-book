@@ -138,6 +138,7 @@ export class ModerateTeacherComponent implements OnInit {
             }
           else {
             this.teacherWs.push(data);
+            this.teacherWs = [...this.teacherWs];
           }
           },
           error => console.log('oops', error));

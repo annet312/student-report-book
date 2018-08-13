@@ -28,7 +28,7 @@ namespace StudentReportBookBLL.Services
 
         public IEnumerable<StudentBll> GetStudentWithoutGroup()
         {
-            IEnumerable<Student> students = db.Students.Get(st => st.Group == null);
+            IEnumerable<Student> students = db.Students.Get(st => st.Group == null).OrderBy(st => st.Name);
             IEnumerable<StudentBll> studentBlls = mapper.Map<IEnumerable<StudentBll>>(students);
 
             return studentBlls;
@@ -36,7 +36,7 @@ namespace StudentReportBookBLL.Services
 
         public IEnumerable<FacultyBll> GetAllFaculties()
         {
-            IEnumerable<Faculty> faculties = db.Faculties.GetAll();
+            IEnumerable<Faculty> faculties = db.Faculties.GetAll().OrderBy(f => f.Name);
             IEnumerable<FacultyBll> facultiesBll = mapper.Map<IEnumerable<FacultyBll>>(faculties);
 
             return facultiesBll;
@@ -44,7 +44,7 @@ namespace StudentReportBookBLL.Services
 
         public IEnumerable<GroupBll> GetAllGroups()
         {
-            IEnumerable<Group> groups = db.Groups.GetAll();
+            IEnumerable<Group> groups = db.Groups.GetAll().OrderBy(g => g.Name);
             IEnumerable<GroupBll> groupBlls = mapper.Map<IEnumerable<GroupBll>>(groups);
 
             return groupBlls;

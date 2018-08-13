@@ -20,7 +20,7 @@ namespace StudentReportBookBLL.Services
             this.db = db;
         }
 
-        private void AddMark(int grade, Student student, TeachersWorkload teachersWorkload, bool flSingle)
+        private MarkBll AddMark(int grade, Student student, TeachersWorkload teachersWorkload, bool flSingle)
         {
             Mark mark = new Mark()
             {
@@ -41,10 +41,11 @@ namespace StudentReportBookBLL.Services
             {
                 throw e;
             }
-            return;
+            MarkBll markBll = mapper.Map<MarkBll>(mark);
+            return markBll;
         }
 
-        private void EditMark(Mark mark, int grade)
+        private MarkBll EditMark(Mark mark, int grade)
         {
             mark.Grade = grade;
             try
@@ -56,36 +57,40 @@ namespace StudentReportBookBLL.Services
             {
                 throw e;
             }
+            MarkBll markBll = mapper.Map<MarkBll>(mark);
+
+            return markBll;
         }
 
-        public bool EditMark(StudentBll student, int grade, TeachersWorkloadBll teachersWorkload)
+        public MarkBll EditMark(StudentBll student, int grade, TeachersWorkloadBll teachersWorkload)
         {
             Student stud = mapper.Map<Student>(student);
             TeachersWorkload tw = mapper.Map<TeachersWorkload>(teachersWorkload);
             Mark mark = db.Marks.Get(m => (m.Student.Id == student.Id) && (m.TeachersWorkload.Id == teachersWorkload.Id)).SingleOrDefault();
+            MarkBll markBll;
             if(mark == null)
             {
                 try
                 {
-                    AddMark(grade, stud, tw, true);
+                    markBll = AddMark(grade, stud, tw, true);
                 }
                 catch
                 {
-                    return false;
+                    return null; 
                 }
             }
             else
             {
                 try
                 {
-                    EditMark(mark, grade);
+                    markBll = EditMark(mark, grade);
                 }
                 catch 
                 {
-                    return false;
+                    return null;
                 }
             }
-            return true;
+            return markBll;
         }
 
         public IEnumerable<MarkBll> GetAllMarksOfSubject(int teacherId, int subjectId, int groupId, int studentId)

@@ -23,7 +23,7 @@ namespace StudentReportBookBLL.Services
         public IEnumerable<TeacherBll> GetAllTeachers()
         {
             IEnumerable<Teacher> results;
-            results = db.Teachers.GetAll().Where(t => t.Identity.Role != "Moderator");
+            results = db.Teachers.GetAll().Where(t => t.Identity.Role != "Moderator").OrderBy(t => t.Name);
             IEnumerable<TeacherBll> resultsBll = mapper.Map<IEnumerable<Teacher>, IEnumerable<TeacherBll>>(results);
 
             return resultsBll;
@@ -31,7 +31,7 @@ namespace StudentReportBookBLL.Services
 
         public IEnumerable<SubjectBll> GetAllSubjects()
         {
-            IEnumerable<Subject> subjects = db.Subjects.GetAll();
+            IEnumerable<Subject> subjects = db.Subjects.GetAll().OrderBy(t => t.Name);
             IEnumerable<SubjectBll> subjectsBll = mapper.Map<IEnumerable<SubjectBll>>(subjects);
 
             return subjectsBll;
@@ -42,7 +42,7 @@ namespace StudentReportBookBLL.Services
             if (teacherId < 1)
                 throw new ArgumentException("TeacherId is invalid", "teacherId");
 
-            IEnumerable<TeachersWorkload> teachersWorkloads = db.TeachersWorkloads.Get(tw => tw.TeacherId == teacherId);
+            IEnumerable<TeachersWorkload> teachersWorkloads = db.TeachersWorkloads.Get(tw => tw.TeacherId == teacherId).OrderBy(t => t.Subject.Name);
             IEnumerable<TeachersWorkloadBll> teachersWorkloadBlls = mapper.Map<IEnumerable<TeachersWorkloadBll>>(teachersWorkloads);
 
             return teachersWorkloadBlls;

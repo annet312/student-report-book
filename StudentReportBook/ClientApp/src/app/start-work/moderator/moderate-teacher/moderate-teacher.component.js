@@ -133,6 +133,7 @@ var ModerateTeacherComponent = /** @class */ (function () {
                 }
                 else {
                     _this.teacherWs.push(data);
+                    _this.teacherWs = _this.teacherWs.slice();
                 }
             }, function (error) { return console.log('oops', error); });
         }

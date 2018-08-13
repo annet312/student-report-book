@@ -29,6 +29,6 @@ namespace StudentReportBookBLL.Services.Interfaces
         /// <param name="grade">mark</param>
         /// <param name="teachersWorkload">workload of teacher</param>
         /// <returns></returns>
-        bool EditMark(StudentBll student, int grade, TeachersWorkloadBll teachersWorkload);
+        MarkBll EditMark(StudentBll student, int grade, TeachersWorkloadBll teachersWorkload);
     }
 }

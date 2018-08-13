@@ -66,16 +66,19 @@ export class TeacherComponent implements OnInit {
       grade: event.target.value
     };
 
-    this.http.post<boolean>(this.baseUrl + 'api/teacher/editMark', body)
+    this.http.post<Mark>(this.baseUrl + 'api/teacher/editMark', body)
       .subscribe(res => {
-        if (!res) {
+        if (res == null) {
           alert("Cannot change grade");
         }
         else {
-          this.students[rowIndex].marks[j].grade = event.target.value;
+          console.log(res);
+          this.students[rowIndex].marks[j] = res;
         }
       });
   }
+
+ 
 }
 
 interface Dropdata {
