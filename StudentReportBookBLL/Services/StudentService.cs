@@ -57,7 +57,7 @@ namespace StudentReportBookBLL.Services
                 throw new ArgumentException("Student Id not valid", "studentId");
             if (groupId < 0)
                 throw new ArgumentException("Group Id not valid", "groupId");
-            string pattern = @"\d{5}";
+            string pattern = @"^[0-9]{5}$";
             if (!Regex.IsMatch(studentCard, pattern, RegexOptions.IgnoreCase))
                 throw new ArgumentException("Student card is invalid", "studentCard");
             if (db.Students.Get(st => st.StudentCard == studentCard).Any())

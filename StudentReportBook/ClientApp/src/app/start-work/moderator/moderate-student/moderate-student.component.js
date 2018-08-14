@@ -20,11 +20,11 @@ var ModerateStudentComponent = /** @class */ (function () {
         this.http = http;
         this.modalService = modalService;
         this.editing = {};
+        this.errorString = {};
         this.baseUrl = baseUrl;
     }
     ModerateStudentComponent.prototype.ngOnInit = function () {
         var _this = this;
-        // if (event.nextId == "ngb-tab-1") {
         this.http.get(this.baseUrl + 'api/moderator/getStudentsWithoutGroup').subscribe(function (result) {
             _this.students = result;
             if (!_this.faculties) {
@@ -33,10 +33,19 @@ var ModerateStudentComponent = /** @class */ (function () {
                 }, function (error) { return console.error(error); });
             }
         }, function (error) { return console.error(error); });
-        // }
     };
     ModerateStudentComponent.prototype.setFaculty = function (facultyIndex) {
         this.groups = this.faculties[facultyIndex].groups;
+    };
+    ModerateStudentComponent.prototype.checkStudentCard = function (event, studentId) {
+        console.log(event.target.value);
+        if ((event.target.value > 10000) && (event.target.value < 100000)) {
+            this.editing[studentId + '-studentcard'] = true;
+            this.errorString[studentId] = null;
+        }
+        else {
+            this.errorString[studentId] = 'Student card must be in range from 10000 to 99999';
+        }
     };
     ModerateStudentComponent.prototype.setGroup = function (studentId, rowIndex) {
         var _this = this;
@@ -45,14 +54,15 @@ var ModerateStudentComponent = /** @class */ (function () {
         this.http.get(this.baseUrl + 'api/moderator/setGroupForStudent', { params: { studentId: studentId, groupId: this.selGroup.toArray()[rowIndex].nativeElement.value, studentCard: stCard } })
             .subscribe(function (result) {
             if (result) {
-                _this.editing[studentId + '-group'] = !_this.editing[studentId + '-group'];
-                _this.editing[studentId + '-studentcard'] = !_this.editing[studentId + '-studentcard'];
                 _this.students.splice(rowIndex, 1);
             }
             else {
                 alert("Can't set group");
             }
-        }, function (error) { return console.error(error); });
+        }, function (error) {
+            console.error(error);
+            alert("Can't set group or student card: " + error.error);
+        });
     };
     __decorate([
         core_1.ViewChildren("selectGroup"),

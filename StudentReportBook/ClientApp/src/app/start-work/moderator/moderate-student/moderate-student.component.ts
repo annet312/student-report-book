@@ -14,6 +14,7 @@ export class ModerateStudentComponent implements OnInit {
   private faculties: Faculty[];
   private groups: Group[];
   private editing = {};
+  private errorString = {};
 
   @ViewChildren("selectGroup") selGroup: QueryList<any>
   @ViewChildren("studentCardInput") studentCard: QueryList<any>
@@ -23,7 +24,6 @@ export class ModerateStudentComponent implements OnInit {
   }
 
   ngOnInit() {
-   // if (event.nextId == "ngb-tab-1") {
       this.http.get<Student[]>(this.baseUrl + 'api/moderator/getStudentsWithoutGroup').subscribe(result => {
         this.students = result;
         if (!this.faculties) {
@@ -32,11 +32,20 @@ export class ModerateStudentComponent implements OnInit {
           }, error => console.error(error));
         }
       }, error => console.error(error));
-   // }
   }
 
   setFaculty(facultyIndex) {
     this.groups = this.faculties[facultyIndex].groups;
+  }
+  checkStudentCard(event, studentId) {
+    console.log(event.target.value)
+    if ((event.target.value > 10000) && (event.target.value < 100000)) {
+      this.editing[studentId + '-studentcard'] = true;
+      this.errorString[studentId] = null;
+    }
+    else {
+      this.errorString[studentId] = 'Student card must be in range from 10000 to 99999';
+    }
   }
 
   setGroup(studentId, rowIndex) {
@@ -46,13 +55,15 @@ export class ModerateStudentComponent implements OnInit {
     this.http.get<boolean>(this.baseUrl + 'api/moderator/setGroupForStudent', { params: { studentId: studentId, groupId: this.selGroup.toArray()[rowIndex].nativeElement.value,studentCard: stCard} })
       .subscribe(result => {
         if (result) {
-          this.editing[studentId + '-group'] = !this.editing[studentId + '-group'];
-          this.editing[studentId + '-studentcard'] = !this.editing[studentId + '-studentcard'];
           this.students.splice(rowIndex, 1);
         }
         else {
           alert("Can't set group");
         }
-      }, error => console.error(error));
+      }, error => {
+        console.error(error);
+
+        alert("Can't set group or student card: " + error.error);
+      });
   }
 }

@@ -6,6 +6,7 @@ using StudentReportBook.Models.Entities;
 using StudentReportBook.ViewModel;
 using StudentReportBookBLL.Models;
 using StudentReportBookBLL.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace StudentReportBook.Controllers
@@ -77,9 +78,9 @@ namespace StudentReportBook.Controllers
             {
                 studentService.SetGroupForStudent(studentId, groupId, studentCard);
             }
-            catch
+            catch(Exception e)
             {
-                return new OkObjectResult(false);
+                return new BadRequestObjectResult(e.Message);
             }
             return new OkObjectResult(true);
         }

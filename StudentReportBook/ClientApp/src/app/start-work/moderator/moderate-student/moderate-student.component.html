@@ -34,7 +34,10 @@
           </select>
         </td>
         <td>
-          <input type="text" pattern="\d{5}" class="form-control" id="studentCard"  name="Student card" placeholder="XXXXX" #studentCardInput (change)="editing[student.id + '-studentcard'] = true" >
+          <input type="number" min="10000" max="99999" class="form-control" placeholder="XXXXX" #studentCardInput (change)="checkStudentCard($event, student.id)">
+          <div *ngIf="errorString[student.id]" class="alert alert-danger" role="alert">
+            <strong>Oops!</strong> {{errorString[student.id]}}
+          </div>
         </td>
         <td>
           <button type="button" class="btn btn-success" id="submit" [disabled]="!(editing[student.id + '-group'] && editing[student.id + '-studentcard'])" (click)="setGroup(student.id, rowIndex)">Confirm</button>
