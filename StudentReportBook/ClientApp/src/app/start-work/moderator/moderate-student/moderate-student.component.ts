@@ -16,6 +16,7 @@ export class ModerateStudentComponent implements OnInit {
   private editing = {};
 
   @ViewChildren("selectGroup") selGroup: QueryList<any>
+  @ViewChildren("studentCardInput") studentCard: QueryList<any>
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private modalService: NgbModal) {
     this.baseUrl = baseUrl;
@@ -39,10 +40,14 @@ export class ModerateStudentComponent implements OnInit {
   }
 
   setGroup(studentId, rowIndex) {
-    this.http.get<boolean>(this.baseUrl + 'api/moderator/setGroupForStudent', { params: { studentId: studentId, groupId: this.selGroup.toArray()[rowIndex].nativeElement.value } })
+
+    let stCard = this.studentCard.toArray()[rowIndex].nativeElement.value;
+    console.log(stCard);
+    this.http.get<boolean>(this.baseUrl + 'api/moderator/setGroupForStudent', { params: { studentId: studentId, groupId: this.selGroup.toArray()[rowIndex].nativeElement.value,studentCard: stCard} })
       .subscribe(result => {
         if (result) {
-          this.editing[studentId] = !this.editing[studentId];
+          this.editing[studentId + '-group'] = !this.editing[studentId + '-group'];
+          this.editing[studentId + '-studentcard'] = !this.editing[studentId + '-studentcard'];
           this.students.splice(rowIndex, 1);
         }
         else {

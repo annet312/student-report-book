@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using AutoMapper;
 using StudentReportBookBLL.Identity.Interface;
 using StudentReportBookBLL.Models;
@@ -44,26 +45,30 @@ namespace StudentReportBookBLL.Services
 
         public IEnumerable<GroupBll> GetAllGroups()
         {
-            IEnumerable<Group> groups = db.Groups.GetAll().OrderBy(g => g.Name);
+            IEnumerable<StudentReportBookDAL.Entities.Group> groups = db.Groups.GetAll().OrderBy(g => g.Name);
             IEnumerable<GroupBll> groupBlls = mapper.Map<IEnumerable<GroupBll>>(groups);
 
             return groupBlls;
         }
 
-        public void SetGroupForStudent(int studentId, int groupId)
+        public void SetGroupForStudent(int studentId, int groupId, string studentCard)
         {
             if (studentId < 0)
                 throw new ArgumentException("Student Id not valid", "studentId");
             if (groupId < 0)
                 throw new ArgumentException("Group Id not valid", "groupId");
+            string pattern = @"\d{5}";
+            if (!Regex.IsMatch(studentCard, pattern, RegexOptions.IgnoreCase))
+                throw new ArgumentException("Student card is invalid", "studentCard");
+            if (db.Students.Get(st => st.StudentCard == studentCard).Any())
+                throw new InvalidOperationException("Student with this student card already exist");
+
             Student student = db.Students.Get(st => st.Id == studentId).SingleOrDefault();
             if (student == null)
                 throw new ArgumentException("Student with this id not found", "studentId");
-            Group group = db.Groups.Get(g => g.Id == groupId).SingleOrDefault();
-            if (group == null)
-                throw new ArgumentException("Group with this id not found", "groupId");
-            student.Group = group;
-
+            StudentReportBookDAL.Entities.Group group = db.Groups.Get(g => g.Id == groupId).SingleOrDefault();
+            student.Group = group ?? throw new ArgumentException("Group with this id not found", "groupId");
+            student.StudentCard = studentCard;
             db.Students.Update(student);
             db.Save();
         }

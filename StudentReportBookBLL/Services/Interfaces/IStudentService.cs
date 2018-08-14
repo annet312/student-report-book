@@ -11,6 +11,6 @@ namespace StudentReportBookBLL.Services.Interfaces
 
         IEnumerable<GroupBll> GetAllGroups();
 
-        void SetGroupForStudent(int studentId, int groupId);
+        void SetGroupForStudent(int studentId, int groupId, string studentCard);
     }
 }

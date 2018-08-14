@@ -90,6 +90,5 @@ namespace StudentReportBook.Controllers
             MarkViewModel markVM = mapper.Map<MarkViewModel>(mark);
             return new OkObjectResult(markVM);
         }
-        
     }
 }

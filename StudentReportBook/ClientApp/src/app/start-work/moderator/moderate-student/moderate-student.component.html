@@ -4,35 +4,43 @@
       <th>Name</th>
       <th>Choose group</th>
       <th></th>
+      <th>Input student card</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
+
     <tr *ngFor="let student of students; let rowIndex = index">
-      <td>{{student.name}}</td>
-      <td>
-        <select id="facultySelect" class="form-control" (change)="setFaculty($event.target.value)">
-          <option value="none" disabled>
-            Choose faculty
-          </option>
-          <option *ngFor="let faculty of faculties; let j = index" value={{j}}>
-            {{faculty.name}}
-          </option>
-        </select>
-      </td>
-      <td>
-        <select #selectGroup class="form-control" (change)="editing[student.id] = true">
-          <option value="none" disabled>
-            Choose group
-          </option>
-          <option *ngFor="let group of groups" value={{group.id}}>
-            {{group.name}}
-          </option>
-        </select>
-      </td>
-      <td>
-        <button type="button" class="btn btn-success" id="submit" [disabled]="!editing[student.id]" (click)="setGroup(student.id, rowIndex)">Confirm</button>
-      </td>
-    </tr>
+      
+        <td>{{student.name}}</td>
+        <td>
+          <select id="facultySelect" class="form-control" (change)="setFaculty($event.target.value)">
+            <option value="none" disabled>
+              Choose faculty
+            </option>
+            <option *ngFor="let faculty of faculties; let j = index" value={{j}}>
+              {{faculty.name}}
+            </option>
+          </select>
+        </td>
+        <td>
+          <select #selectGroup class="form-control" (change)="editing[student.id + '-group'] = true">
+            <option value="none" disabled>
+              Choose group
+            </option>
+            <option *ngFor="let group of groups" value={{group.id}}>
+              {{group.name}}
+            </option>
+          </select>
+        </td>
+        <td>
+          <input type="text" pattern="\d{5}" class="form-control" id="studentCard"  name="Student card" placeholder="XXXXX" #studentCardInput (change)="editing[student.id + '-studentcard'] = true" >
+        </td>
+        <td>
+          <button type="button" class="btn btn-success" id="submit" [disabled]="!(editing[student.id + '-group'] && editing[student.id + '-studentcard'])" (click)="setGroup(student.id, rowIndex)">Confirm</button>
+        </td>
+</tr>
   </tbody>
 </table>
+
+

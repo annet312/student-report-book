@@ -38,10 +38,30 @@ var ModerateStudentComponent = /** @class */ (function () {
     ModerateStudentComponent.prototype.setFaculty = function (facultyIndex) {
         this.groups = this.faculties[facultyIndex].groups;
     };
+    ModerateStudentComponent.prototype.setGroup = function (studentId, rowIndex) {
+        var _this = this;
+        var stCard = this.studentCard.toArray()[rowIndex].nativeElement.value;
+        console.log(stCard);
+        this.http.get(this.baseUrl + 'api/moderator/setGroupForStudent', { params: { studentId: studentId, groupId: this.selGroup.toArray()[rowIndex].nativeElement.value, studentCard: stCard } })
+            .subscribe(function (result) {
+            if (result) {
+                _this.editing[studentId + '-group'] = !_this.editing[studentId + '-group'];
+                _this.editing[studentId + '-studentcard'] = !_this.editing[studentId + '-studentcard'];
+                _this.students.splice(rowIndex, 1);
+            }
+            else {
+                alert("Can't set group");
+            }
+        }, function (error) { return console.error(error); });
+    };
     __decorate([
         core_1.ViewChildren("selectGroup"),
         __metadata("design:type", core_1.QueryList)
     ], ModerateStudentComponent.prototype, "selGroup", void 0);
+    __decorate([
+        core_1.ViewChildren("studentCardInput"),
+        __metadata("design:type", core_1.QueryList)
+    ], ModerateStudentComponent.prototype, "studentCard", void 0);
     ModerateStudentComponent = __decorate([
         core_1.Component({
             selector: 'app-moderate-student',

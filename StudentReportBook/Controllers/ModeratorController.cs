@@ -71,9 +71,16 @@ namespace StudentReportBook.Controllers
 
 
         [HttpGet]
-        public IActionResult SetGroupForStudent(int studentId, int groupId)
+        public IActionResult SetGroupForStudent(int studentId, int groupId, string studentCard)
         {
-            studentService.SetGroupForStudent(studentId, groupId);
+            try
+            {
+                studentService.SetGroupForStudent(studentId, groupId, studentCard);
+            }
+            catch
+            {
+                return new OkObjectResult(false);
+            }
             return new OkObjectResult(true);
         }
 

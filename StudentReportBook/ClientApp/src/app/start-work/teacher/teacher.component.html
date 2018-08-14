@@ -48,21 +48,21 @@
                      [rows]="students">
         <ngx-datatable-column name="Name">
           <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
-            <strong>{{row.student.name}}</strong>
+            <p>{{row.student.name}}</p>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="StudentCard">
+        <ngx-datatable-column name="Student card">
           <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
             {{row.student.studentCard}}
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column *ngFor="let term of terms; let j = index;" name={{term}} >
+        <ngx-datatable-column *ngFor="let term of terms; let j = index;" name="Term {{term}}">
           <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" >
             <span title="Double click to edit"
                   (dblclick)="editing[rowIndex + '-grade' + j] = (term <= row.student.currentTerm)"
                   *ngIf="!editing[rowIndex + '-grade' + j]">
-              <div *ngIf="row.marks[j]" >{{row.marks[j].grade}}</div>
-              <div *ngIf="!row.marks[j]">-</div>
+              <div *ngIf="row.marks[j]">{{row.marks[j].grade}}</div>
+              <div *ngIf="(!row.marks[j]) && (term <= row.student.currentTerm)">-</div>
             </span>
             <select *ngIf="editing[rowIndex + '-grade' + j]"
                     (blur)="editing[rowIndex + '-grade' + j] = false"
@@ -82,5 +82,5 @@
   </ng-template>
 
   <ng-template #elseBlock>
-    <h2>Choose another group</h2>
+    <h2>Choose group</h2>
   </ng-template>
