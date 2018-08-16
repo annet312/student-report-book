@@ -1,17 +1,18 @@
-﻿using Autofac;
-using AutoMapper;
+﻿using System.IO;
+using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
+using Autofac;
+using AutoMapper;
 using StudentReportBookDAL.Interfaces;
 using StudentReportBookDAL.Repositories;
 using StudentReportBookDAL.Context;
 using StudentReportBookDAL.Entities;
 using StudentReportBookBLL.Auth;
 using StudentReportBookBLL.Models;
-using System.IO;
+using StudentReportBookBLL.Identity.Auth;
 
 namespace StudentReportBookBLL.Infrastructure
 {
@@ -39,15 +40,14 @@ namespace StudentReportBookBLL.Infrastructure
 
                 return new AppDbContext(opt.Options);
             }).AsSelf().InstancePerLifetimeScope();
-
-
+            //unique instance will be returned from each request for a service - as default:
             builder.RegisterType<IdentityUnitOfWork>().As<IIdentityUnitOfWork>();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
             builder.RegisterAssemblyTypes(typeof(ServiceModule).Assembly)
                 .Where(t => t.Name.EndsWith("Service"))
                  .AsImplementedInterfaces();
-            builder.RegisterAssemblyTypes().AssignableTo(typeof(Profile)).As<Profile>();
 
+            builder.RegisterAssemblyTypes().AssignableTo(typeof(Profile)).As<Profile>();
             builder.Register(c => new MapperConfiguration(cfg =>
             {
                 foreach (var profile in c.Resolve<IEnumerable<Profile>>())

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StudentReportBook.Helpers;
 using StudentReportBook.Models.Entities;
 using StudentReportBook.ViewModel;
 using StudentReportBookBLL.Models;
@@ -78,9 +79,13 @@ namespace StudentReportBook.Controllers
             {
                 studentService.SetGroupForStudent(studentId, groupId, studentCard);
             }
-            catch(Exception e)
+            catch(ArgumentException e)
             {
-                return new BadRequestObjectResult(e.Message);
+                return new BadRequestObjectResult(Errors.AddErrorToModelState("setstudentgroup_failure", e.Message, ModelState));
+            }
+            catch(InvalidOperationException e)
+            {
+                return new BadRequestObjectResult(Errors.AddErrorToModelState("setstudentgroup_failure", e.Message, ModelState));
             }
             return new OkObjectResult(true);
         }
@@ -88,13 +93,27 @@ namespace StudentReportBook.Controllers
         [HttpGet]
         public IActionResult ChangeGroup(int teacherWorkloadId, int groupId)
         {
-            teacherService.ChangeGroup(teacherWorkloadId, groupId);
+            try
+            {
+                teacherService.ChangeGroup(teacherWorkloadId, groupId);
+            }
+            catch(ArgumentException e)
+            {
+                return new BadRequestObjectResult(Errors.AddErrorToModelState("changegroup_failure", e.Message, ModelState));
+            }
             return new OkObjectResult(true);
         }
 
         public IActionResult ChangeSubject(int teacherWorkloadId, int subjectId)
         {
-            teacherService.ChangeSubject(teacherWorkloadId, subjectId);
+            try
+            {
+                teacherService.ChangeSubject(teacherWorkloadId, subjectId);
+            }
+            catch (ArgumentException e)
+            {
+                return new BadRequestObjectResult(Errors.AddErrorToModelState("changesubject_failure", e.Message, ModelState));
+            }
             return new OkObjectResult(true);
         }
 
@@ -127,9 +146,9 @@ namespace StudentReportBook.Controllers
             {
                 teacherService.ChangeTerm(teacherWorkloadId, term);
             }
-            catch
+            catch (ArgumentException e)
             {
-                return new OkObjectResult(false);
+                return new BadRequestObjectResult(Errors.AddErrorToModelState("changeterm_failure", e.Message, ModelState));
             }
             return new OkObjectResult(true);
         }
@@ -142,10 +161,15 @@ namespace StudentReportBook.Controllers
             {
                 tws = teacherService.AddWorkload(model.TeacherId, model.SubjectId, model.GroupId, model.Term);
             }
-            catch
+            catch (ArgumentException e)
             {
-                return new OkObjectResult(null);
+                return new BadRequestObjectResult(Errors.AddErrorToModelState("addworkload_failure", e.Message, ModelState));
             }
+            catch (InvalidOperationException e)
+            {
+                return new BadRequestObjectResult(Errors.AddErrorToModelState("addworkload_failure", e.Message, ModelState));
+            }
+
             TeacherWorkloadViewModel res = mapper.Map<TeacherWorkloadViewModel>(tws);
             return new OkObjectResult(res);
         }

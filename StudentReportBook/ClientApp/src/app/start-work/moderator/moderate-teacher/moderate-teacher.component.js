@@ -62,7 +62,10 @@ var ModerateTeacherComponent = /** @class */ (function () {
             else {
                 alert("Can't set subject");
             }
-        }, function (error) { return console.error(error); });
+        }, function (error) {
+            console.error(error.error);
+            alert("Can't set subject");
+        });
     };
     ModerateTeacherComponent.prototype.updateTerm = function (event, teacherWorkloadId, rowIndex) {
         var _this = this;
@@ -76,7 +79,10 @@ var ModerateTeacherComponent = /** @class */ (function () {
             else {
                 alert("Can't set term");
             }
-        }, function (error) { return console.error(error); });
+        }, function (error) {
+            console.error(error.error);
+            alert("Can't set term.");
+        });
     };
     ModerateTeacherComponent.prototype.updateGroup = function (event, teacherWorkloadId, rowIndex) {
         var _this = this;
@@ -92,7 +98,10 @@ var ModerateTeacherComponent = /** @class */ (function () {
             else {
                 alert("Can't set group");
             }
-        }, function (error) { return console.error(error); });
+        }, function (error) {
+            console.error(error.error);
+            alert("Can't set group.");
+        });
     };
     ModerateTeacherComponent.prototype.getAllGroups = function () {
         var _this = this;
@@ -135,7 +144,10 @@ var ModerateTeacherComponent = /** @class */ (function () {
                     _this.teacherWs.push(data);
                     _this.teacherWs = _this.teacherWs.slice();
                 }
-            }, function (error) { return console.log('oops', error); });
+            }, function (error) {
+                console.log('oops', error.error);
+                alert("Cannot add workload");
+            });
         }
     };
     ModerateTeacherComponent.prototype.closeAddWorkload = function () {

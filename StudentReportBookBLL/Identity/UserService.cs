@@ -1,4 +1,8 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
@@ -6,13 +10,9 @@ using StudentReportBookBLL.Auth;
 using StudentReportBookBLL.Helpers;
 using StudentReportBookBLL.Identity.Interface;
 using StudentReportBookBLL.Identity.Model;
-using StudentReportBookBLL.Models;
 using StudentReportBookDAL.Entities;
 using StudentReportBookDAL.Interfaces;
-using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+using StudentReportBookBLL.Identity.Auth;
 
 namespace StudentReportBookBLL.Identity
 {

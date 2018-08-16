@@ -65,7 +65,10 @@ export class ModerateTeacherComponent implements OnInit {
         else {
           alert("Can't set subject");
         }
-      }, error => console.error(error));
+      }, error => {
+        console.error(error.error);
+        alert("Can't set subject");
+      });
   }
 
   updateTerm(event, teacherWorkloadId, rowIndex) {
@@ -79,7 +82,10 @@ export class ModerateTeacherComponent implements OnInit {
         else {
           alert("Can't set term");
         }
-      }, error => console.error(error));
+      }, error => {
+        console.error(error.error);
+        alert("Can't set term.");
+      });
   }
 
   updateGroup(event, teacherWorkloadId, rowIndex) {
@@ -95,7 +101,10 @@ export class ModerateTeacherComponent implements OnInit {
         else {
           alert("Can't set group");
         }
-      }, error => console.error(error));
+      }, error => {
+        console.error(error.error);
+        alert("Can't set group.");
+      });
   }
 
   getAllGroups() {
@@ -141,7 +150,10 @@ export class ModerateTeacherComponent implements OnInit {
             this.teacherWs = [...this.teacherWs];
           }
           },
-          error => console.log('oops', error));
+        error => {
+          console.log('oops', error.error);
+          alert("Cannot add workload");
+        });
     }
   }
 

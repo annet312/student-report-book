@@ -4,7 +4,7 @@ using StudentReportBookBLL.Models;
 namespace StudentReportBookBLL.Services.Interfaces
 {
     /// <summary>
-    /// Service for get information about students
+    /// Service for current teacher -get info about his workload and his students
     /// </summary>
     public interface ICurrentTeacherService
     {

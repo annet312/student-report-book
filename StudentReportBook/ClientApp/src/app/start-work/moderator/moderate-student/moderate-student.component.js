@@ -57,11 +57,11 @@ var ModerateStudentComponent = /** @class */ (function () {
                 _this.students.splice(rowIndex, 1);
             }
             else {
-                alert("Can't set group");
+                alert("Can't set group or student card");
             }
         }, function (error) {
             console.error(error);
-            alert("Can't set group or student card: " + error.error);
+            alert("Can't set group or student card");
         });
     };
     __decorate([

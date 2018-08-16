@@ -39,7 +39,7 @@ namespace StudentReportBook.Controllers
             }
             AppUserBll userIdentity = mapper.Map<RegistrationViewModel, AppUserBll>(model);
 
-            IdentityResult result = await userService.Create(userIdentity, model.Password);//Manager.CreateAsync(userIdentity, model.Password);
+            IdentityResult result = await userService.Create(userIdentity, model.Password);
 
             if (!result.Succeeded)
             {

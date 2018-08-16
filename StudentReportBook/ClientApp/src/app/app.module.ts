@@ -24,12 +24,14 @@ import { ConfigService } from './shared/utils/config.service';
 import { DecodeService } from './shared/services/decode.service';
 import { AuthService } from '../app/auth/auth.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,    
+    HomeComponent,
+    NotFoundComponent,    
   ],
   imports: [
     NgbModule.forRoot(),

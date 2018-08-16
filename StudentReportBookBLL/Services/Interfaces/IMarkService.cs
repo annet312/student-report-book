@@ -2,7 +2,9 @@
 using StudentReportBookBLL.Models;
 
 namespace StudentReportBookBLL.Services.Interfaces
-{
+{/// <summary>
+/// service for work with marks
+/// </summary>
     public interface IMarkService
     {
         /// <summary>

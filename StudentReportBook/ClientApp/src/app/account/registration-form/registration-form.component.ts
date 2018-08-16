@@ -29,7 +29,6 @@ export class RegistrationFormComponent implements OnInit {
       console.log(value);
       this.userService.register(value.email, value.password, value.firstName, value.lastName, value.role)
         .finally(() => {
-          console.log("finally");
           this.isRequesting = false;
         })
         .subscribe(
@@ -44,7 +43,6 @@ export class RegistrationFormComponent implements OnInit {
           },
         errors => {
           this.errors = errors;
-          console.log("errors:");
           console.log(this.errors);
         });
     }

@@ -61,7 +61,7 @@ namespace StudentReportBookBLL.Services
             if (!Regex.IsMatch(studentCard, pattern, RegexOptions.IgnoreCase))
                 throw new ArgumentException("Student card is invalid", "studentCard");
             if (db.Students.Get(st => st.StudentCard == studentCard).Any())
-                throw new InvalidOperationException("Student with this student card already exist");
+                 throw new InvalidOperationException("Student with this student card already exist");
 
             Student student = db.Students.Get(st => st.Id == studentId).SingleOrDefault();
             if (student == null)

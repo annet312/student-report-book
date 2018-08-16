@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace StudentReportBookBLL.Models
+namespace StudentReportBookBLL.Identity.Auth
 {
     public class JWTIssuerOptions
     {

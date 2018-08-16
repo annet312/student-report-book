@@ -58,12 +58,11 @@ export class ModerateStudentComponent implements OnInit {
           this.students.splice(rowIndex, 1);
         }
         else {
-          alert("Can't set group");
+          alert("Can't set group or student card");
         }
       }, error => {
-        console.error(error);
-
-        alert("Can't set group or student card: " + error.error);
+        console.error(error.error);
+        alert("Can't set group or student card");
       });
   }
 }

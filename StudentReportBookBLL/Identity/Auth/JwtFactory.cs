@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using StudentReportBookBLL.Identity.Model;
-using StudentReportBookBLL.Models;
-using StudentReportBookDAL.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using StudentReportBookBLL.Identity.Auth;
+using StudentReportBookDAL.Interfaces;
+
 
 namespace StudentReportBookBLL.Auth
 {

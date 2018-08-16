@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Newtonsoft.Json;
-using StudentReportBookBLL.Auth;
-using StudentReportBookBLL.Identity.Model;
-using StudentReportBookBLL.Models;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
+using StudentReportBookBLL.Auth;
+using StudentReportBookBLL.Identity.Auth;
+
 
 namespace StudentReportBookBLL.Helpers
 {

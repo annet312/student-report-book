@@ -57,6 +57,7 @@
     <None Remove="ClientApp\src\app\start-work\start-work.component.ts" />
     <None Remove="ClientApp\src\app\start-work\start-work.module.ts" />
     <None Remove="ClientApp\src\app\start-work\start-work.routing.ts" />
+    <None Remove="policy.RequireClaim%28Constants.Strings.JwtClaimIdentifiers.Rol" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,63 +1,47 @@
+using System;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using StudentReportBookDAL.Context;
-using StudentReportBook.Models.Entities;
-using AutoMapper;
-using StudentReportBook.Models;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System;
-using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using StudentReportBook.Helpers;
 using Microsoft.AspNetCore.Http;
-using Autofac;
-using StudentReportBookBLL.Infrastructure;
-using StudentReportBookBLL.Models;
-using StudentReportBookBLL.Helpers;
-using StudentReportBookBLL.Auth;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Reflection;
-using System.Security.Claims;
+using AutoMapper;
+using Autofac;
+using StudentReportBookBLL.Infrastructure;
+using StudentReportBookDAL.Context;
+using StudentReportBook.Models.Entities;
 using StudentReportBook.Scope;
-using Microsoft.AspNetCore.Authorization;
-using System.Threading.Tasks;
-//using StudentReportBookDAL.Repositories;
+using StudentReportBookBLL.Identity.Auth;
+using System.IO;
+using Microsoft.AspNetCore.Diagnostics;
+using System.Net;
+using StudentReportBook.Models;
 
 namespace StudentReportBook
 {
-
-
     public class Startup
     {
-        private const string SecretKey = "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"; // todo: get this from somewhere secure
-        private readonly SymmetricSecurityKey signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
-        public IConfiguration Configuration { get;private set; }
+        public IConfiguration Configuration { get; private set; }
 
-       
-
-        public Startup(IHostingEnvironment env)//(IConfiguration configuration)
+        public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
-
             this.Configuration = builder.Build();
-
-
         }
-
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -65,22 +49,23 @@ namespace StudentReportBook
 
                b => b.MigrationsAssembly("StudentReportBook")));
 
-
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
             //// jwt wire up
             //// Get options from app settings
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JWTIssuerOptions));
-
+            var configurationBuilder = new ConfigurationBuilder()
+           .SetBasePath(Directory.GetCurrentDirectory())
+           .AddJsonFile("appsettings.json");
+            Configuration = configurationBuilder.Build();
+            var secretKey = Configuration["JwtAuthentication:SecurityKey"];
+            SymmetricSecurityKey signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
             //// Configure JwtIssuerOptions
             services.Configure<JWTIssuerOptions>(options =>
             {
-                
                 options.Issuer = jwtAppSettingOptions[nameof(JWTIssuerOptions.Issuer)];
                 options.Audience = jwtAppSettingOptions[nameof(JWTIssuerOptions.Audience)];
                 options.SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
             });
-
             services.AddOptions();
 
             var tokenValidationParameters = new TokenValidationParameters
@@ -96,7 +81,7 @@ namespace StudentReportBook
 
                 RequireExpirationTime = false,
                 ValidateLifetime = true,
-                ClockSkew = TimeSpan.FromMinutes(5)//,//TimeSpan.Zero
+                ClockSkew = TimeSpan.FromMinutes(5)
             };
             services.AddIdentity<IdentityUser, IdentityRole>()
               .AddUserManager<UserManager<IdentityUser>>()
@@ -111,14 +96,11 @@ namespace StudentReportBook
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(configureOptions =>
             {
-                //configureOptions.RequireHttpsMetadata = false;
                 configureOptions.ClaimsIssuer = jwtAppSettingOptions[nameof(JWTIssuerOptions.Issuer)];
                 configureOptions.TokenValidationParameters = tokenValidationParameters;
-
                 configureOptions.SaveToken = true;
                 configureOptions.Authority = domain;
                 configureOptions.Authority = Configuration["Auth0:ApiIdentifier"];
-
                 configureOptions.Events = new JwtBearerEvents
                 {
                     OnAuthenticationFailed = context =>
@@ -135,8 +117,6 @@ namespace StudentReportBook
                     }
                 };
             });
-
-
             //// api user claim policy
             services.AddAuthorization(options =>
             {
@@ -168,20 +148,15 @@ namespace StudentReportBook
 
             services.AddAutoMapper(typeof(Startup));
 
-           
-
-
         JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 Formatting = Formatting.Indented,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
              };
-
             
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -189,6 +164,7 @@ namespace StudentReportBook
                 configuration.RootPath = "ClientApp/dist";
             });
         }
+
         public void ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterModule(new ServiceModule());
@@ -196,27 +172,45 @@ namespace StudentReportBook
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-        
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-              
                 app.UseDatabaseErrorPage();
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                //    app.UseStatusCodePagesWithReExecute("/Error");
+                //    app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler(
+                         builder =>
+                         {
+                             builder.Run(
+                             async context =>
+                             {
+                                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                                 context.Response.ContentType = "application/json";
+                                 var ex = context.Features.Get<IExceptionHandlerFeature>();
+                                 if (ex != null)
+                                 {
+                                     var err = JsonConvert.SerializeObject(new Error()
+                                     {
+                                         Stacktrace = ex.Error.StackTrace,
+                                         Message = ex.Error.Message
+                                     });
+                                     await context.Response.Body.WriteAsync(Encoding.ASCII.GetBytes(err), 0, err.Length).ConfigureAwait(false);
+                                 }
+                             });
+                         }
+                    );
                 app.UseHsts();
+
             }
-            
+            app.UseStatusCodePages();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseAuthentication();
             app.UseDefaultFiles();
-
-        
-
 
             app.UseMvc(routes =>
             {
