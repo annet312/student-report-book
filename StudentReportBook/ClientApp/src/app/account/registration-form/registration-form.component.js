@@ -31,7 +31,6 @@ var RegistrationFormComponent = /** @class */ (function () {
             console.log(value);
             this.userService.register(value.email, value.password, value.firstName, value.lastName, value.role)
                 .finally(function () {
-                console.log("finally");
                 _this.isRequesting = false;
             })
                 .subscribe(function (result) {
@@ -44,7 +43,6 @@ var RegistrationFormComponent = /** @class */ (function () {
                 }
             }, function (errors) {
                 _this.errors = errors;
-                console.log("errors:");
                 console.log(_this.errors);
             });
         }

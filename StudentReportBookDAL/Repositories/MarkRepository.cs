@@ -37,6 +37,8 @@ namespace StudentReportBookDAL.Repositories
                                             .Where(predicate)
                                         .Include(st => st.TeachersWorkload)
                                              .ThenInclude(tw => tw.Subject)
+                                        .Include(st => st.TeachersWorkload)
+                                             .ThenInclude(tw => tw.Teacher)
                                         .AsEnumerable();
 
             return marks;
@@ -52,9 +54,9 @@ namespace StudentReportBookDAL.Repositories
             dbContext.Set<Mark>().Update(mark);
         }
 
-        public void Delete(Mark mark)
+        public void Delete(int markId)
         {
-            Mark existing = dbContext.Set<Mark>().Find(mark);
+            Mark existing = dbContext.Set<Mark>().Find(markId);
             if (existing != null) dbContext.Set<Mark>().Remove(existing);
         }
     }

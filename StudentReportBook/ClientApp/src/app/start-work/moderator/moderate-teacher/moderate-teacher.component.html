@@ -75,79 +75,85 @@
             </div>
 
             <div *ngIf="teacherWs">
-                <ngx-datatable #teacherinfo class="material"
-                               style="top: 10px"
-                               [columnMode]="'force'"
-                               [headerHeight]="50"
-                               [footerHeight]="0"
-                               [rowHeight]="50"
-                               [rows]="teacherWs">
-                  <ngx-datatable-column name="">
-                    <ng-template ngx-datatable-cell-template let-num="rowIndex">
-                      {{num + 1}}
-                    </ng-template>
-                  </ngx-datatable-column>
-                  <ngx-datatable-column name="Subject">
-                    <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-num="rowIndex">
-                      <span title="Double click to edit"
-                            (dblclick)="editing[num + '-subject'] = true; getAllSubjects()"
-                            *ngIf="!editing[num + '-subject']">
-                        {{row.subject.name}}
-                      </span>
-                      <select *ngIf="editing[num + '-subject']"
-                              (blur)="editing[num + '-subject'] = false"
-                              (change)="updateSubject($event, row.id, num)">
-                        <option value="none" disabled>
-                          Choose subject
-                        </option>
-                        <option *ngFor="let subject of subjects" value={{subject.id}}
-                                [selected]="row.subject.name == subject.name">
-                          {{subject.name}}
-                        </option>
-                      </select>
-                    </ng-template>
-                  </ngx-datatable-column>
-                  <ngx-datatable-column name="Group">
-                    <ng-template ngx-datatable-cell-template let-row="row" let-num="rowIndex">
-                      <span title="Double click to edit"
-                            (dblclick)="editing[num + '-group'] = true; getAllGroups()"
-                            *ngIf="!editing[num + '-group']">
-                        {{row.group.name}}
-                      </span>
-                      <select *ngIf="editing[num + '-group']"
-                              (blur)="editing[num + '-group'] = false"
-                              (change)="updateGroup($event, row.id, num)">
-                        <option value="none" disabled>
-                          Choose group
-                        </option>
-                        <option *ngFor="let group of listOfGroups" value={{group.id}}
-                                [selected]="row.group.name == group.name">
-                          {{group.name}}
-                        </option>
-                      </select>
-                    </ng-template>
-                  </ngx-datatable-column>
-                  <ngx-datatable-column name="Term">
-                    <ng-template ngx-datatable-cell-template let-row="row" let-num="rowIndex">
-                      <span title="Double click to edit"
-                            (dblclick)="editing[num + '-term'] = true"
-                            *ngIf="!editing[num + '-term']">
-                        {{row.term}}
-                      </span>
-                      <select *ngIf="editing[num + '-term']"
-                              (blur)="editing[num + '-term'] = false"
-                              (change)="updateTerm($event, row.id, num)">
-                        <option value="none" disabled>
-                          Choose term
-                        </option>
-                        <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]" value={{number}}
-                                [selected]="row.term == number">
-                          {{number}}
-                        </option>
-                      </select>
-                    </ng-template>
-                  </ngx-datatable-column>
-                </ngx-datatable>
+              <ngx-datatable #teacherinfo class="material"
+                             style="top: 10px"
+                             [columnMode]="'force'"
+                             [headerHeight]="50"
+                             [footerHeight]="0"
+                             [rowHeight]="50"
+                             [rows]="teacherWs">
+                <ngx-datatable-column name="">
+                  <ng-template ngx-datatable-cell-template let-num="rowIndex">
+                    {{num + 1}}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Subject">
+                  <ng-template let-value="value" ngx-datatable-cell-template let-row="row" let-num="rowIndex">
+                    <span title="Double click to edit"
+                          (dblclick)="editing[num + '-subject'] = true; getAllSubjects()"
+                          *ngIf="!editing[num + '-subject']">
+                      {{row.subject.name}}
+                    </span>
+                    <select *ngIf="editing[num + '-subject']"
+                            (blur)="editing[num + '-subject'] = false"
+                            (change)="updateSubject($event, row.id, num)">
+                      <option value="none" disabled>
+                        Choose subject
+                      </option>
+                      <option *ngFor="let subject of subjects" value={{subject.id}}
+                              [selected]="row.subject.name == subject.name">
+                        {{subject.name}}
+                      </option>
+                    </select>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Group">
+                  <ng-template ngx-datatable-cell-template let-row="row" let-num="rowIndex">
+                    <span title="Double click to edit"
+                          (dblclick)="editing[num + '-group'] = true; getAllGroups()"
+                          *ngIf="!editing[num + '-group']">
+                      {{row.group.name}}
+                    </span>
+                    <select *ngIf="editing[num + '-group']"
+                            (blur)="editing[num + '-group'] = false"
+                            (change)="updateGroup($event, row.id, num)">
+                      <option value="none" disabled>
+                        Choose group
+                      </option>
+                      <option *ngFor="let group of listOfGroups" value={{group.id}}
+                              [selected]="row.group.name == group.name">
+                        {{group.name}}
+                      </option>
+                    </select>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Term">
+                  <ng-template ngx-datatable-cell-template let-row="row" let-num="rowIndex">
+                    <span title="Double click to edit"
+                          (dblclick)="editing[num + '-term'] = true"
+                          *ngIf="!editing[num + '-term']">
+                      {{row.term}}
+                    </span>
+                    <select *ngIf="editing[num + '-term']"
+                            (blur)="editing[num + '-term'] = false"
+                            (change)="updateTerm($event, row.id, num)">
+                      <option value="none" disabled>
+                        Choose term
+                      </option>
+                      <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]" value={{number}}
+                              [selected]="row.term == number">
+                        {{number}}
+                      </option>
+                    </select>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column>
+                  <ng-template ngx-datatable-cell-template let-row="row" let-num="rowIndex">
+                    <i class="fa fa-trash" (click)="delete(num)"></i>
+                  </ng-template>
+                </ngx-datatable-column>
+                
+              </ngx-datatable>
               </div>
 </div>
               <div class="modal-footer">

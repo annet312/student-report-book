@@ -46,9 +46,9 @@ namespace StudentReportBookDAL.Repositories
             dbContext.Set<Subject>().Update(subject);
         }
 
-        public void Delete(Subject subject)
+        public void Delete(int subjectId)
         {
-            Subject existing = dbContext.Set<Subject>().Find(subject);
+            Subject existing = dbContext.Set<Subject>().Find(subjectId);
             if (existing != null) dbContext.Set<Subject>().Remove(existing);
         }
 

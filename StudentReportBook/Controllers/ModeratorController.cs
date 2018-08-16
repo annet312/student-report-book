@@ -1,14 +1,15 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 using StudentReportBook.Helpers;
 using StudentReportBook.Models.Entities;
 using StudentReportBook.ViewModel;
 using StudentReportBookBLL.Models;
 using StudentReportBookBLL.Services.Interfaces;
-using System;
-using System.Collections.Generic;
+
 
 namespace StudentReportBook.Controllers
 {
@@ -172,6 +173,20 @@ namespace StudentReportBook.Controllers
 
             TeacherWorkloadViewModel res = mapper.Map<TeacherWorkloadViewModel>(tws);
             return new OkObjectResult(res);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteWorkload(int id)
+        {
+            try
+            {
+               teacherService.DeleteWorkload(id);
+            }
+            catch (InvalidOperationException e)
+            {
+                return new BadRequestObjectResult(Errors.AddErrorToModelState("deleteworkload_failure", e.Message, ModelState));
+            }
+            return new OkObjectResult(true);
         }
     }
 }

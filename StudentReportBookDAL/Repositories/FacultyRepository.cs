@@ -22,9 +22,9 @@ namespace StudentReportBookDAL.Repositories
             dbContext.Set<Faculty>().Add(faculty);
         }
 
-        public void Delete(Faculty faculty)
+        public void Delete(int facultyId)
         {
-            Faculty existing = dbContext.Set<Faculty>().Find(faculty);
+            Faculty existing = dbContext.Set<Faculty>().Find(facultyId);
             if (existing != null) dbContext.Set<Faculty>().Remove(existing);
         }
 

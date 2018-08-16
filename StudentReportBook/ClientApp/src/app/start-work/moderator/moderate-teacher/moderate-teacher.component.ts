@@ -157,6 +157,19 @@ export class ModerateTeacherComponent implements OnInit {
     }
   }
 
+  delete(rowIndex) {
+    if (window.confirm('Are sure you want to delete this item ?')) {
+      this.http.delete(this.baseUrl + 'api/moderator/deleteWorkload/' + this.teacherWs[rowIndex].id)
+        .subscribe(res => {
+          console.log("workload " + this.teacherWs[rowIndex].id + " was deleting")
+          this.teacherWs.splice(rowIndex, 1);
+        }, error => {
+          console.error(error.error);
+          alert("Cannot delete");
+        }); 
+    }
+  }
+
   closeAddWorkload() {
     this.IfAdding = false;
   }
@@ -170,4 +183,5 @@ export class ModerateTeacherComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
+
 }

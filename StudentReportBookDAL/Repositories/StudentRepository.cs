@@ -50,9 +50,9 @@ namespace StudentReportBookDAL.Repositories
             dbContext.Set<Student>().Update(student);
         }
 
-        public void Delete(Student student)
+        public void Delete(int studentId)
         {
-            Student existing = dbContext.Set<Student>().Find(student);
+            Student existing = dbContext.Set<Student>().Find(studentId);
             if (existing != null) dbContext.Set<Student>().Remove(existing);
         }
     }

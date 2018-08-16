@@ -51,9 +51,9 @@ namespace StudentReportBookDAL.Repositories
             dbContext.Set<TeachersWorkload>().Update(teachersWorkload);
         }
 
-        public void Delete(TeachersWorkload teachersWorkload)
+        public void Delete(int teachersWorkloadId)
         {
-            TeachersWorkload existing = dbContext.Set<TeachersWorkload>().Find(teachersWorkload);
+            TeachersWorkload existing = dbContext.Set<TeachersWorkload>().Find(teachersWorkloadId);
             if (existing != null) dbContext.Set<TeachersWorkload>().Remove(existing);
         }
     }

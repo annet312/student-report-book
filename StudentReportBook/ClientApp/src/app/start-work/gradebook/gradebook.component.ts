@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { GradeBook, Student, Mark } from '../../shared/models/gradebook.interface';
 import { NgStyle } from '@angular/common';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { forEach } from '../../../../node_modules/@angular/router/src/utils/collection';
+import { concat } from '../../../../node_modules/rxjs';
 
 @Component({
   selector: 'app-gradebook',
@@ -11,7 +13,7 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 })
 
 export class GradeBookComponent {
-  public gradebook: GradeBook;
+  private gradebook: GradeBook;
 
   @ViewChild('markTable') markTable: any;
 
@@ -41,9 +43,25 @@ export class GradeBookComponent {
         group: this.gradebook.student.group,
         faculty: this.gradebook.student.faculty
       }];
-      this.rowmarks = this.gradebook.marks;
 
+      this.rowmarks = this.gradebook.marks;
+   
     }, error => console.error(error));
+  }
+  average() {
+    let avg = 0;
+    if (this.gradebook) {
+    this.gradebook.marks.forEach(item => {
+      avg += item.grade;
+    })
+    if (this.gradebook.marks) {
+      avg = avg / this.rowmarks.length;
+    }
+    else {
+      avg = 0;
+      }
+    }
+    return avg ;
   }
 
   public toggleExpandGroup(group) {

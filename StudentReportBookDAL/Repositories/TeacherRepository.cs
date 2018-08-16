@@ -45,9 +45,9 @@ namespace StudentReportBookDAL.Repositories
             dbContext.Set<Teacher>().Update(teacher);
         }
 
-        public void Delete(Teacher teacher)
+        public void Delete(int teacherId)
         {
-            Teacher existing = dbContext.Set<Teacher>().Find(teacher);
+            Teacher existing = dbContext.Set<Teacher>().Find(teacherId);
             if (existing != null) dbContext.Set<Teacher>().Remove(existing);
         }
 

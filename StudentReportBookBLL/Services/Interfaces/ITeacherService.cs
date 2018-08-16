@@ -53,5 +53,12 @@ namespace StudentReportBookBLL.Services.Interfaces
         /// <exception cref="System.InvalidOperationException">This workload is already exist</exception>
         /// <returns>new teacherworkload</returns>
         TeachersWorkloadBll AddWorkload(int teacherId, int subjectId, int groupId, int term);
+        /// <summary>
+        /// delete teachernworkload
+        /// </summary>
+        /// <param name="teacherWorkloadId">id of workload</param>
+        /// <exception cref="System.ArgumentException">id is not valid</exception>
+        /// <exception cref="System.InvalidOperationException">Workload was not found</exception>
+        void DeleteWorkload(int teacherWorkloadId);
     }
 }

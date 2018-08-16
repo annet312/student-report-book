@@ -31,10 +31,10 @@
     <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
       <div style="height: 35px; padding-left:5px; padding-top: 5px;">
         <span style="cursor: pointer;"
-           [class.datatable-icon-right]="!expanded"
-           [class.datatable-icon-down]="expanded"
-           title="Expand/Collapse Group"
-           (click)="toggleExpandGroup(group)">
+              [class.datatable-icon-right]="!expanded"
+              [class.datatable-icon-down]="expanded"
+              title="Expand/Collapse Group"
+              (click)="toggleExpandGroup(group)">
           <b>Term: {{group.value[0].term}}</b>
         </span>
       </div>
@@ -46,4 +46,15 @@
   <ngx-datatable-column name="Subject" prop="subject" editable="false"></ngx-datatable-column>
   <ngx-datatable-column name="Teacher" prop="teacher" editable="false"></ngx-datatable-column>
   <ngx-datatable-column name="Grade" prop="grade"></ngx-datatable-column>
+  <ngx-datatable-footer>
+    <ng-template ngx-datatable-footer-template
+                 let-rowCount="rowCount">
+      <div style="padding: 5px 10px">
+        <div>
+          Average grade: {{average().toFixed(2)}}
+        </div>
+      </div>
+    </ng-template>
+  </ngx-datatable-footer>
 </ngx-datatable>
+

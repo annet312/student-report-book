@@ -38,6 +38,21 @@ var GradeBookComponent = /** @class */ (function () {
             _this.rowmarks = _this.gradebook.marks;
         }, function (error) { return console.error(error); });
     };
+    GradeBookComponent.prototype.average = function () {
+        var avg = 0;
+        if (this.gradebook) {
+            this.gradebook.marks.forEach(function (item) {
+                avg += item.grade;
+            });
+            if (this.gradebook.marks) {
+                avg = avg / this.rowmarks.length;
+            }
+            else {
+                avg = 0;
+            }
+        }
+        return avg;
+    };
     GradeBookComponent.prototype.toggleExpandGroup = function (group) {
         console.log('onToggleExpandGroup', group);
         this.markTable.groupHeader.toggleExpandGroup(group);

@@ -21,6 +21,7 @@ namespace StudentReportBookBLL.Infrastructure
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<UserStore<AppUser>>().As<IUserStore<AppUser>>();
+
             builder.RegisterType<PersonManager>().As<IPersonManager>();
             builder.RegisterType<JwtFactory>().As<IJwtFactory>().SingleInstance();
             builder.RegisterType<JWTIssuerOptions>().AsSelf();

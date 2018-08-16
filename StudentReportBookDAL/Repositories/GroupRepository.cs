@@ -48,9 +48,9 @@ namespace StudentReportBookDAL.Repositories
             dbContext.Set<Group>().Update(group);
         }
 
-        public void Delete(Group group)
+        public void Delete(int groupId)
         {
-            Group existing = dbContext.Set<Group>().Find(group);
+            Group existing = dbContext.Set<Group>().Find(groupId);
             if (existing != null) dbContext.Set<Group>().Remove(existing);
         }
     }

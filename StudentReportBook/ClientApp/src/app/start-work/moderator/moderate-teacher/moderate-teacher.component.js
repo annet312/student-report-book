@@ -150,6 +150,19 @@ var ModerateTeacherComponent = /** @class */ (function () {
             });
         }
     };
+    ModerateTeacherComponent.prototype.delete = function (rowIndex) {
+        var _this = this;
+        if (window.confirm('Are sure you want to delete this item ?')) {
+            this.http.delete(this.baseUrl + 'api/moderator/deleteWorkload/' + this.teacherWs[rowIndex].id)
+                .subscribe(function (res) {
+                console.log("workload " + _this.teacherWs[rowIndex].id + " was deleting");
+                _this.teacherWs.splice(rowIndex, 1);
+            }, function (error) {
+                console.error(error.error);
+                alert("Cannot delete");
+            });
+        }
+    };
     ModerateTeacherComponent.prototype.closeAddWorkload = function () {
         this.IfAdding = false;
     };

@@ -134,5 +134,17 @@ namespace StudentReportBookBLL.Services
 
             return workloadBll;
         }
+
+        public void DeleteWorkload(int teacherWorkloadId)
+        {
+            if (teacherWorkloadId < 1)
+                throw new ArgumentException("teacher workload id is invalid", "teacherWorkloadId");
+            if(!db.TeachersWorkloads.Get(tw => tw.Id == teacherWorkloadId).Any()) 
+                throw new InvalidOperationException("Workload was not found");
+            if (db.Marks.Get(m => m.TeachersWorkload.Id == teacherWorkloadId).Any())
+                throw new InvalidOperationException("Cannot delete workload because mark with it is exists");
+            db.TeachersWorkloads.Delete(teacherWorkloadId);
+            db.Save();
+        }
     }
 }

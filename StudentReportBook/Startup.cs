@@ -18,7 +18,7 @@ using Newtonsoft.Json.Serialization;
 using AutoMapper;
 using Autofac;
 using StudentReportBookBLL.Infrastructure;
-using StudentReportBookDAL.Context;
+//using StudentReportBookDAL.Context;
 using StudentReportBook.Models.Entities;
 using StudentReportBook.Scope;
 using StudentReportBookBLL.Identity.Auth;
@@ -26,6 +26,7 @@ using System.IO;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 using StudentReportBook.Models;
+using StudentReportBookDAL.Context;
 
 namespace StudentReportBook
 {
@@ -46,7 +47,6 @@ namespace StudentReportBook
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
-
                b => b.MigrationsAssembly("StudentReportBook")));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -144,7 +144,6 @@ namespace StudentReportBook
             });
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
 
-            builder.AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
             services.AddAutoMapper(typeof(Startup));
 

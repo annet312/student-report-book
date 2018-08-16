@@ -8,8 +8,8 @@ import { AuthenticateXHRBackend } from './authenticate-xhr.backend';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './auth/token.interceptor';
+import { FontAwesomeModule } from 'ngx-icons';
 
-//import { AgGridModule } from 'ag-grid-angular';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { DataTablesModule } from 'angular-datatables';
 
@@ -35,6 +35,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
   ],
   imports: [
     NgbModule.forRoot(),
+    FontAwesomeModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     AccountModule,
