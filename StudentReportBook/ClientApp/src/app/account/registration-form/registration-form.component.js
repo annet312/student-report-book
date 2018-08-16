@@ -17,6 +17,7 @@ var RegistrationFormComponent = /** @class */ (function () {
         this.userService = userService;
         this.router = router;
         this.submitted = false;
+        this.isTeacher = false;
     }
     RegistrationFormComponent.prototype.ngOnInit = function () {
     };
@@ -29,7 +30,7 @@ var RegistrationFormComponent = /** @class */ (function () {
         if (valid) {
             console.log("register before calling");
             console.log(value);
-            this.userService.register(value.email, value.password, value.firstName, value.lastName, value.role)
+            this.userService.register(value.email, value.password, value.firstName, value.lastName, value.role, value.department)
                 .finally(function () {
                 _this.isRequesting = false;
             })
@@ -45,6 +46,14 @@ var RegistrationFormComponent = /** @class */ (function () {
                 _this.errors = errors;
                 console.log(_this.errors);
             });
+        }
+    };
+    RegistrationFormComponent.prototype.checkRole = function (event) {
+        if (event.target.value = "Teacher") {
+            this.isTeacher = true;
+        }
+        else {
+            this.isTeacher = false;
         }
     };
     RegistrationFormComponent = __decorate([

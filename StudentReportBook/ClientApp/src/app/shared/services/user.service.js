@@ -27,12 +27,9 @@ var core_2 = require("@angular/core");
 var http_1 = require("@angular/http");
 var http_2 = require("@angular/common/http");
 var config_service_1 = require("../utils/config.service");
-//import { DecodeService } from './decode.service';
 var base_service_1 = require("./base.service");
 var auth_service_1 = require("../../auth/auth.service");
-//import { Observable } from 'rxjs/Rx';
 var Rx_1 = require("rxjs/Rx");
-//import { UserResponse } from '../models/UserResponse';
 // Add the RxJS Observable operators we need in this app.
 require("../../rxjs-operators");
 var UserService = /** @class */ (function (_super) {
@@ -54,9 +51,9 @@ var UserService = /** @class */ (function (_super) {
         _this.baseUrls = baseUrl;
         return _this;
     }
-    UserService.prototype.register = function (email, password, firstName, lastName, role) {
+    UserService.prototype.register = function (email, password, firstName, lastName, role, department) {
         console.log(email + '' + password);
-        var body = JSON.stringify({ email: email, password: password, firstName: firstName, lastName: lastName, role: role });
+        var body = JSON.stringify({ email: email, password: password, firstName: firstName, lastName: lastName, role: role, department: department });
         var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         var options = new http_1.RequestOptions({ headers: headers });
         return this.http.post(this.baseUrls + "api/accounts", body, options)

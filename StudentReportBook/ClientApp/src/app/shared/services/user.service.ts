@@ -35,9 +35,9 @@ export class UserService extends BaseService {
     this.baseUrls = baseUrl;
   }
 
-  register(email: string, password: string, firstName: string, lastName: string, role: string): Observable<boolean | {}> {
+  register(email: string, password: string, firstName: string, lastName: string, role: string, department: string): Observable<boolean | {}> {
     console.log(email + '' + password);
-    let body = JSON.stringify({ email, password, firstName, lastName, role });
+    let body = JSON.stringify({ email, password, firstName, lastName, role, department});
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
     return this.http.post(this.baseUrls + "api/accounts", body, options)

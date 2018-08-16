@@ -4,4 +4,5 @@ export interface UserRegistration {
   firstName: string;
   lastName: string;
   role: string;
+  department: string;
 }

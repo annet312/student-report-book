@@ -14,6 +14,7 @@ export class RegistrationFormComponent implements OnInit {
   errors: string;
   isRequesting: boolean;
   submitted: boolean = false;
+  isTeacher: boolean = false;
 
   constructor(private userService: UserService, private router: Router) { }
 
@@ -27,7 +28,7 @@ export class RegistrationFormComponent implements OnInit {
     if (valid) {
       console.log("register before calling");
       console.log(value);
-      this.userService.register(value.email, value.password, value.firstName, value.lastName, value.role)
+      this.userService.register(value.email, value.password, value.firstName, value.lastName, value.role, value.department)
         .finally(() => {
           this.isRequesting = false;
         })
@@ -45,6 +46,14 @@ export class RegistrationFormComponent implements OnInit {
           this.errors = errors;
           console.log(this.errors);
         });
+    }
+  }
+  checkRole(event) {
+    if (event.target.value = "Teacher") {
+      this.isTeacher = true;
+    }
+    else {
+      this.isTeacher = false;
     }
   }
 }

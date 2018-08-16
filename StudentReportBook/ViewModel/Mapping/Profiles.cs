@@ -46,7 +46,8 @@ namespace StudentReportBook.ViewModel.Mapping
     {
         public ViewModelToEntityMappingProfile()
         {
-            CreateMap<RegistrationViewModel, AppUserBll>().ForMember(au => au.UserName, map => map.MapFrom(vm => vm.Email));
+            CreateMap<RegistrationViewModel, AppUserBll>().ForMember(au => au.UserName, map => map.MapFrom(vm => vm.Email))
+                .ForMember(au => au.Department, map => map.MapFrom(vm => vm.Department));
         }
     }
     public class GradeBookToGradeBookViewProfile : Profile

@@ -133,6 +133,7 @@ namespace StudentReportBookBLL.Identity
                         FirstName = userBll.FirstName,
                         LastName = userBll.LastName,
                         IdentityId = userBll.Id,
+                        Department = userBll.Department
                     };
                 }
                 else
