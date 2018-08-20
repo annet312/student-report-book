@@ -50,7 +50,7 @@
     <ng-template ngx-datatable-footer-template
                  let-rowCount="rowCount">
       <div style="padding: 5px 10px">
-        <div>
+        <div *ngIf="average()>0">
           Average grade: {{average().toFixed(2)}}
         </div>
       </div>

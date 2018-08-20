@@ -141,7 +141,6 @@ export class ModerateTeacherComponent implements OnInit {
         .subscribe(
         data => {
           console.log('success', data);
-          
           if (data == null) {
              alert("Cannot add workload");
             }

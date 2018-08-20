@@ -51,7 +51,6 @@ export class ModerateStudentComponent implements OnInit {
   setGroup(studentId, rowIndex) {
 
     let stCard = this.studentCard.toArray()[rowIndex].nativeElement.value;
-    console.log(stCard);
     this.http.get<boolean>(this.baseUrl + 'api/moderator/setGroupForStudent', { params: { studentId: studentId, groupId: this.selGroup.toArray()[rowIndex].nativeElement.value,studentCard: stCard} })
       .subscribe(result => {
         if (result) {

@@ -16,8 +16,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.IsLoggedIn = this.auth.isAuthenticated();
+    
     if (this.IsLoggedIn) {
       this.name = this.auth.getCurrentUser();
+      console.log(this.auth.getCurrentUserRole());
     }
   }
   submitlogout() {

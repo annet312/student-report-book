@@ -32,7 +32,7 @@ export class AuthService {
   }
 
   getCurrentUserRole() {
-    let userRole: string = 'no role';
+    let userRole: string = null;
     if (this.isAuthenticated()) {
       if (localStorage.getItem('current_role') == null) {
         this.httpClient.get<string>(this.baseUrls + 'api/auth/getCurrentRole').subscribe(result => {
@@ -44,7 +44,7 @@ export class AuthService {
          userRole = localStorage.getItem('current_role');
       }
     }
-     return userRole;
+    return userRole;
   }
 
   public isAuthenticated(): boolean {

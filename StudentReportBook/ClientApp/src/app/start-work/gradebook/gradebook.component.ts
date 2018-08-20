@@ -34,7 +34,6 @@ export class GradeBookComponent {
     
     this.http.get<GradeBook>(this.baseUrl + 'api/student/getMyGradeBook' ).subscribe(result => {
       this.gradebook = result;
-      console.log(result);
 
       this.row = [{
         name: this.gradebook.student.name,

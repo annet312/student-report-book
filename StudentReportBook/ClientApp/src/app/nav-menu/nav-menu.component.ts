@@ -10,7 +10,7 @@ import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 })
 export class NavMenuComponent {
   public isCollapsed = false;
-
   ngOnInit() {
+
   }
 }

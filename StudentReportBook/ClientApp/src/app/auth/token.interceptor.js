@@ -22,7 +22,6 @@ var TokenInterceptor = /** @class */ (function () {
                 "Authorization": "Bearer " + token
             }
         });
-        console.log("req +" + request);
         return next.handle(request);
     };
     TokenInterceptor = __decorate([

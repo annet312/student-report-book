@@ -36,14 +36,12 @@ export class TeacherComponent implements OnInit {
     this.subjtId = subjectId;
     this.http.get<Dropdata[]>(this.baseUrl + 'api/teacher/getFaculties', { params: { subjectId: subjectId } }).subscribe(result => {
       this.faculties = result;
-      console.log(result);
     }, error => console.error(error));
   }
 
   filterFaculty(facId) {
     this.http.get<Dropdata[]>(this.baseUrl + 'api/teacher/getGroups', { params: { subjectId: this.subjtId, facultyId: facId } }).subscribe(result => {
       this.groups = result;
-      console.log(result);
     }, error => console.error(error));
   }
 
@@ -72,7 +70,6 @@ export class TeacherComponent implements OnInit {
           alert("Cannot change grade");
         }
         else {
-          console.log(res);
           this.students[rowIndex].marks[j] = res;
         }
       });

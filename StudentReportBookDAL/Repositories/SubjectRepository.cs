@@ -22,7 +22,7 @@ namespace StudentReportBookDAL.Repositories
         public IEnumerable<Subject> GetAll()
         {
             IEnumerable<Subject> subjects = dbContext.Subjects
-                                            .Include(sub => sub.TeachersWorkloads);
+                                            .Include(sub => sub.TeachersWorkloads).AsEnumerable();
 
             return subjects;
         }
@@ -31,7 +31,7 @@ namespace StudentReportBookDAL.Repositories
         {
             IEnumerable<Subject> subjects = dbContext.Subjects
                                .Where(predicate)
-                               .Include(sub => sub.TeachersWorkloads);
+                               .Include(sub => sub.TeachersWorkloads).AsEnumerable();
 
             return subjects;
         }

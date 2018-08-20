@@ -6,7 +6,6 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { AuthService } from './auth.service';
-//import { Observable } from 'rxjs/Observable';
 import { Observable } from "rxjs/internal/Observable"
 
 
@@ -23,7 +22,6 @@ export class TokenInterceptor implements HttpInterceptor {
         "Authorization": "Bearer " + token
       }
     });
-    console.log("req +" + request);
     return next.handle(request);
   }
 

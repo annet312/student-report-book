@@ -49,7 +49,8 @@ export class RegistrationFormComponent implements OnInit {
     }
   }
   checkRole(event) {
-    if (event.target.value = "Teacher") {
+    console.log(event);
+    if (event.target.value == "Teacher") {
       this.isTeacher = true;
     }
     else {

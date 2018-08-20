@@ -11,12 +11,12 @@ namespace StudentReportBookBLL.Identity.Interface
         ///<summary>
         ///Create new user
         ///</summary>
-        Task<IdentityResult> Create(AppUserBll userBll, string password);
+        Task<IdentityResult> CreateAsync(AppUserBll userBll, string password);
 
         ///<summary>
         ///Authentication of user
         /// </summary>
-        Task<string> Authenticate(string userName, string password);
+        Task<string> AuthenticateAsync(string userName, string password);
 
         /// <summary>
         /// Return current (string) userId

@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { GradeBookComponent } from './gradebook/gradebook.component';
-import { TeacherComponent } from './teacher/teacher.component';
-import { ModeratorComponent } from './moderator/moderator.component';
 import { AuthService } from '../auth/auth.service';
 
 import { Router, ActivatedRoute } from '@angular/router';

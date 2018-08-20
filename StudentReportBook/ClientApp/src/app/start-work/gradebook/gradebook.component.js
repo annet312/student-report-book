@@ -27,7 +27,6 @@ var GradeBookComponent = /** @class */ (function () {
         var token = localStorage.getItem('auth_token');
         this.http.get(this.baseUrl + 'api/student/getMyGradeBook').subscribe(function (result) {
             _this.gradebook = result;
-            console.log(result);
             _this.row = [{
                     name: _this.gradebook.student.name,
                     studentCard: _this.gradebook.student.studentCard,

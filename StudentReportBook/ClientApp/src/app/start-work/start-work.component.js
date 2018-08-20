@@ -20,6 +20,7 @@ var StartWorkComponent = /** @class */ (function () {
     }
     StartWorkComponent.prototype.ngOnInit = function () {
         var role = this.auth.getCurrentUserRole();
+        console.log("start" + role);
         switch (role) {
             case "Student": {
                 this.router.navigate(['gradebook']);

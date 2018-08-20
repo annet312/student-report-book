@@ -23,6 +23,7 @@ var HomeComponent = /** @class */ (function () {
         this.IsLoggedIn = this.auth.isAuthenticated();
         if (this.IsLoggedIn) {
             this.name = this.auth.getCurrentUser();
+            console.log(this.auth.getCurrentUserRole());
         }
     };
     HomeComponent.prototype.submitlogout = function () {

@@ -27,7 +27,7 @@
   <div class="form-group">
     <label for="role">Position</label>
     <!--<input type="text" class="form-control" id="role" name="role" placeholder="Role" ngModel>-->
-    <select name="role" id="role" class="form-control" (change)="checkRole($event)" ngModel>
+    <select name="role" id="role" class="form-control" (change)="checkRole($event)" required ngModel>
       <option value="Student">Student</option>
       <option value="Teacher">Teacher</option>
       <!--<option value="Moderator">Moderator</option>-->

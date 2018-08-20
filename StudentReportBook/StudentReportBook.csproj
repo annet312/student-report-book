@@ -38,13 +38,13 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\account\account.routing.ts" />
     <None Remove="ClientApp\src\app\app.routing.ts" />
-    <None Remove="ClientApp\src\app\auth.guard.ts" />
     <None Remove="ClientApp\src\app\authenticate-xhr.backend.ts" />
     <None Remove="ClientApp\src\app\auth\auth.service.ts" />
     <None Remove="ClientApp\src\app\auth\token.interceptor.ts" />
     <None Remove="ClientApp\src\app\directives\email.validator.directive.ts" />
     <None Remove="ClientApp\src\app\directives\focus.directive.ts" />
     <None Remove="ClientApp\src\app\home\home.component.spec.ts" />
+    <None Remove="ClientApp\src\app\role.guard.ts" />
     <None Remove="ClientApp\src\app\shared\models\credentials.interface.ts" />
     <None Remove="ClientApp\src\app\shared\models\teacher-workload.add.class.ts" />
     <None Remove="ClientApp\src\app\shared\models\TeacherWorkloadAdd.ts" />
@@ -54,22 +54,19 @@
     <None Remove="ClientApp\src\app\shared\modules\shared.module.ts" />
     <None Remove="ClientApp\src\app\shared\services\base.service.ts" />
     <None Remove="ClientApp\src\app\shared\services\user.service.ts" />
-    <None Remove="ClientApp\src\app\start-work\start-work.component.ts" />
-    <None Remove="ClientApp\src\app\start-work\start-work.module.ts" />
-    <None Remove="ClientApp\src\app\start-work\start-work.routing.ts" />
     <None Remove="policy.RequireClaim%28Constants.Strings.JwtClaimIdentifiers.Rol" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\account\account.routing.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\app.routing.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\auth.guard.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\authenticate-xhr.backend.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\auth\auth.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\auth\token.interceptor.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\directives\email.validator.directive.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\directives\focus.directive.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\home\home.component.spec.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\role.guard.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\teacher-workload.add.class.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\user.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\UserResponse.ts" />
@@ -80,9 +77,6 @@
     <TypeScriptCompile Include="ClientApp\src\app\shared\modules\shared.module.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\services\base.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\services\user.service.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\start-work\start-work.component.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\start-work\start-work.module.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\start-work\start-work.routing.ts" />
   </ItemGroup>
 
   <ItemGroup>

@@ -33,7 +33,7 @@ namespace StudentReportBook.Controllers
                 return BadRequest(ModelState);
             }
 
-            var jwt = await userService.Authenticate(credentials.UserName, credentials.Password);
+            var jwt = await userService.AuthenticateAsync(credentials.UserName, credentials.Password);
 
             if (jwt == null)
             {

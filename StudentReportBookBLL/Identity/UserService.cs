@@ -1,5 +1,4 @@
-﻿using System;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using AutoMapper;
@@ -46,7 +45,7 @@ namespace StudentReportBookBLL.Identity
             return db.UserManager.GetUserId(httpContextAccessor.HttpContext.User);
         }
 
-        public async Task<string> Authenticate(string userName, string password)
+        public async Task<string> AuthenticateAsync(string userName, string password)
         {
             IdentityUser user = await db.UserManager.FindByNameAsync(userName);
             var identity = await GetClaimsIdentity(user, password);
@@ -86,45 +85,34 @@ namespace StudentReportBookBLL.Identity
             return await Task.FromResult<ClaimsIdentity>(null);
         }
 
-        public async Task<IdentityResult> Create(AppUserBll userBll, string password)
+        public async Task<IdentityResult> CreateAsync(AppUserBll userBll, string password)
         {
             IdentityUser user = mapper.Map<AppUserBll, AppUser>(userBll);
             IdentityResult result = null;
             IdentityResult res = null;
 
+            List<Task<IdentityResult>> createRoles = new List<Task<IdentityResult>>();
+
             if (await db.RoleManager.FindByNameAsync("Teacher") == null)
             {
-                await db.RoleManager.CreateAsync(new IdentityRole("Teacher"));
+               createRoles.Add(db.RoleManager.CreateAsync(new IdentityRole("Teacher")));
             }
             if (await db.RoleManager.FindByNameAsync("Student") == null)
             {
-                await db.RoleManager.CreateAsync(new IdentityRole("Student"));
+                createRoles.Add(db.RoleManager.CreateAsync(new IdentityRole("Student")));
             }
             if (await db.RoleManager.FindByNameAsync("Moderator") == null)
             {
-                await db.RoleManager.CreateAsync(new IdentityRole("Moderator"));
+                createRoles.Add(db.RoleManager.CreateAsync(new IdentityRole("Moderator")));
             }
 
-            try
-            {
-                result = await db.UserManager.CreateAsync(user, password);
-            }
-            catch(Exception e)
-            {
-                throw e;
-            }
+            await Task.WhenAll(createRoles);
+
+            result = await db.UserManager.CreateAsync(user, password);
 
             if(result.Succeeded)
             {
-
-                try
-                {
-                    res = await db.UserManager.AddToRoleAsync(user, userBll.Role);
-                }
-                catch(Exception e)
-                {
-                    throw e;
-                }
+                res = await db.UserManager.AddToRoleAsync(user, userBll.Role);
                 Person person;
                 if ((userBll.Role == "Teacher") || userBll.Role == "Moderator")
                 {
@@ -133,7 +121,7 @@ namespace StudentReportBookBLL.Identity
                         FirstName = userBll.FirstName,
                         LastName = userBll.LastName,
                         IdentityId = userBll.Id,
-                        Department = userBll.Department
+                        Department = userBll.Department     
                     };
                 }
                 else

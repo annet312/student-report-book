@@ -49,7 +49,8 @@ var RegistrationFormComponent = /** @class */ (function () {
         }
     };
     RegistrationFormComponent.prototype.checkRole = function (event) {
-        if (event.target.value = "Teacher") {
+        console.log(event);
+        if (event.target.value == "Teacher") {
             this.isTeacher = true;
         }
         else {

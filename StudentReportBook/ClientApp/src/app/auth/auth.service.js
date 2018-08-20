@@ -39,7 +39,7 @@ var AuthService = /** @class */ (function () {
         return userName;
     };
     AuthService.prototype.getCurrentUserRole = function () {
-        var userRole = 'no role';
+        var userRole = null;
         if (this.isAuthenticated()) {
             if (localStorage.getItem('current_role') == null) {
                 this.httpClient.get(this.baseUrls + 'api/auth/getCurrentRole').subscribe(function (result) {
