@@ -30,13 +30,13 @@ export class ModerateTeacherComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.get<Teacher[]>(this.baseUrl + 'api/moderator/getTeachers').subscribe(result => {
+    this.http.get<Teacher[]>(this.baseUrl + 'api/moderatorTeacher/getTeachers').subscribe(result => {
       this.teachers = result;
     }, error => console.error(error));   
   }
 
   getTeacherWorkload(teacherId) {
-    this.http.get<TeacherWorkload[]>(this.baseUrl + 'api/moderator/getTeacherWorkloads', { params: { teacherId: teacherId } })
+    this.http.get<TeacherWorkload[]>(this.baseUrl + 'api/moderatorTeacher/getTeacherWorkloads', { params: { teacherId: teacherId } })
       .subscribe(result => {
         this.teacherWs = result;
         console.log(this.teacherWs);
@@ -45,7 +45,7 @@ export class ModerateTeacherComponent implements OnInit {
 
   getAllSubjects() {
     if (!this.subjects) {
-      this.http.get<Subject[]>(this.baseUrl + 'api/moderator/getAllSubjects').subscribe(result => {
+      this.http.get<Subject[]>(this.baseUrl + 'api/moderatorTeacher/getAllSubjects').subscribe(result => {
         this.subjects = result;
         console.log(result);
       }, error => console.error(error));
@@ -53,7 +53,7 @@ export class ModerateTeacherComponent implements OnInit {
   }
 
   updateSubject(event, teacherWorkloadId, rowIndex) {
-    this.http.get<boolean>(this.baseUrl + 'api/moderator/changeSubject', { params: { teacherWorkloadId: teacherWorkloadId, subjectId: event.target.value } })
+    this.http.get<boolean>(this.baseUrl + 'api/moderatorTeacher/changeSubject', { params: { teacherWorkloadId: teacherWorkloadId, subjectId: event.target.value } })
       .subscribe(result => {
         if (result) {
           this.editing[rowIndex + '-subject'] = false;
@@ -73,7 +73,7 @@ export class ModerateTeacherComponent implements OnInit {
 
   updateTerm(event, teacherWorkloadId, rowIndex) {
     console.log(event);
-    this.http.get<boolean>(this.baseUrl + 'api/moderator/changeTerm', { params: { teacherWorkloadId: teacherWorkloadId, term: event.target.value } })
+    this.http.get<boolean>(this.baseUrl + 'api/moderatorTeacher/changeTerm', { params: { teacherWorkloadId: teacherWorkloadId, term: event.target.value } })
       .subscribe(result => {
         if (result) {
           this.editing[rowIndex + '-term'] = false;
@@ -90,7 +90,7 @@ export class ModerateTeacherComponent implements OnInit {
 
   updateGroup(event, teacherWorkloadId, rowIndex) {
     console.log(event);
-    this.http.get<boolean>(this.baseUrl + 'api/moderator/changeGroup', { params: { teacherWorkloadId: teacherWorkloadId, groupId: event.target.value } })
+    this.http.get<boolean>(this.baseUrl + 'api/moderatorTeacher/changeGroup', { params: { teacherWorkloadId: teacherWorkloadId, groupId: event.target.value } })
       .subscribe(result => {
         if (result) {
           this.editing[rowIndex + '-group'] = false;
@@ -109,7 +109,7 @@ export class ModerateTeacherComponent implements OnInit {
 
   getAllGroups() {
     if (!this.listOfGroups) {
-      this.http.get<Group[]>(this.baseUrl + 'api/moderator/getAllGroups').subscribe(res => {
+      this.http.get<Group[]>(this.baseUrl + 'api/moderatorTeacher/getAllGroups').subscribe(res => {
         this.listOfGroups = res;
       }, error => console.error(error));
     }
@@ -137,7 +137,7 @@ export class ModerateTeacherComponent implements OnInit {
     this.errors = '';
     if (valid) {
       let newTW = new TeacherWorkloadAdd(value.subjectId, value.groupId, value.term, teacherId, );
-      this.http.post<TeacherWorkload>(this.baseUrl + 'api/moderator/addWorkload', newTW )
+      this.http.post<TeacherWorkload>(this.baseUrl + 'api/moderatorTeacher/addWorkload', newTW )
         .subscribe(
         data => {
           console.log('success', data);
@@ -158,7 +158,7 @@ export class ModerateTeacherComponent implements OnInit {
 
   delete(rowIndex) {
     if (window.confirm('Are sure you want to delete this item ?')) {
-      this.http.delete(this.baseUrl + 'api/moderator/deleteWorkload/' + this.teacherWs[rowIndex].id)
+      this.http.delete(this.baseUrl + 'api/moderatorTeacher/deleteWorkload/' + this.teacherWs[rowIndex].id)
         .subscribe(res => {
           console.log("workload " + this.teacherWs[rowIndex].id + " was deleting")
           this.teacherWs.splice(rowIndex, 1);

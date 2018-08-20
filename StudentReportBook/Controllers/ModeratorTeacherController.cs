@@ -10,20 +10,18 @@ using StudentReportBook.ViewModel;
 using StudentReportBookBLL.Models;
 using StudentReportBookBLL.Services.Interfaces;
 
-
 namespace StudentReportBook.Controllers
 {
-
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Moderator")]
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class ModeratorController : ControllerBase
+    public class ModeratorTeacherController : ControllerBase
     {
         private readonly IMapper mapper;
         private readonly ITeacherService teacherService;
         private readonly IStudentService studentService;
 
-        public ModeratorController(IMapper mapper, ITeacherService teacherService, IStudentService studentService)
+        public ModeratorTeacherController(IMapper mapper, ITeacherService teacherService, IStudentService studentService)
         {
             this.mapper = mapper;
             this.teacherService = teacherService;
@@ -39,56 +37,11 @@ namespace StudentReportBook.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Student> GetStudentsWithoutGroup()
-        {
-            IEnumerable<StudentBll> studentsbll = studentService.GetStudentWithoutGroup();
-            IEnumerable<Student> students = mapper.Map<IEnumerable<Student>>(studentsbll);
-            return students;
-        }
-
-        [HttpGet]
-        public IEnumerable<FacultyWithGroupsViewModel> GetAllFaculties()
-        {
-
-            IEnumerable<FacultyBll> facultiesbll = studentService.GetAllFaculties();
-            IEnumerable<FacultyWithGroupsViewModel> faculties = mapper.Map<IEnumerable<FacultyWithGroupsViewModel>>(facultiesbll);
-            return faculties;
-        }
-
-        [HttpGet]
         public IEnumerable<GroupViewModel> GetAllGroups()
         {
             IEnumerable<GroupBll> groupsbll = studentService.GetAllGroups();
             IEnumerable<GroupViewModel> groups = mapper.Map<IEnumerable<GroupViewModel>>(groupsbll);
             return groups;
-        }
-
-
-        [HttpGet]
-        public IEnumerable<Student> GetGroupsOfFaculty( int facultyId)
-        {
-            IEnumerable<StudentBll> studentsbll = studentService.GetStudentWithoutGroup();
-            IEnumerable<Student> students = mapper.Map<IEnumerable<Student>>(studentsbll);
-            return students;
-        }
-
-
-        [HttpGet]
-        public IActionResult SetGroupForStudent(int studentId, int groupId, string studentCard)
-        {
-            try
-            {
-                studentService.SetGroupForStudent(studentId, groupId, studentCard);
-            }
-            catch(ArgumentException e)
-            {
-                return new BadRequestObjectResult(Errors.AddErrorToModelState("setstudentgroup_failure", e.Message, ModelState));
-            }
-            catch(InvalidOperationException e)
-            {
-                return new BadRequestObjectResult(Errors.AddErrorToModelState("setstudentgroup_failure", e.Message, ModelState));
-            }
-            return new OkObjectResult(true);
         }
 
         [HttpGet]
@@ -98,13 +51,14 @@ namespace StudentReportBook.Controllers
             {
                 teacherService.ChangeGroup(teacherWorkloadId, groupId);
             }
-            catch(ArgumentException e)
+            catch (ArgumentException e)
             {
                 return new BadRequestObjectResult(Errors.AddErrorToModelState("changegroup_failure", e.Message, ModelState));
             }
             return new OkObjectResult(true);
         }
 
+        [HttpGet]
         public IActionResult ChangeSubject(int teacherWorkloadId, int subjectId)
         {
             try
@@ -121,7 +75,7 @@ namespace StudentReportBook.Controllers
         [HttpGet]
         public IActionResult GetTeacherWorkloads(int teacherId)
         {
-            IEnumerable<TeachersWorkloadBll> twBll= teacherService.GetTeachersWorkloads(teacherId);
+            IEnumerable<TeachersWorkloadBll> twBll = teacherService.GetTeachersWorkloads(teacherId);
             if (twBll == null)
                 return new OkObjectResult(twBll);
 
@@ -180,7 +134,7 @@ namespace StudentReportBook.Controllers
         {
             try
             {
-               teacherService.DeleteWorkload(id);
+                teacherService.DeleteWorkload(id);
             }
             catch (InvalidOperationException e)
             {

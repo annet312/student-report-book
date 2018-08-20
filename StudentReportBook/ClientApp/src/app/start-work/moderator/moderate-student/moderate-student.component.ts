@@ -24,10 +24,10 @@ export class ModerateStudentComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.http.get<Student[]>(this.baseUrl + 'api/moderator/getStudentsWithoutGroup').subscribe(result => {
+      this.http.get<Student[]>(this.baseUrl + 'api/moderatorStudent/getStudentsWithoutGroup').subscribe(result => {
         this.students = result;
         if (!this.faculties) {
-          this.http.get<Faculty[]>(this.baseUrl + 'api/moderator/getAllFaculties').subscribe(res => {
+          this.http.get<Faculty[]>(this.baseUrl + 'api/moderatorStudent/getAllFaculties').subscribe(res => {
             this.faculties = res;
           }, error => console.error(error));
         }
@@ -51,7 +51,7 @@ export class ModerateStudentComponent implements OnInit {
   setGroup(studentId, rowIndex) {
 
     let stCard = this.studentCard.toArray()[rowIndex].nativeElement.value;
-    this.http.get<boolean>(this.baseUrl + 'api/moderator/setGroupForStudent', { params: { studentId: studentId, groupId: this.selGroup.toArray()[rowIndex].nativeElement.value,studentCard: stCard} })
+    this.http.get<boolean>(this.baseUrl + 'api/moderatorStudent/setGroupForStudent', { params: { studentId: studentId, groupId: this.selGroup.toArray()[rowIndex].nativeElement.value,studentCard: stCard} })
       .subscribe(result => {
         if (result) {
           this.students.splice(rowIndex, 1);
