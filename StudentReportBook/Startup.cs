@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.EntityFrameworkCore;
+//using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
@@ -26,7 +26,6 @@ using System.IO;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 using StudentReportBook.Models;
-using StudentReportBookDAL.Context;
 
 namespace StudentReportBook
 {
@@ -46,8 +45,8 @@ namespace StudentReportBook
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
-               b => b.MigrationsAssembly("StudentReportBook")));
+            //services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+            //   b => b.MigrationsAssembly("StudentReportBook")));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //// jwt wire up
@@ -83,11 +82,14 @@ namespace StudentReportBook
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.FromMinutes(5)
             };
-            services.AddIdentity<IdentityUser, IdentityRole>()
-              .AddUserManager<UserManager<IdentityUser>>()
-              .AddRoleManager<RoleManager<IdentityRole>>()
-              .AddEntityFrameworkStores<AppDbContext>()
-              .AddDefaultTokenProviders();
+
+            services.AddIdentityService();//in servicemodule
+
+            //services.AddIdentity<IdentityUser, IdentityRole>()
+            //  .AddUserManager<UserManager<IdentityUser>>()
+            //  .AddRoleManager<RoleManager<IdentityRole>>()
+            //  .AddEntityFrameworkStores<AppDbContext>()
+            //  .AddDefaultTokenProviders();
 
             services.AddHttpContextAccessor();
 
@@ -117,6 +119,7 @@ namespace StudentReportBook
                     }
                 };
             });
+            
             //// api user claim policy
             services.AddAuthorization(options =>
             {
@@ -168,6 +171,7 @@ namespace StudentReportBook
         {
             builder.RegisterModule(new ServiceModule());
         }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -179,7 +183,7 @@ namespace StudentReportBook
             else
             {
                 //    app.UseStatusCodePagesWithReExecute("/Error");
-                //    app.UseExceptionHandler("/Error");
+                  //  app.UseExceptionHandler("/Error");
                 app.UseExceptionHandler(
                          builder =>
                          {
@@ -202,7 +206,6 @@ namespace StudentReportBook
                          }
                     );
                 app.UseHsts();
-
             }
             app.UseStatusCodePages();
             app.UseHttpsRedirection();

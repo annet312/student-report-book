@@ -11,8 +11,8 @@ using StudentReportBookDAL.Repositories;
 using StudentReportBookDAL.Context;
 using StudentReportBookDAL.Entities;
 using StudentReportBookBLL.Auth;
-using StudentReportBookBLL.Models;
 using StudentReportBookBLL.Identity.Auth;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace StudentReportBookBLL.Infrastructure
 {
@@ -56,6 +56,18 @@ namespace StudentReportBookBLL.Infrastructure
                     cfg.AddProfile(profile);
                 }
             })).AsSelf().SingleInstance();
+        }
+    }
+
+    public static class ServiceProviderExtensions
+    {
+        public static void AddIdentityService(this IServiceCollection services)
+        {
+            services.AddIdentity<IdentityUser, IdentityRole>()
+            .AddUserManager<UserManager<IdentityUser>>()
+            .AddRoleManager<RoleManager<IdentityRole>>()
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
         }
     }
 }
